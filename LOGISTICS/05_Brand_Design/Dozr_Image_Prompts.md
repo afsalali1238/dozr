@@ -17,6 +17,28 @@ these won't show up on the live pages until that plumbing exists. Once you've
 picked images you like, say so and I'll wire an `assets/` path per unit into
 `data/equipment.js` and the placeholder CSS so they actually render.
 
+## Status (updated after first batch)
+
+**Done:** all 6 category tiles, CAT 320 (hero + 4 thumbs), Track/Prove feature
+tabs, the map texture, and the hero video + poster.
+
+**Still empty / still needed:** the other 6 equipment units — CAT 305 CR,
+Komatsu WA320, Hitachi ZX130, Kubota KX080, Volvo EC220, CAT 336 — each needs
+a hero + 4 thumbnails (30 images total, prompts in §4a below), plus the
+"Get paid faster" feature tab image (`assets/feature/pay.jpg`, prompt in §5).
+
+**Important — every image generated so far came back 1024×1024 (square)**
+regardless of the 4:3/16:9 requested in the prompt. This is why the "Track it
+live" box on the homepage looks over-zoomed: a square source cropped with
+`object-fit: cover` into a ~1.9:1 box only keeps the middle ~55% of the
+image's height, which reads as a tight zoom. **If your generation tool has an
+explicit width/height or aspect-ratio parameter, set it to a wide/landscape
+value directly — don't rely on the text prompt's "4:3"/"16:9" wording alone,
+it's being ignored.** For the 30 prompts below, this matters even more than
+before since thumbnails are small crops — a square source with the machine
+already tight in frame will lose meaningful detail when force-cropped
+further.
+
 ---
 
 ## 1. Master prompt formula (equipment photography)
@@ -208,18 +230,294 @@ text, no watermark, no white background. 4:3 aspect ratio.
 | `A Volvo EC220 excavator, roughly 22 tonnes` | volvo-ec220 | — |
 | `A CAT 336 large excavator, roughly 36 tonnes, a big machine` | cat-336 | Not verified/no GPS — largest unit, should read as noticeably bigger than the others |
 
-Example — fully filled hero prompt for CAT 320:
+CAT 320 is already done (hero + 4 thumbs exist in `assets/equipment/`) — the
+6 remaining units are fully written out below, ready to paste.
 
+## 4a. Ready-to-paste prompts — the 6 remaining units (30 images)
+
+### CAT 305 CR (id: `cat-305-cr`)
+
+**Hero**
 ```
-A CAT 320 crawler excavator, roughly 20 tonnes, well-maintained but with
-visible service life, photographed in-situ on a UAE construction site
-near Al Quoz, Dubai — sandy ground, low industrial warehouses and a crane
-visible in the hazy background, bright natural daylight, harsh midday
-sun, real dust and wear visible on the machine, no artificial lighting.
-Three-quarter front view, parked and ready for hire, full machine
-visible. The machine fills 70–80% of the frame. Photorealistic, shot on a
-professional camera, not a render or illustration. No text, no watermark,
-no logo overlays, no isolated white background. 4:3 aspect ratio.
+A CAT 305 CR mini excavator, compact size, roughly 5 tonnes, photographed
+in-situ on a UAE construction site near Al Quoz, Dubai — sandy ground,
+low industrial warehouses and a crane visible in the hazy background,
+bright natural daylight, harsh midday sun, real dust and wear visible on
+the machine, no artificial lighting. Three-quarter front view, parked and
+ready for hire, full machine visible. The machine fills 70–80% of the
+frame. Photorealistic, shot on a professional camera, not a render or
+illustration. No text, no watermark, no logo overlays, no isolated white
+background. Generate as a wide landscape image (16:9 or 4:3) — do not
+generate square.
+```
+**Thumb 1 — side profile**
+```
+A CAT 305 CR mini excavator, compact size, same jobsite near Al Quoz,
+Dubai, natural daylight, dust and wear visible. Full side profile view,
+entire machine in frame, ground line visible. Photorealistic. No text,
+no watermark, no white background. Wide landscape image, not square.
+```
+**Thumb 2 — cab / controls close-up**
+```
+A CAT 305 CR mini excavator, close-up of the operator cab and control
+panel, shot from outside looking into the open cab door, natural
+daylight, real wear on the seat and controls visible. Photorealistic,
+in-situ, no studio lighting. No text, no watermark, no white background.
+Wide landscape image, not square.
+```
+**Thumb 3 — undercarriage / tracks**
+```
+A CAT 305 CR mini excavator, low-angle close-up of the tracks and lower
+chassis, dust and dirt caked on visible, natural daylight, real jobsite
+ground (sand or gravel) visible. Photorealistic, in-situ, no studio
+lighting. No text, no watermark, no white background. Wide landscape
+image, not square.
+```
+**Thumb 4 — rear / attachment detail**
+```
+A CAT 305 CR mini excavator, rear three-quarter view showing the
+counterweight and bucket attachment, natural daylight, dust and wear
+visible, same UAE jobsite setting. Photorealistic, in-situ, no studio
+lighting. No text, no watermark, no white background. Wide landscape
+image, not square.
+```
+
+### Komatsu WA320 (id: `komatsu-wa320`)
+
+**Hero**
+```
+A Komatsu WA320 wheel loader, photographed in-situ on a UAE construction
+site near Al Quoz, Dubai — sandy ground, low industrial warehouses and a
+crane visible in the hazy background, bright natural daylight, harsh
+midday sun, real dust and wear visible on the machine, no artificial
+lighting. Three-quarter front view, parked and ready for hire, full
+machine visible. The machine fills 70–80% of the frame. Photorealistic,
+shot on a professional camera, not a render or illustration. No text, no
+watermark, no logo overlays, no isolated white background. Generate as a
+wide landscape image (16:9 or 4:3) — do not generate square.
+```
+**Thumb 1 — side profile**
+```
+A Komatsu WA320 wheel loader, same jobsite near Al Quoz, Dubai, natural
+daylight, dust and wear visible. Full side profile view, entire machine
+in frame, ground line visible. Photorealistic. No text, no watermark, no
+white background. Wide landscape image, not square.
+```
+**Thumb 2 — cab / controls close-up**
+```
+A Komatsu WA320 wheel loader, close-up of the operator cab and control
+panel, shot from outside looking into the open cab door, natural
+daylight, real wear on the seat and controls visible. Photorealistic,
+in-situ, no studio lighting. No text, no watermark, no white background.
+Wide landscape image, not square.
+```
+**Thumb 3 — tires close-up**
+```
+A Komatsu WA320 wheel loader, low-angle close-up of the front tires and
+lower chassis, dust and dirt caked on visible, natural daylight, real
+jobsite ground (sand or gravel) visible. Photorealistic, in-situ, no
+studio lighting. No text, no watermark, no white background. Wide
+landscape image, not square.
+```
+**Thumb 4 — rear / attachment detail**
+```
+A Komatsu WA320 wheel loader, rear three-quarter view showing the
+counterweight and raised bucket, natural daylight, dust and wear visible,
+same UAE jobsite setting. Photorealistic, in-situ, no studio lighting. No
+text, no watermark, no white background. Wide landscape image, not
+square.
+```
+
+### Hitachi ZX130 (id: `hitachi-zx130`)
+
+**Hero**
+```
+A Hitachi ZX130 excavator, roughly 13 tonnes, photographed in-situ on a
+UAE construction site near Al Quoz, Dubai — sandy ground, low industrial
+warehouses and a crane visible in the hazy background, bright natural
+daylight, harsh midday sun, real dust and wear visible on the machine, no
+artificial lighting. Three-quarter front view, parked and ready for hire,
+full machine visible. The machine fills 70–80% of the frame.
+Photorealistic, shot on a professional camera, not a render or
+illustration. No text, no watermark, no logo overlays, no isolated white
+background. Generate as a wide landscape image (16:9 or 4:3) — do not
+generate square.
+```
+**Thumb 1 — side profile**
+```
+A Hitachi ZX130 excavator, same jobsite near Al Quoz, Dubai, natural
+daylight, dust and wear visible. Full side profile view, entire machine
+in frame, ground line visible. Photorealistic. No text, no watermark, no
+white background. Wide landscape image, not square.
+```
+**Thumb 2 — cab / controls close-up**
+```
+A Hitachi ZX130 excavator, close-up of the operator cab and control
+panel, shot from outside looking into the open cab door, natural
+daylight, real wear on the seat and controls visible. Photorealistic,
+in-situ, no studio lighting. No text, no watermark, no white background.
+Wide landscape image, not square.
+```
+**Thumb 3 — undercarriage / tracks**
+```
+A Hitachi ZX130 excavator, low-angle close-up of the tracks and lower
+chassis, dust and dirt caked on visible, natural daylight, real jobsite
+ground (sand or gravel) visible. Photorealistic, in-situ, no studio
+lighting. No text, no watermark, no white background. Wide landscape
+image, not square.
+```
+**Thumb 4 — rear / attachment detail**
+```
+A Hitachi ZX130 excavator, rear three-quarter view showing the
+counterweight and bucket attachment, natural daylight, dust and wear
+visible, same UAE jobsite setting. Photorealistic, in-situ, no studio
+lighting. No text, no watermark, no white background. Wide landscape
+image, not square.
+```
+
+### Kubota KX080 (id: `kubota-kx080`)
+
+**Hero**
+```
+A Kubota KX080 mini excavator, roughly 8 tonnes, visibly older and more
+worn than a new unit, photographed in-situ on a UAE construction site
+near Al Quoz, Dubai — sandy ground, low industrial warehouses and a
+crane visible in the hazy background, bright natural daylight, harsh
+midday sun, real dust, scratches and wear visible on the machine, no
+artificial lighting. Three-quarter front view, parked and ready for hire,
+full machine visible. The machine fills 70–80% of the frame.
+Photorealistic, shot on a professional camera, not a render or
+illustration. No text, no watermark, no logo overlays, no isolated white
+background. Generate as a wide landscape image (16:9 or 4:3) — do not
+generate square.
+```
+**Thumb 1 — side profile**
+```
+A Kubota KX080 mini excavator, visibly older and more worn, same jobsite
+near Al Quoz, Dubai, natural daylight, dust and wear visible. Full side
+profile view, entire machine in frame, ground line visible.
+Photorealistic. No text, no watermark, no white background. Wide
+landscape image, not square.
+```
+**Thumb 2 — cab / controls close-up**
+```
+A Kubota KX080 mini excavator, close-up of the operator cab and control
+panel, visibly older and worn, shot from outside looking into the open
+cab door, natural daylight, real wear on the seat and controls visible.
+Photorealistic, in-situ, no studio lighting. No text, no watermark, no
+white background. Wide landscape image, not square.
+```
+**Thumb 3 — undercarriage / tracks**
+```
+A Kubota KX080 mini excavator, low-angle close-up of the tracks and lower
+chassis, visibly worn, dust and dirt caked on visible, natural daylight,
+real jobsite ground (sand or gravel) visible. Photorealistic, in-situ, no
+studio lighting. No text, no watermark, no white background. Wide
+landscape image, not square.
+```
+**Thumb 4 — rear / attachment detail**
+```
+A Kubota KX080 mini excavator, rear three-quarter view showing the
+counterweight and bucket attachment, visibly worn, natural daylight, dust
+and wear visible, same UAE jobsite setting. Photorealistic, in-situ, no
+studio lighting. No text, no watermark, no white background. Wide
+landscape image, not square.
+```
+
+### Volvo EC220 (id: `volvo-ec220`)
+
+**Hero**
+```
+A Volvo EC220 excavator, roughly 22 tonnes, photographed in-situ on a UAE
+construction site near Al Quoz, Dubai — sandy ground, low industrial
+warehouses and a crane visible in the hazy background, bright natural
+daylight, harsh midday sun, real dust and wear visible on the machine, no
+artificial lighting. Three-quarter front view, parked and ready for hire,
+full machine visible. The machine fills 70–80% of the frame.
+Photorealistic, shot on a professional camera, not a render or
+illustration. No text, no watermark, no logo overlays, no isolated white
+background. Generate as a wide landscape image (16:9 or 4:3) — do not
+generate square.
+```
+**Thumb 1 — side profile**
+```
+A Volvo EC220 excavator, same jobsite near Al Quoz, Dubai, natural
+daylight, dust and wear visible. Full side profile view, entire machine
+in frame, ground line visible. Photorealistic. No text, no watermark, no
+white background. Wide landscape image, not square.
+```
+**Thumb 2 — cab / controls close-up**
+```
+A Volvo EC220 excavator, close-up of the operator cab and control panel,
+shot from outside looking into the open cab door, natural daylight, real
+wear on the seat and controls visible. Photorealistic, in-situ, no studio
+lighting. No text, no watermark, no white background. Wide landscape
+image, not square.
+```
+**Thumb 3 — undercarriage / tracks**
+```
+A Volvo EC220 excavator, low-angle close-up of the tracks and lower
+chassis, dust and dirt caked on visible, natural daylight, real jobsite
+ground (sand or gravel) visible. Photorealistic, in-situ, no studio
+lighting. No text, no watermark, no white background. Wide landscape
+image, not square.
+```
+**Thumb 4 — rear / attachment detail**
+```
+A Volvo EC220 excavator, rear three-quarter view showing the
+counterweight and bucket attachment, natural daylight, dust and wear
+visible, same UAE jobsite setting. Photorealistic, in-situ, no studio
+lighting. No text, no watermark, no white background. Wide landscape
+image, not square.
+```
+
+### CAT 336 (id: `cat-336`)
+
+**Hero**
+```
+A CAT 336 large excavator, roughly 36 tonnes, noticeably bigger than a
+standard mid-size excavator, photographed in-situ on a UAE construction
+site near Al Quoz, Dubai — sandy ground, low industrial warehouses and a
+crane visible in the hazy background, bright natural daylight, harsh
+midday sun, real dust and wear visible on the machine, no artificial
+lighting. Three-quarter front view, parked and ready for hire, full
+machine visible, scale emphasized against nearby trucks or workers in the
+background. The machine fills 70–80% of the frame. Photorealistic, shot
+on a professional camera, not a render or illustration. No text, no
+watermark, no logo overlays, no isolated white background. Generate as a
+wide landscape image (16:9 or 4:3) — do not generate square.
+```
+**Thumb 1 — side profile**
+```
+A CAT 336 large excavator, a big 36-tonne-class machine, same jobsite
+near Al Quoz, Dubai, natural daylight, dust and wear visible. Full side
+profile view, entire machine in frame, ground line visible.
+Photorealistic. No text, no watermark, no white background. Wide
+landscape image, not square.
+```
+**Thumb 2 — cab / controls close-up**
+```
+A CAT 336 large excavator, close-up of the operator cab and control
+panel, shot from outside looking into the open cab door, natural
+daylight, real wear on the seat and controls visible. Photorealistic,
+in-situ, no studio lighting. No text, no watermark, no white background.
+Wide landscape image, not square.
+```
+**Thumb 3 — undercarriage / tracks**
+```
+A CAT 336 large excavator, low-angle close-up of the large tracks and
+lower chassis, dust and dirt caked on visible, natural daylight, real
+jobsite ground (sand or gravel) visible. Photorealistic, in-situ, no
+studio lighting. No text, no watermark, no white background. Wide
+landscape image, not square.
+```
+**Thumb 4 — rear / attachment detail**
+```
+A CAT 336 large excavator, rear three-quarter view showing the large
+counterweight and bucket attachment, natural daylight, dust and wear
+visible, same UAE jobsite setting. Photorealistic, in-situ, no studio
+lighting. No text, no watermark, no white background. Wide landscape
+image, not square.
 ```
 
 ---
@@ -227,9 +525,14 @@ no logo overlays, no isolated white background. 4:3 aspect ratio.
 ## 5. "See Dozr in action" feature tabs (Home, 3 images)
 
 Not equipment photography — these represent phone-screen product moments.
-Box is ~608×320px (≈1.9:1); generate at **1600×840px**.
+Box is ~608×320px (≈1.9:1); generate at **1600×840px — force this exact
+landscape size in your tool's settings, not just in the prompt text**, since
+Track/Prove both came back 1024×1024 square despite the prompt asking for
+16:9, which is why the homepage box currently looks over-zoomed. Only
+**"Get paid faster" is still missing** — Track and Prove already exist in
+`assets/feature/`.
 
-**Track it live**
+**Track it live** *(already generated — reference only; regenerate wider if you want to fix the zoom)*
 ```
 A smartphone screen close-up showing a live GPS tracking map interface —
 a route line from a construction yard icon to a destination pin, a
@@ -242,7 +545,7 @@ text overlays added outside the phone screen itself. 16:9-ish landscape
 crop.
 ```
 
-**Prove delivery**
+**Prove delivery** *(already generated — reference only)*
 ```
 A smartphone screen close-up showing a digital signature / proof-of-
 delivery capture screen — a signature pad with a finger mid-signature, a
@@ -253,14 +556,17 @@ photorealistic. No visible brand names other than a generic clean UI. No
 added text overlays. 16:9-ish landscape crop.
 ```
 
-**Get paid faster**
+**Get paid faster** *(still needed — save as `assets/feature/pay.jpg`)*
 ```
 A smartphone screen close-up showing a generated invoice — line items,
 a total in AED, a "VAT compliant" style badge, clean minimal UI in
 black, white, and a single yellow accent color. Phone resting on a desk
 or clipboard in a site office, natural daylight through a window,
 shallow depth of field, photorealistic. No visible brand names other
-than a generic clean UI. No added text overlays. 16:9-ish landscape crop.
+than a generic clean UI, no real map-app or software logos. No added
+text overlays besides the invoice content on-screen. Generate as a wide
+landscape image (1600×840px, 16:9) — force this size in your tool's
+settings, do not generate square.
 ```
 
 ---

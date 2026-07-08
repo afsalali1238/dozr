@@ -1,5 +1,12 @@
 /* Home page rendering and feature tabs. */
 document.addEventListener("DOMContentLoaded", () => {
+  const heroVideo = document.querySelector(".hero-video");
+  if (heroVideo) {
+    const setSlowRate = () => { heroVideo.playbackRate = 0.6; };
+    heroVideo.addEventListener("loadedmetadata", setSlowRate);
+    setSlowRate();
+  }
+
   const categories = window.DOZR_CATEGORIES || [];
   const equipment = window.DOZR_EQUIPMENT || [];
   const categoryGrid = document.getElementById("category-grid");
