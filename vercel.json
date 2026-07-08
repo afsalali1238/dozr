@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/marketplace/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/marketplace/$1"
+    }
+  ]
+}
