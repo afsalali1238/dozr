@@ -204,6 +204,17 @@ h1, h2, h3, h4 {
   background-repeat: no-repeat;
   border-radius: inherit;
 }
+.photo[data-cap]:not([data-cap=""])::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60%;
+  background: linear-gradient(to top, rgba(20,21,24,.6), rgba(20,21,24,0));
+  border-radius: inherit;
+  pointer-events: none;
+}
 .photo[data-cap]:not([data-cap=""])::after {
   content: attr(data-cap);
   position: absolute;
@@ -213,7 +224,8 @@ h1, h2, h3, h4 {
   font-size: 10px;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--surface);
+  text-shadow: 0 1px 3px rgba(0,0,0,.5);
 }
 
 /* ---------------- Footer ---------------- */
