@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasper GPS — Feasibility Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2f4f7;--surface:#ffffff;--surface2:#fafbfc;
+  --border:#e4e7ec;--border2:#d0d5dd;
+  --text:#101828;--muted:#98a2b3;--muted2:#475467;
+  --accent:#101828;--highlight:#1570ef;
+  --amber:#f5a623;--red:#ff4455;--green:#3ddc84;--blue:#4fa3ff;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth;background:var(--bg)}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+#pb{position:fixed;top:0;left:0;height:2px;background:var(--highlight);width:0%;z-index:1000;transition:width .1s}
+#dots{position:fixed;right:22px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:999}
+.dot{width:5px;height:5px;border-radius:50%;background:#d0d5dd;cursor:pointer;transition:all .3s}
+.dot.on{background:var(--highlight);transform:scale(1.6)}
+.panel{scroll-snap-align:start;min-height:100vh;display:grid;grid-template-rows:auto 1fr auto;padding:48px 7vw;border-top:1px solid var(--border);background:var(--surface)}
+.panel:nth-child(even){background:#f8f9fb}
+.pm{display:flex;justify-content:space-between;align-items:center;padding-bottom:32px}
+.pn{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.pt{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:#1570ef;letter-spacing:.2em;text-transform:uppercase}
+.pb-body{display:flex;flex-direction:column;justify-content:center;max-width:940px;padding:24px 0;gap:26px}
+.pf{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--muted);text-align:right;padding-top:24px}
+.sl{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--muted2);letter-spacing:.18em;text-transform:uppercase;margin-bottom:-10px}
+h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,7vw,6rem);font-weight:900;color:#101828;line-height:1.04;letter-spacing:-.03em}
+h1 em{color:#1570ef;font-style:italic;font-weight:400}
+h2{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,2.5vw,2rem);font-weight:700;color:#101828;line-height:1.2}
+p{font-size:1.05rem;line-height:1.75;color:var(--text);font-weight:300}
+p strong{color:#101828;font-weight:500}
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:8px 0}
+.sc{background:#fafbfc;border:1px solid var(--border);padding:22px 18px;display:flex;flex-direction:column;gap:6px}
+.v{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2.4rem);font-weight:700;line-height:1}
+.v.g{color:var(--green)}.v.a{color:var(--amber)}.v.r{color:var(--red)}.v.h{color:#1570ef}.v.b{color:var(--blue)}
+.lb{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;line-height:1.4}
+table{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace}
+th{color:var(--muted2);text-transform:uppercase;letter-spacing:.1em;padding:10px 14px;text-align:left;font-size:.6rem;border-bottom:1px solid var(--border2)}
+td{padding:11px 14px;border-bottom:1px solid var(--border);font-size:.76rem;line-height:1.5}
+tr:last-child td{border-bottom:none}
+.tw{border:1px solid var(--border);background:#ffffff;overflow-x:auto;border-radius:2px}
+.cl{border-left:3px solid var(--highlight);padding:18px 22px;background:#eff4ff;font-size:.93rem;line-height:1.65;color:var(--muted2)}
+.cl strong{color:#1570ef}
+.cl.w{border-left-color:var(--amber);background:#fffbeb}.cl.w strong{color:var(--amber)}
+.cl.r{border-left-color:var(--red);background:#fff1f0}.cl.r strong{color:var(--red)}
+.cl.g{border-left-color:var(--green);background:#f0fdf4}.cl.g strong{color:var(--green)}
+.cl.b{border-left-color:var(--blue);background:#eff6ff}.cl.b strong{color:var(--blue)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.hc{padding:22px;border:1px solid var(--border);background:#fafbfc}
+.cover-meta{display:flex;gap:28px;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:22px}
+.cmi{display:flex;flex-direction:column;gap:4px}
+.cmi span:first-child{font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase}
+.cmi span:last-child{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--text)}
+#p01 .pb-body{justify-content:flex-end;padding-bottom:0;min-height:70vh}
+.tier-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.78rem}
+.tier-row:last-child{border-bottom:none}
+.tier-row span:first-child{color:var(--muted2)}
+.tier-row span:last-child{font-family:'IBM Plex Mono',monospace;font-size:.74rem;font-weight:600}
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.tc{padding:20px;border:1px solid var(--border);background:#fafbfc}
+.tc.t1{border-top:3px solid var(--highlight)}.tc.t2{border-top:3px solid var(--amber)}.tc.t3{border-top:3px solid var(--blue)}
+.tn{font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px}
+.tc.t1 .tn{color:#1570ef}.tc.t2 .tn{color:var(--amber)}.tc.t3 .tn{color:var(--blue)}
+.tp{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:#101828;line-height:1;margin-bottom:14px}
+.verdict{display:inline-flex;align-items:center;gap:12px;border:1px solid var(--highlight);padding:14px 24px;background:#eff4ff}
+.vi{font-family:'IBM Plex Mono',monospace;font-size:1.5rem;color:#1570ef}
+.vl{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase}
+.vt{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:#1570ef}
+@media(max-width:700px){
+  .panel{padding:36px 5vw}
+  .two,.tg,.sg{grid-template-columns:1fr}
+  #dots{display:none}
+}
+</style>
+</head>
+<body>
+<div id="pb"></div>
+<div id="dots"></div>
+
+<!-- P01 COVER -->
+<section class="panel" id="p01">
+  <div class="pm"><span class="pn">№01 / 11</span><span class="pt">FEASIBILITY · GPS · UAE</span></div>
+  <div class="pb-body">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:#1570ef;letter-spacing:.25em;text-transform:uppercase;margin-bottom:-8px">Feasibility Study · June 2026</div>
+    <h1>GPS &<br><em>Telematics</em><br>Feasibility</h1>
+    <p style="font-size:clamp(1rem,1.8vw,1.3rem);color:var(--muted2);font-weight:300;line-height:1.6;max-width:600px">Is it worth building? What it costs, what it earns, and when it breaks even. Three hardware tiers. Real vendor quotes. Confirmed SIM pricing. Two platform scenarios.</p>
+    <div class="cover-meta">
+      <div class="cmi"><span>Company</span><span>Kasper Technologies FZ-LLC</span></div>
+      <div class="cmi"><span>Break-even</span><span style="color:var(--green)">424 devices · Month 13</span></div>
+      <div class="cmi"><span>Y1 Margin</span><span style="color:var(--amber)">19–26% (hardware amortised over 12mo)</span></div>
+      <div class="cmi"><span>Y2 Margin</span><span style="color:var(--green)">66–79% — hardware fully recovered</span></div>
+    </div>
+  </div>
+  <div class="pf">Kasper Technologies · afzl · June 2026</div>
+</section>
+
+
+<!-- P02 THE BUSINESS -->
+<section class="panel" id="p02">
+  <div class="pm"><span class="pn">№GUIDE</span><span class="pt">The Business</span></div>
+  <div class="pb-body">
+    <div class="sl">What we are building</div>
+    <h2>GPS-as-a-Service — lease devices, charge monthly</h2>
+    <p>Kasper installs GPS tracking devices on vendor vehicles and equipment. Vendors pay a monthly subscription. Kasper owns the hardware. Clients pay annually upfront. The device data feeds a future intelligence layer worth significantly more than the subscription revenue.</p>
+    <div class="sg">
+      <div class="sc"><span class="v h">AED 60</span><span class="lb">Tier 1 — basic tracking / device / mo</span></div>
+      <div class="sc"><span class="v a">AED 80</span><span class="lb">Tier 2 — fleet analytics / device / mo</span></div>
+      <div class="sc"><span class="v b">AED 110</span><span class="lb">Tier 3 — heavy equipment / device / mo</span></div>
+      <div class="sc"><span class="v g">424</span><span class="lb">Break-even device count (base case)</span></div>
+      <div class="sc"><span class="v h">Month 13</span><span class="lb">Break-even timeline — 70/20/10 mix</span></div>
+      <div class="sc"><span class="v g">66–84%</span><span class="lb">Year 2 gross margin across tiers</span></div>
+    </div>
+    <div class="cl a">
+      <strong>Why Year 1 margins look low — and why that's fine:</strong> In Year 1, hardware and installation cost is spread across 12 monthly payments. This pulls the gross margin down to 19–26% for the first 12 months. From Year 2 onwards, hardware cost drops to zero — the device is already installed and paid for — and margins jump to 66–84%. The business is designed this way deliberately. Annual upfront billing means the hardware is already recovered in cash on Day 1, even though it's amortised in the P&amp;L.
+    </div>
+    <div class="cl">
+      <strong>Why now:</strong> Kasper already dispatches vendors manually — real relationships, real operations. GPS is the natural next layer. The first 10–25 devices go onto vendors already working with Kasper today. Near-zero customer acquisition cost for the initial fleet. Every device installed also builds the data asset that powers the future telematics intelligence products. Year 1 gross margin is 19–26% (hardware amortised). Year 2 margin is 66–84% as hardware cost drops to zero.
+    </div>
+  </div>
+  <div class="pf">Kasper Technologies · afzl · June 2026</div>
+</section>
+
+<!-- P03 HARDWARE COST -->
+<section class="panel" id="p03">
+  <div class="pm"><span class="pn">№02 / 11</span><span class="pt">Device Cost</span></div>
+  <div class="pb-body">
+    <div class="sl">Cost 1 of 3 — Hardware</div>
+    <h2>What Kasper pays for the device</h2>
+    <p>Real vendor quotes. All prices include 1% ITSC charge + 5% UAE VAT + knowledge fee allocation at MOQ 50. These are Kasper's costs — not what the client pays.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Device</th><th>Base quote</th><th>+ITSC 1%</th><th>+VAT 5%</th><th>+KF (MOQ 50)</th><th>Landed cost</th></tr></thead>
+        <tbody>
+          <tr><td><strong>FMC130</strong> — GPS tracker (all tiers)</td><td>AED 161.48</td><td>1.61</td><td>8.15</td><td>2.10</td><td style="color:#1570ef"><strong>AED 173.34</strong></td></tr>
+          <tr><td><strong>LVCAN200</strong> — CAN adapter Tier 2</td><td>AED 190.84</td><td>1.91</td><td>9.64</td><td>2.10</td><td style="color:var(--amber)"><strong>AED 204.48</strong></td></tr>
+          <tr><td><strong>ALLCAN300</strong> — CAN adapter Tier 3</td><td>AED 363.33</td><td>3.63</td><td>18.35</td><td>2.10</td><td style="color:var(--blue)"><strong>AED 387.41</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tg">
+      <div class="tc t1">
+        <div class="tn">Tier 1 · FMC130 only</div>
+        <div class="tp">AED 203</div>
+        <div class="tier-row"><span>FMC130 landed</span><span>AED 173.34</span></div>
+        <div class="tier-row"><span>Accessories</span><span>AED 30.00</span></div>
+        <div class="tier-row"><span style="color:#101828">Total hardware capex</span><span style="color:#1570ef">AED 203</span></div>
+        <div class="tier-row"><span>Installation charge</span><span>AED 80</span></div>
+        <div class="tier-row"><span style="color:#101828">Total Kasper outlay</span><span style="color:#1570ef">AED 283</span></div>
+      </div>
+      <div class="tc t2">
+        <div class="tn">Tier 2 · FMC130 + LVCAN200</div>
+        <div class="tp">AED 408</div>
+        <div class="tier-row"><span>FMC130 + LVCAN200</span><span>AED 377.82</span></div>
+        <div class="tier-row"><span>Accessories</span><span>AED 30.00</span></div>
+        <div class="tier-row"><span style="color:#101828">Total hardware capex</span><span style="color:var(--amber)">AED 408</span></div>
+        <div class="tier-row"><span>Installation charge</span><span>AED 100</span></div>
+        <div class="tier-row"><span style="color:#101828">Total Kasper outlay</span><span style="color:var(--amber)">AED 508</span></div>
+      </div>
+      <div class="tc t3">
+        <div class="tn">Tier 3 · FMC130 + ALLCAN300</div>
+        <div class="tp">AED 591</div>
+        <div class="tier-row"><span>FMC130 + ALLCAN300</span><span>AED 560.75</span></div>
+        <div class="tier-row"><span>Accessories</span><span>AED 30.00</span></div>
+        <div class="tier-row"><span style="color:#101828">Total hardware capex</span><span style="color:var(--blue)">AED 591</span></div>
+        <div class="tier-row"><span>Installation charge</span><span>AED 120</span></div>
+        <div class="tier-row"><span style="color:#101828">Total Kasper outlay</span><span style="color:var(--blue)">AED 711</span></div>
+      </div>
+    </div>
+    <p style="font-size:.8rem;color:var(--muted2)">Knowledge Fee: AED 104.75/month flat — allocated across units ordered that month. Always order MOQ 50+ to keep landed cost stable at AED 2.10/unit allocation.</p>
+  </div>
+  <div class="pf">Sources: Vendor quotes confirmed · June 2026</div>
+</section>
+
+<!-- P04 SIM COST -->
+<section class="panel" id="p04">
+  <div class="pm"><span class="pn">№03 / 11</span><span class="pt">SIM Cost</span></div>
+  <div class="pb-body">
+    <div class="sl">Cost 2 of 3 — Connectivity</div>
+    <h2>What Kasper pays for the SIM</h2>
+    <div class="sg">
+      <div class="sc"><span class="v h">AED 8.33</span><span class="lb">du M2M confirmed rate — AED 100/year · MOQ 50</span></div>
+      <div class="sc"><span class="v g">AED 10</span><span class="lb">Model assumption — AED 1.67 buffer above du rate</span></div>
+      <div class="sc"><span class="v a">20 MB</span><span class="lb">Data included per SIM per month (240MB/year)</span></div>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Provider</th><th>Price/SIM/mo</th><th>Data</th><th>MOQ</th><th>Network</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr style="background:#f0fdf4"><td><strong>du M2M</strong></td><td style="color:var(--green)"><strong>AED 8.33</strong></td><td>20 MB/mo</td><td>50 SIMs</td><td>du network</td><td style="color:var(--green)">✓ Confirmed quote</td></tr>
+          <tr><td><strong>Onomondo</strong></td><td>AED 20</td><td>~4.9 GB / 100 SIMs</td><td>Monthly cancel</td><td>e& + du failover</td><td style="color:var(--amber)">POC available</td></tr>
+          <tr><td style="color:var(--muted2)">Local carrier (rejected)</td><td style="color:var(--red)">AED 50</td><td>2 GB pool / 100</td><td>100 SIMs</td><td>Single</td><td style="color:var(--red)">✗ Too expensive</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cl g">
+      <strong>du is the working SIM:</strong> AED 100/year per SIM at MOQ 50. 20 MB covers typical device usage (15–25 MB/month at 30-second ping intervals). Model uses AED 10/month to provide a buffer. One-time SIM cost: AED 25/SIM. Total one-time for 50 SIMs: AED 1,250.
+    </div>
+    <div class="cl w" style="margin-top:4px">
+      <strong>Coverage note:</strong> du is a single network. If a construction site has du dead zones, Onomondo's multi-network SIM (auto-failover between e& and du) is the fallback — at AED 20/month. Onomondo POC available at €500/month for up to 100 SIMs.
+    </div>
+  </div>
+  <div class="pf">Sources: du M2M quote confirmed · Onomondo proposal · June 2026</div>
+</section>
+
+<!-- P05 DEVELOPMENT COST -->
+<section class="panel" id="p05">
+  <div class="pm"><span class="pn">№04 / 11</span><span class="pt">Development Cost</span></div>
+  <div class="pb-body">
+    <div class="sl">Cost 3 of 3 — Platform & Development</div>
+    <h2>What Kasper pays for the software platform</h2>
+    <p>Two options. The decision depends on the Wialon/Navixy quote from the meeting today. One is pay-as-you-go (white-label), the other is build-once (custom platform). Both work — the cost difference grows with scale.</p>
+    <div class="two">
+      <div class="hc" style="border-top:3px solid var(--amber)">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--amber);letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px">Option A — White-label (Wialon / Navixy)</div>
+        <div class="tier-row"><span>Per device / month</span><span style="color:var(--amber)">~AED 5.50 (quote pending)</span></div>
+        <div class="tier-row"><span>At 100 devices</span><span>AED 550/month</span></div>
+        <div class="tier-row"><span>At 500 devices</span><span>AED 2,750/month</span></div>
+        <div class="tier-row"><span>At 500 devices / year</span><span style="color:var(--red)">AED 33,000/year</span></div>
+        <div class="tier-row"><span>One-time setup</span><span style="color:var(--green)">~AED 0</span></div>
+        <div class="tier-row"><span>Launch timeline</span><span style="color:var(--green)">2–4 weeks</span></div>
+        <div class="tier-row"><span>Dev cost</span><span style="color:var(--green)">Minimal</span></div>
+      </div>
+      <div class="hc" style="border-top:3px solid var(--green)">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--green);letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px">Option B — Custom Platform (self-built)</div>
+        <div class="tier-row"><span>Server hosting / month</span><span style="color:var(--green)">AED 55 total</span></div>
+        <div class="tier-row"><span>Per device at 100</span><span style="color:var(--green)">AED 0.55/device</span></div>
+        <div class="tier-row"><span>Per device at 500</span><span style="color:var(--green)">AED 0.11/device</span></div>
+        <div class="tier-row"><span>At 500 devices / year</span><span style="color:var(--green)">AED 660/year</span></div>
+        <div class="tier-row"><span>One-time dev cost</span><span style="color:var(--amber)">Dev team to quote</span></div>
+        <div class="tier-row"><span>Launch timeline</span><span style="color:var(--amber)">4–6 months</span></div>
+        <div class="tier-row"><span>Savings vs Wialon @ 500</span><span style="color:var(--green)">AED 32,340/year</span></div>
+      </div>
+    </div>
+    <div class="tw" style="margin-top:2px">
+      <table>
+        <thead><tr><th>Devices</th><th>Wialon annual cost</th><th>Custom build annual</th><th>Annual saving</th></tr></thead>
+        <tbody>
+          <tr><td>50</td><td>AED 3,300</td><td style="color:var(--green)">AED 660</td><td style="color:var(--green)">AED 2,640</td></tr>
+          <tr><td>100</td><td>AED 6,600</td><td style="color:var(--green)">AED 660</td><td style="color:var(--green)">AED 5,940</td></tr>
+          <tr><td>200</td><td>AED 13,200</td><td style="color:var(--green)">AED 660</td><td style="color:var(--green)">AED 12,540</td></tr>
+          <tr><td>500</td><td>AED 33,000</td><td style="color:var(--green)">AED 660</td><td style="color:var(--green)">AED 32,340</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cl b">
+      <strong>Decision rule:</strong> If Wialon/Navixy quote comes in under AED 5/device → launch on white-label, save time. If above AED 8/device → build the custom platform. The savings pay back the build cost within 12 months at 500 devices. Dev team to quote the custom build cost. Both options are valid — speed to market vs long-term cost savings.
+    </div>
+  </div>
+  <div class="pf">Sources: Cloud hosting pricing estimates · Wialon quote pending · June 2026</div>
+</section>
+
+<!-- P06 FULL OPEX STACK -->
+<section class="panel" id="p06">
+  <div class="pm"><span class="pn">№05 / 11</span><span class="pt">Full Cost Stack</span></div>
+  <div class="pb-body">
+    <div class="sl">All three costs combined — Year 1 vs Year 2</div>
+    <h2>What it costs Kasper to serve one device</h2>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Cost item</th><th>Tier 1 — Year 1</th><th>Tier 2 — Year 1</th><th>Tier 3 — Year 1</th><th>Year 2+ (all tiers)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>SIM — du M2M</strong></td><td>10.00</td><td>10.00</td><td>10.00</td><td>10.00</td></tr>
+          <tr><td><strong>Platform — Wialon (est.)</strong></td><td>5.50</td><td>5.50</td><td>5.50</td><td>5.50</td></tr>
+          <tr><td><strong>Platform — Custom Build (alt.)</strong></td><td style="color:var(--green)">0.55</td><td style="color:var(--green)">0.55</td><td style="color:var(--green)">0.55</td><td style="color:var(--green)">0.55</td></tr>
+          <tr><td><strong>Hardware amortisation (÷12)</strong></td><td>16.95</td><td>33.98</td><td>49.23</td><td style="color:var(--green)">0</td></tr>
+          <tr><td><strong>Install amortisation (÷12)</strong></td><td>6.67</td><td>8.33</td><td>10.00</td><td style="color:var(--green)">0</td></tr>
+          <tr><td><strong>Support & warranty reserve</strong></td><td>5.00</td><td>6.50</td><td>7.50</td><td>5–7.50</td></tr>
+          <tr style="border-top:1px solid var(--border2)">
+            <td><strong>Total Y1 opex (Wialon)</strong></td>
+            <td><strong style="color:var(--amber)">AED 44.12</strong></td>
+            <td><strong style="color:var(--amber)">AED 64.31</strong></td>
+            <td><strong style="color:var(--amber)">AED 82.23</strong></td>
+            <td><strong style="color:var(--green)">AED 20–23</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Total Y1 opex (Custom build)</strong></td>
+            <td><strong style="color:var(--green)">AED 39.17</strong></td>
+            <td><strong style="color:var(--green)">AED 59.36</strong></td>
+            <td><strong style="color:var(--green)">AED 77.28</strong></td>
+            <td><strong style="color:var(--green)">AED 15–18</strong></td>
+          </tr>
+          <tr>
+            <td><strong>SaaS price</strong></td>
+            <td><strong style="color:#1570ef">AED 60</strong></td>
+            <td><strong style="color:#1570ef">AED 80</strong></td>
+            <td><strong style="color:#1570ef">AED 110</strong></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>GM Y1 (Wialon)</strong></td>
+            <td><strong style="color:var(--amber)">26.5%</strong></td>
+            <td><strong style="color:var(--amber)">19.6%</strong></td>
+            <td><strong style="color:var(--amber)">25.2%</strong></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>GM Y2+ (Wialon)</strong></td>
+            <td><strong style="color:var(--green)">65.8%</strong></td>
+            <td><strong style="color:var(--green)">72.5%</strong></td>
+            <td><strong style="color:var(--green)">79.1%</strong></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>GM Y2+ (Custom build)</strong></td>
+            <td><strong style="color:var(--green)">74.1%</strong></td>
+            <td><strong style="color:var(--green)">78.7%</strong></td>
+            <td><strong style="color:var(--green)">83.6%</strong></td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cl w">
+      <strong>Why Year 1 margin is lower — and why it doesn't matter:</strong> Hardware and installation cost is spread across 12 months in the model. In reality, the client pays the full 12-month subscription plus installation charge upfront on Day 1 — so Kasper recovers all hardware costs immediately. Year 1 gross margin of 19–26% reflects accounting amortisation, not cash reality. By Year 2 the hardware cost disappears entirely and margin jumps to 66–84%. The business generates strong cash from Month 1 even while the accounting margin looks modest.
+    </div>
+  </div>
+  <div class="pf">Kasper Technologies · afzl · June 2026</div>
+</section>
+
+<!-- P07 ANNUAL UPFRONT -->
+<section class="panel" id="p07">
+  <div class="pm"><span class="pn">№06 / 11</span><span class="pt">Cash Flow</span></div>
+  <div class="pb-body">
+    <div class="sl">Annual upfront billing — Day 1 cash position</div>
+    <h2>Clients pay upfront — every device cash-positive Day 1</h2>
+    <p>The client pays 12 months subscription + installation charge before the device is fitted. This means Kasper collects more cash than it spends on hardware and installation on Day 1 — across all three tiers.</p>
+    <div class="tg">
+      <div class="tc t1">
+        <div class="tn">Tier 1 — FMC130</div>
+        <div class="tier-row"><span>12-month subscription</span><span>AED 720</span></div>
+        <div class="tier-row"><span>Installation charge</span><span>AED 80</span></div>
+        <div class="tier-row"><span style="color:var(--green);font-weight:600">Total cash in Day 1</span><span style="color:var(--green);font-weight:700">AED 800</span></div>
+        <div class="tier-row"><span>Hardware + install (Kasper pays)</span><span style="color:var(--muted2)">AED 283</span></div>
+        <div style="border-top:1px solid var(--border2);padding-top:12px;margin-top:8px">
+          <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:#1570ef">+AED 517</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--muted);text-transform:uppercase;margin-top:4px">Net cash positive · Day 1</div>
+        </div>
+      </div>
+      <div class="tc t2">
+        <div class="tn">Tier 2 — LVCAN200</div>
+        <div class="tier-row"><span>12-month subscription</span><span>AED 960</span></div>
+        <div class="tier-row"><span>Installation charge</span><span>AED 100</span></div>
+        <div class="tier-row"><span style="color:var(--green);font-weight:600">Total cash in Day 1</span><span style="color:var(--green);font-weight:700">AED 1,060</span></div>
+        <div class="tier-row"><span>Hardware + install (Kasper pays)</span><span style="color:var(--muted2)">AED 508</span></div>
+        <div style="border-top:1px solid var(--border2);padding-top:12px;margin-top:8px">
+          <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:#1570ef">+AED 552</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--muted);text-transform:uppercase;margin-top:4px">Net cash positive · Day 1</div>
+        </div>
+      </div>
+      <div class="tc t3">
+        <div class="tn">Tier 3 — ALLCAN300</div>
+        <div class="tier-row"><span>12-month subscription</span><span>AED 1,320</span></div>
+        <div class="tier-row"><span>Installation charge</span><span>AED 120</span></div>
+        <div class="tier-row"><span style="color:var(--green);font-weight:600">Total cash in Day 1</span><span style="color:var(--green);font-weight:700">AED 1,440</span></div>
+        <div class="tier-row"><span>Hardware + install (Kasper pays)</span><span style="color:var(--muted2)">AED 711</span></div>
+        <div style="border-top:1px solid var(--border2);padding-top:12px;margin-top:8px">
+          <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:#1570ef">+AED 729</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--muted);text-transform:uppercase;margin-top:4px">Net cash positive · Day 1</div>
+        </div>
+      </div>
+    </div>
+    <div class="cl g">
+      <strong>Zero hardware debt:</strong> Because clients pay upfront, Kasper never needs to fund the hardware from working capital. Every device deployed is cash-positive from Day 1. At 100 devices (roughly equal mix), Day 1 cash collection is approximately AED 59,000 — against AED 50,000 in hardware and installation costs. The operation is self-funding from the start.
+    </div>
+  </div>
+  <div class="pf">Kasper Technologies · afzl · June 2026</div>
+</section>
+
+<!-- P08 BREAK-EVEN -->
+<section class="panel" id="p08">
+  <div class="pm"><span class="pn">№07 / 11</span><span class="pt">Break-Even</span></div>
+  <div class="pb-body">
+    <div class="sl">When does the business cover all costs</div>
+    <h2>Break-even: 424 devices by Month 13</h2>
+    <div class="sg">
+      <div class="sc"><span class="v h">AED 20,333</span><span class="lb">Total fixed monthly costs — salaries, office, platform, overheads</span></div>
+      <div class="sc"><span class="v b">AED 47.95</span><span class="lb">Blended contribution margin per device — 70/20/10 mix, Wialon</span></div>
+      <div class="sc"><span class="v g">424</span><span class="lb">Break-even devices — Wialon · 384 devices with custom build</span></div>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Fixed cost</th><th>Monthly (AED)</th></tr></thead>
+        <tbody>
+          <tr><td>Salaries — all staff</td><td>AED 16,000</td></tr>
+          <tr><td>Office — co-working</td><td>AED 1,333</td></tr>
+          <tr><td>Platform base (Wialon minimum)</td><td>AED 800</td></tr>
+          <tr><td>Accounting, legal, software, misc</td><td>AED 2,200</td></tr>
+          <tr style="border-top:1px solid var(--border2)"><td><strong>Total fixed / month</strong></td><td><strong style="color:var(--amber)">AED 20,333</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tw" style="margin-top:2px">
+      <table>
+        <thead><tr><th>Scenario</th><th>Month 12 fleet</th><th>Break-even month</th><th>Platform</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--green)"><strong>Bull</strong></td><td>600 devices</td><td style="color:var(--green)"><strong>Month 9</strong></td><td>Wialon</td></tr>
+          <tr><td style="color:#1570ef"><strong>Base</strong></td><td>430 devices</td><td style="color:#1570ef"><strong>Month 13</strong></td><td>Wialon · 35 devices/mo ramp</td></tr>
+          <tr><td style="color:#1570ef"><strong>Base (Custom build)</strong></td><td>430 devices</td><td style="color:#1570ef"><strong>Month 12</strong></td><td>Custom build · one month faster</td></tr>
+          <tr><td style="color:var(--red)"><strong>Bear</strong></td><td>150 devices</td><td style="color:var(--red)"><strong>Month 24+</strong></td><td>Slow adoption</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cl">
+      <strong>Starting from 10 devices Day 1</strong> — existing vendor relationships, no cold outreach. Adding 35 net new devices per month reaches break-even at Month 13. If tier mix improves as vendors upgrade from Tier 1 to Tier 2/3 over time, break-even accelerates. Annual upfront billing keeps cash flow positive throughout the ramp — the business does not need external funding to reach break-even.
+    </div>
+  </div>
+  <div class="pf">Kasper Technologies · afzl · June 2026</div>
+</section>
+
+<!-- P09 MARKET & COMPLIANCE -->
+<section class="panel" id="p09">
+  <div class="pm"><span class="pn">№08 / 11</span><span class="pt">Market & Compliance</span></div>
+  <div class="pb-body">
+    <div class="sl">UAE market size and regulatory context</div>
+    <h2>The market is large. The regulation creates demand.</h2>
+    <div class="sg">
+      <div class="sc"><span class="v h">AED 135M</span><span class="lb">UAE telematics SaaS TAM / year</span></div>
+      <div class="sc"><span class="v b">150,000+</span><span class="lb">Commercial vehicles & equipment in UAE fleet</span></div>
+      <div class="sc"><span class="v g">0.3%</span><span class="lb">Market penetration needed to hit 500 devices (Year 1 target)</span></div>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Competitor</th><th>Price / device / mo</th><th>Contract</th><th>Hardware</th></tr></thead>
+        <tbody>
+          <tr><td>Samsara</td><td style="color:var(--red)">AED 100–220</td><td>3-year</td><td>Client buys</td></tr>
+          <tr><td>Geotab</td><td style="color:var(--amber)">AED 80–150</td><td>2-year</td><td>Client buys</td></tr>
+          <tr><td>Dreamcom (e&)</td><td style="color:var(--green)">AED 57–74</td><td>2-year</td><td>Bundled</td></tr>
+          <tr style="background:#eff4ff"><td><strong>Kasper T1</strong></td><td style="color:#1570ef"><strong>AED 60</strong></td><td style="color:#1570ef">12-month</td><td style="color:#1570ef">Leased</td></tr>
+          <tr style="background:#eff4ff"><td><strong>Kasper T2</strong></td><td style="color:#1570ef"><strong>AED 80</strong></td><td style="color:#1570ef">12-month</td><td style="color:#1570ef">Leased</td></tr>
+          <tr style="background:#eff4ff"><td><strong>Kasper T3</strong></td><td style="color:#1570ef"><strong>AED 110</strong></td><td style="color:#1570ef">12-month</td><td style="color:#1570ef">Leased</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cl b">
+      <strong>SIRA / Asateel — not a blocker for primary segment:</strong> Kasper targets construction equipment on private sites and general transport fleets — largely outside SIRA mandatory categories. For any client that does require SIRA compliance, a dual-device model is used: one SIRA-certified device for compliance, one Kasper device for analytics. Kasper plans to self-certify as a SIRA vendor in Phase 2 once revenue is established.
+    </div>
+  </div>
+  <div class="pf">Sources: UAE telematics market data · dreamcom.ae · samsara.com · June 2026</div>
+</section>
+
+
+<!-- P10: OPEN ITEMS FOR TECH TEAM -->
+<section class="panel" id="p10">
+  <div class="pm"><span class="pn">№09 / 11</span><span class="pt">Tech Team — Confirm These</span></div>
+  <div class="pb-body">
+    <div class="sl">What the tech team needs to confirm</div>
+    <h2>Three numbers still open — tech team to close</h2>
+    <p>The business case is complete. The remaining three items are technical decisions only the dev team can confirm. Until these are answered, the financial model uses estimates. Once confirmed, update the break-even accordingly.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>#</th><th>Open item</th><th>Current estimate</th><th>Who confirms</th><th>Impact on model</th></tr></thead>
+        <tbody>
+          <tr>
+            <td style="color:var(--red);font-family:'IBM Plex Mono',monospace">01</td>
+            <td><strong>Development cost</strong><br><span style="font-size:.7rem;color:var(--muted2)">Cost to build the custom GPS platform — if custom build is chosen over Wialon white-label</span></td>
+            <td style="color:var(--amber)">TBD — dev team to quote</td>
+            <td>Dev team</td>
+            <td style="font-size:.7rem;color:var(--muted2)">Affects custom build vs Wialon decision. If dev cost &gt; 15 months of Wialon savings → stay on Wialon for longer.</td>
+          </tr>
+          <tr>
+            <td style="color:var(--amber);font-family:'IBM Plex Mono',monospace">02</td>
+            <td><strong>AWS / hosting cost</strong><br><span style="font-size:.7rem;color:var(--muted2)">Cloud server cost for the custom-built GPS platform — Teltonika to advise on correct instance type</span></td>
+            <td style="color:var(--amber)">AED 92–147/mo at 100 devices (estimate)</td>
+            <td>Teltonika + dev team</td>
+            <td style="font-size:.7rem;color:var(--muted2)">Minor impact — even at AED 150/mo this is AED 1.50/device at 100 units. Does not materially change break-even.</td>
+          </tr>
+          <tr>
+            <td style="color:#1570ef;font-family:'IBM Plex Mono',monospace">03</td>
+            <td><strong>Wialon / Navixy per-device pricing</strong><br><span style="font-size:.7rem;color:var(--muted2)">Formal quote from Wialon UAE reseller — Location Solution Telematics (construction specialists)</span></td>
+            <td style="color:var(--amber)">~AED 5.50/device (estimate)</td>
+            <td>Location Solution Telematics · +971 55 235 5956</td>
+            <td style="font-size:.7rem;color:var(--muted2)">Most impactful open item. Every AED 1 change in platform cost = ~11 device shift in break-even.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sl" style="margin-top:8px">AWS hosting estimates — custom platform</div>
+    <div class="tw" style="margin-top:0">
+      <table>
+        <thead><tr><th>Devices</th><th>AWS EC2</th><th>AWS RDS</th><th>Est. AED/mo (AWS UAE)</th><th>DigitalOcean Dubai alt.</th></tr></thead>
+        <tbody>
+          <tr><td>10 (pilot)</td><td>t3.micro</td><td>db.t3.micro</td><td style="color:var(--green)">AED 37–55</td><td style="color:var(--green)">AED 22</td></tr>
+          <tr><td>50</td><td>t3.small</td><td>db.t3.small</td><td>AED 66–103</td><td>AED 44</td></tr>
+          <tr style="background:#eff4ff"><td><strong>100</strong></td><td>t3.small</td><td>db.t3.small</td><td style="color:#1570ef"><strong>AED 92–147</strong></td><td style="color:#1570ef"><strong>AED 88</strong></td></tr>
+          <tr><td>200</td><td>t3.medium</td><td>db.t3.medium</td><td>AED 165–257</td><td>AED 176</td></tr>
+          <tr><td>500</td><td>t3.medium</td><td>db.t3.large</td><td>AED 312–477</td><td>AED 352</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cl b">
+      <strong>Ask Teltonika this specific question:</strong> "For a production environment receiving FMC130 data via Codec 8 Extended — what AWS instance type and region do you recommend for Custom Platform hosting at 100 and 500 active devices?" They know the exact spec. The answer closes Open Item 02 completely.
+    </div>
+    <div class="cl w" style="margin-top:4px">
+      <strong>DigitalOcean is simpler and cheaper for early stage:</strong> AWS UAE region gives better data residency compliance, but DigitalOcean Dubai is significantly cheaper at low device counts (AED 88 vs AED 147 at 100 devices). Migrate to AWS when device count and compliance requirements demand it. Dev team to recommend based on architecture preference.
+    </div>
+  </div>
+  <div class="pf">Sources: AWS UAE region (ap-southeast-3) pricing · DigitalOcean Dubai pricing · June 2026</div>
+</section>
+
+<!-- P11 VERDICT -->
+<section class="panel" id="p10">
+  <div class="pm"><span class="pn">№10 / 11</span><span class="pt">The Verdict</span></div>
+  <div class="pb-body">
+    <div class="sl">Final recommendation</div>
+    <div class="verdict">
+      <div class="vi">◈</div>
+      <div>
+        <div class="vl">Recommendation</div>
+        <div class="vt">Build this. Four conditions below.</div>
+      </div>
+    </div>
+    <p>The three costs are confirmed and the model works. Device cost from real vendor quotes. SIM at AED 8.33/month confirmed from du. Development cost has two clear options with a decision rule. Annual upfront billing makes every device cash-positive from Day 1. At 424 devices, all fixed costs are covered — reachable by Month 13 on a conservative ramp from 10 existing vendor devices.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>#</th><th>Condition</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr>
+            <td style="color:var(--red);font-family:'IBM Plex Mono',monospace">01</td>
+            <td><strong>Annual upfront billing — non-negotiable</strong></td>
+            <td style="color:var(--muted2);font-size:.78rem">Every device is cash-positive from Day 1 only if client pays upfront. Monthly billing creates hardware debt. Minimum accepted: quarterly PDC cheques.</td>
+          </tr>
+          <tr>
+            <td style="color:var(--amber);font-family:'IBM Plex Mono',monospace">02</td>
+            <td><strong>Get formal quote from Location Solution Telematics (Wialon UAE reseller)</strong></td>
+            <td style="color:var(--muted2);font-size:.78rem">Location Solution Telematics is Wialon's UAE reseller for construction fleets — introduced directly by Wialon. Get per-device pricing at 50/200/500 units. Also confirm if they can be Kasper's SIRA-certified installation partner.</td>
+          </tr>
+          <tr>
+            <td style="color:#1570ef;font-family:'IBM Plex Mono',monospace">03</td>
+            <td><strong>Get Teltonika AWS environment recommendation</strong></td>
+            <td style="color:var(--muted2);font-size:.78rem">Wialon/Navixy need a test environment to confirm FMC130 data pull works before committing. Teltonika to advise on the correct AWS setup. This is the immediate technical blocker.</td>
+          </tr>
+          <tr>
+            <td style="color:var(--blue);font-family:'IBM Plex Mono',monospace">04</td>
+            <td><strong>Install 10 devices on existing vendors within 30 days of platform decision</strong></td>
+            <td style="color:var(--muted2);font-size:.78rem">The model starts from Day 1. Every month without devices deployed is a month of fixed costs with no revenue. Vendors are identified — move fast once platform is chosen.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:12px">
+      <div style="font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,4rem);font-weight:900;color:#1570ef;line-height:1">424 devices.</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--muted2);letter-spacing:.1em;text-transform:uppercase;margin-top:6px">Break-even · Month 13 · Starting from 10 · Self-funded through annual upfront billing</div>
+    </div>
+  </div>
+  <div class="pf" style="font-size:.6rem">
+    Hardware: FMC130 AED 161.48 · LVCAN200 AED 190.84 · ALLCAN300 AED 363.33 (vendor confirmed) · SIM: du AED 100/year/SIM confirmed · Platform: Wialon quote pending / Custom Build server AED 55/mo estimated · June 2026
+  </div>
+</section>
+
+<script>
+const panels=document.querySelectorAll('.panel');
+const dotsEl=document.getElementById('dots');
+const pb=document.getElementById('pb');
+panels.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='dot'+(i===0?' on':'');
+  d.addEventListener('click',()=>panels[i].scrollIntoView({behavior:'smooth'}));
+  dotsEl.appendChild(d);
+});
+const dots=document.querySelectorAll('.dot');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const idx=Array.from(panels).indexOf(e.target);
+      dots.forEach((d,i)=>d.classList.toggle('on',i===idx));
+      pb.style.width=((idx+1)/panels.length*100)+'%';
+    }
+  });
+},{threshold:0.5});
+panels.forEach(p=>obs.observe(p));
+let cur=0;
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'||e.key===' '){e.preventDefault();cur=Math.min(cur+1,panels.length-1);panels[cur].scrollIntoView({behavior:'smooth'});}
+  if(e.key==='ArrowUp'){e.preventDefault();cur=Math.max(cur-1,0);panels[cur].scrollIntoView({behavior:'smooth'});}
+});
+window.addEventListener('scroll',()=>{panels.forEach((p,i)=>{const r=p.getBoundingClientRect();if(r.top>=-100&&r.top<window.innerHeight/2)cur=i;});});
+</script>
+</body>
+</html>

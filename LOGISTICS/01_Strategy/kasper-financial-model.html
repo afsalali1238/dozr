@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasper Technologies — Financial Model</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050608;
+  --panel: #0a0b0e;
+  --panel2: #0e1014;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.12);
+  --text: #d8dce8;
+  --muted: #4a5068;
+  --muted2: #6b7494;
+  --accent: #f0f2ff;
+  --t1: #4ade80;
+  --t2: #fb923c;
+  --t3: #60a5fa;
+  --warn: #facc15;
+  --red: #f87171;
+  --highlight: #c8f542;
+  --mono: 'Space Mono', monospace;
+  --sans: 'Syne', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* GRID NOISE BACKGROUND */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 32px 24px 80px; }
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border2);
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.header-left h1 {
+  font-family: var(--sans);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.header-left p {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--muted2);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+.verdict-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border: 1px solid var(--highlight);
+  background: rgba(200,245,66,0.06);
+}
+
+.verdict-badge span:first-child {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--muted2);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.verdict-badge .verdict-val {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--highlight);
+}
+
+/* MAIN LAYOUT */
+.layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+/* CONTROLS PANEL */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: sticky;
+  top: 24px;
+}
+
+.ctrl-section {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 20px;
+}
+
+.ctrl-section-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.ctrl-group { margin-bottom: 16px; }
+.ctrl-group:last-child { margin-bottom: 0; }
+
+.ctrl-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.ctrl-label span:first-child {
+  font-size: 0.8rem;
+  color: var(--muted2);
+  font-weight: 600;
+}
+
+.ctrl-label .ctrl-val {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  background: var(--panel2);
+  border: 1px solid var(--border2);
+}
+
+.ctrl-label .ctrl-val.t1 { color: var(--t1); }
+.ctrl-label .ctrl-val.t2 { color: var(--t2); }
+.ctrl-label .ctrl-val.t3 { color: var(--t3); }
+.ctrl-label .ctrl-val.neutral { color: var(--accent); }
+.ctrl-label .ctrl-val.warn { color: var(--warn); }
+
+/* SLIDERS */
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 3px;
+  background: var(--border2);
+  outline: none;
+  cursor: pointer;
+}
+
+input[type=range].t1::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  background: var(--t1);
+  border-radius: 50%;
+  cursor: pointer;
+}
+input[type=range].t2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  background: var(--t2);
+  border-radius: 50%;
+  cursor: pointer;
+}
+input[type=range].t3::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  background: var(--t3);
+  border-radius: 50%;
+  cursor: pointer;
+}
+input[type=range].neutral::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+}
+input[type=range].warn::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  background: var(--warn);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* RIGHT PANEL */
+.results { display: flex; flex-direction: column; gap: 12px; }
+
+/* STAT ROW */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.stat-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 0.3s;
+}
+
+.stat-card.highlight-card { border-color: var(--highlight); }
+.stat-card.warn-card { border-color: var(--warn); }
+.stat-card.good-card { border-color: var(--t1); }
+.stat-card.bad-card { border-color: var(--red); }
+
+.stat-card .s-label {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.stat-card .s-val {
+  font-family: var(--sans);
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  transition: color 0.3s;
+}
+
+.s-val.green { color: var(--t1); }
+.s-val.orange { color: var(--t2); }
+.s-val.blue { color: var(--t3); }
+.s-val.yellow { color: var(--warn); }
+.s-val.red { color: var(--red); }
+.s-val.lime { color: var(--highlight); }
+.s-val.white { color: var(--accent); }
+
+/* TIER ECONOMICS CARDS */
+.tier-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.tier-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tier-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.tier-card.t1-card::before { background: var(--t1); }
+.tier-card.t2-card::before { background: var(--t2); }
+.tier-card.t3-card::before { background: var(--t3); }
+
+.tier-name {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.t1-card .tier-name { color: var(--t1); }
+.t2-card .tier-name { color: var(--t2); }
+.t3-card .tier-name { color: var(--t3); }
+
+.tier-price {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.tier-metrics { display: flex; flex-direction: column; gap: 8px; }
+
+.tier-metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.78rem;
+}
+
+.tier-metric:last-child { border-bottom: none; }
+
+.tier-metric .m-label { color: var(--muted2); }
+.tier-metric .m-val {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* MARGIN BAR */
+.margin-bar-wrap {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 20px;
+}
+
+.margin-bar-title {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.bar-group { margin-bottom: 14px; }
+.bar-group:last-child { margin-bottom: 0; }
+
+.bar-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 0.75rem;
+}
+
+.bar-label span:first-child { color: var(--muted2); }
+.bar-label .bar-pct { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; }
+
+.bar-track {
+  height: 6px;
+  background: var(--border2);
+  position: relative;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+}
+
+.bar-fill.t1 { background: var(--t1); }
+.bar-fill.t2 { background: var(--t2); }
+.bar-fill.t3 { background: var(--t3); }
+.bar-fill.y2 { background: var(--highlight); opacity: 0.7; }
+
+/* BREAK-EVEN RAMP */
+.ramp-wrap {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 20px;
+}
+
+.ramp-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.ramp-title span:first-child {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.ramp-title .be-month {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--highlight);
+  background: rgba(200,245,66,0.08);
+  padding: 3px 10px;
+  border: 1px solid rgba(200,245,66,0.2);
+}
+
+.chart-area {
+  position: relative;
+  height: 180px;
+  margin-top: 8px;
+}
+
+svg.ramp-chart {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* OPEX BREAKDOWN */
+.opex-wrap {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 20px;
+}
+
+.opex-title {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.opex-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.opex-col { display: flex; flex-direction: column; gap: 4px; }
+
+.opex-col-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border2);
+}
+
+.opex-col.t1-col .opex-col-label { color: var(--t1); }
+.opex-col.t2-col .opex-col-label { color: var(--t2); }
+.opex-col.t3-col .opex-col-label { color: var(--t3); }
+
+.opex-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.72rem;
+}
+
+.opex-item:last-child { border-bottom: none; font-weight: 700; }
+.opex-item span:first-child { color: var(--muted2); }
+.opex-item span:last-child {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--text);
+}
+.opex-item.total-row span:last-child { color: var(--warn); }
+
+/* SCENARIO BADGES */
+.scenario-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.scenario-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 16px;
+  text-align: center;
+}
+
+.scenario-card .sc-label {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.scenario-card .sc-month {
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.scenario-card .sc-devices {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--muted2);
+}
+
+.scenario-card.bull { border-top: 2px solid var(--t1); }
+.scenario-card.bull .sc-month { color: var(--t1); }
+.scenario-card.base { border-top: 2px solid var(--highlight); }
+.scenario-card.base .sc-month { color: var(--highlight); }
+.scenario-card.bear { border-top: 2px solid var(--red); }
+.scenario-card.bear .sc-month { color: var(--red); }
+
+/* RESET BTN */
+.reset-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--muted2);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 4px;
+}
+
+.reset-btn:hover {
+  border-color: var(--highlight);
+  color: var(--highlight);
+  background: rgba(200,245,66,0.05);
+}
+
+/* PULSE ANIMATION */
+@keyframes pulse-border {
+  0%, 100% { border-color: var(--border); }
+  50% { border-color: var(--highlight); }
+}
+
+.updating { animation: pulse-border 0.4s ease; }
+
+/* PAYBACK INDICATOR */
+.payback-row {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 8px;
+}
+
+.payback-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 16px;
+}
+
+.payback-card .p-label {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.payback-track {
+  height: 4px;
+  background: var(--border2);
+  margin: 8px 0;
+  position: relative;
+}
+
+.payback-fill {
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
+.payback-fill.t1 { background: var(--t1); }
+.payback-fill.t2 { background: var(--t2); }
+.payback-fill.t3 { background: var(--t3); }
+
+.payback-nums {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+}
+
+.payback-nums .pb-val { font-weight: 700; }
+.payback-nums .pb-sub { color: var(--muted2); }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .layout { grid-template-columns: 1fr; }
+  .controls { position: static; }
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .tier-row, .scenario-row, .payback-row, .opex-grid { grid-template-columns: 1fr; }
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <h1>Kasper Technologies<br>Financial Model</h1>
+      <p>Interactive · Telematics SaaS · UAE · SIM: du M2M AED 10/device · AED 100/year confirmed</p>
+    </div>
+    <div class="verdict-badge">
+      <span>Verdict</span>
+      <span class="verdict-val" id="verdict-text">Conditional Go ◈</span>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <!-- CONTROLS -->
+    <div class="controls">
+
+      <!-- PRICING -->
+      <div class="ctrl-section">
+        <div class="ctrl-section-label">SaaS Pricing / Device / Month</div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <span>Tier 1 — FMC130 Only</span>
+            <span class="ctrl-val t1" id="lbl-p1">AED 60</span>
+          </div>
+          <input type="range" class="t1" id="price-t1" min="40" max="120" step="5" value="60">
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <span>Tier 2 — LVCAN200</span>
+            <span class="ctrl-val t2" id="lbl-p2">AED 80</span>
+          </div>
+          <input type="range" class="t2" id="price-t2" min="60" max="160" step="5" value="80">
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <span>Tier 3 — ALLCAN300</span>
+            <span class="ctrl-val t3" id="lbl-p3">AED 110</span>
+          </div>
+          <input type="range" class="t3" id="price-t3" min="80" max="200" step="5" value="110">
+        </div>
+      </div>
+
+      <!-- FLEET MIX -->
+      <div class="ctrl-section">
+        <div class="ctrl-section-label">Fleet Mix % (must total 100)</div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <span>Tier 1 share</span>
+            <span class="ctrl-val t1" id="lbl-m1">30%</span>
+          </div>
+          <input type="range" class="t1" id="mix-t1" min="0" max="100" step="5" value="30">
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <span>Tier 2 share</span>
+            <span class="ctrl-val t2" id="lbl-m2">40%</span>
+          </div>
+          <input type="range" class="t2" id="mix-t2" min="0" max="100" step="5" value="40">
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <span>Tier 3 share (auto)</span>
+            <span class="ctrl-val t3" id="lbl-m3">30%</span>
+          </div>
+          <input type="range" class="t3" id="mix-t3" min="0" max="100" step="5" value="30" disabled style="opacity:0.4">
+        </div>
+
+        <div style="font-family:var(--mono);font-size:0.6rem;color:var(--muted2);margin-top:8px;">
+          Tier 3 = 100 − T1 − T2 (auto-calculated)
+        </div>
+      </div>
+
+      <!-- COST INPUTS -->
+      <div class="ctrl-section">
+        <div class="ctrl-section-label">Hardware Capex / Unit (AED)</div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <span>Tier 1 hardware + accessories</span>
+            <span class="ctrl-val t1" id="lbl-hw1">AED 203</span>
+          </div>
+          <input type="range" class="t1" id="hw-t1" min="150" max="350" step="5" value="203">
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <span>Tier 2 hardware + accessories</span>
+            <span class="ctrl-val t2" id="lbl-hw2">AED 406</span>
+          </div>
+          <input type="range" class="t2" id="hw-t2" min="300" max="700" step="10" value="406">
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <span>Tier 3 hardware + accessories</span>
+            <span class="ctrl-val t3" id="lbl-hw3">AED 589</span>
+          </div>
+          <input type="range" class="t3" id="hw-t3" min="400" max="900" step="10" value="589">
+        </div>
+      </div>
+
+      <!-- FIXED COSTS -->
+      <div class="ctrl-section">
+        <div class="ctrl-section-label">Fixed Monthly Costs (AED)</div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <span>Salaries (all staff)</span>
+            <span class="ctrl-val neutral" id="lbl-sal">AED 16,000</span>
+          </div>
+          <input type="range" class="neutral" id="fix-sal" min="6000" max="40000" step="1000" value="16000">
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <span>Office / Office<br>co-working</span>
+            <span class="ctrl-val neutral" id="lbl-off">AED 1,333</span>
+          </div>
+          <input type="range" class="neutral" id="fix-off" min="500" max="5000" step="100" value="1333">
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <span>Platform base (Wialon/Navixy)</span>
+            <span class="ctrl-val neutral" id="lbl-plat">AED 800</span>
+          </div>
+          <input type="range" class="neutral" id="fix-plat" min="300" max="3000" step="100" value="800">
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <span>Overheads (legal, accounting, misc)</span>
+            <span class="ctrl-val neutral" id="lbl-oh">AED 2,200</span>
+          </div>
+          <input type="range" class="neutral" id="fix-oh" min="500" max="6000" step="100" value="2200">
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid var(--border2);margin-top:4px;">
+          <span style="font-size:0.75rem;color:var(--muted2);">Total Fixed / Month</span>
+          <span class="ctrl-val warn" id="lbl-fixed-total" style="font-family:var(--mono);font-size:0.8rem;font-weight:700;color:var(--warn);">AED 20,333</span>
+        </div>
+      </div>
+
+      <!-- RAMP -->
+      <div class="ctrl-section">
+        <div class="ctrl-section-label">Growth Ramp</div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <span>Month 1 devices (launch)</span>
+            <span class="ctrl-val neutral" id="lbl-m1d">40</span>
+          </div>
+          <input type="range" class="neutral" id="ramp-start" min="10" max="100" step="5" value="40">
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <span>New devices / month</span>
+            <span class="ctrl-val neutral" id="lbl-growth">35</span>
+          </div>
+          <input type="range" class="neutral" id="ramp-growth" min="5" max="100" step="5" value="35">
+        </div>
+
+        
+        </div>
+      </div>
+
+      <button class="reset-btn" onclick="resetAll()">↺ Reset to defaults</button>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results">
+
+      <!-- TOP STATS -->
+      <div class="stat-row">
+        <div class="stat-card" id="card-be">
+          <div class="s-label">Break-Even<br>Device Count</div>
+          <div class="s-val lime" id="stat-be">385</div>
+        </div>
+        <div class="stat-card">
+          <div class="s-label">Break-Even<br>Monthly ARR</div>
+          <div class="s-val white" id="stat-be-arr">AED 28,875</div>
+        </div>
+        <div class="stat-card">
+          <div class="s-label">Blended Revenue<br>/ Device / Mo</div>
+          <div class="s-val yellow" id="stat-blend">AED 98</div>
+        </div>
+        <div class="stat-card">
+          <div class="s-label">Month 12<br>Fleet Size</div>
+          <div class="s-val white" id="stat-m12">425</div>
+        </div>
+      </div>
+
+      <!-- TIER CARDS -->
+      <div class="tier-row">
+        <div class="tier-card t1-card">
+          <div class="tier-name">Tier 1 · FMC130 Only</div>
+          <div class="tier-price" id="tc-p1">AED 60</div>
+          <div class="tier-metrics">
+            <div class="tier-metric">
+              <span class="m-label">Opex / mo (Y1)</span>
+              <span class="m-val" id="tc-opex1" style="color:var(--warn)">AED 45.28</span>
+            </div>
+            <div class="tier-metric">
+              <span class="m-label">Gross profit / mo (Y1)</span>
+              <span class="m-val" id="tc-gp1" style="color:var(--t1)">AED 14.72</span>
+            </div>
+            <div class="tier-metric">
+              <span class="m-label">GM % Year 1</span>
+              <span class="m-val" id="tc-gm1y1" style="color:var(--t1)">24.5%</span>
+            </div>
+            <div class="tier-metric">
+              <span class="m-label">GM % Year 2+</span>
+              <span class="m-val" id="tc-gm1y2" style="color:#1570ef">66.7%</span>
+            </div>
+            <div class="tier-metric">
+              <span class="m-label">Net contrib / 12mo</span>
+              <span class="m-val" id="tc-nc1" style="color:var(--t1)">AED 327</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tier-card t2-card">
+          <div class="tier-name">Tier 2 · LVCAN200</div>
+          <div class="tier-price" id="tc-p2">AED 80</div>
+          <div class="tier-metrics">
+            <div class="tier-metric">
+              <span class="m-label">Opex / mo (Y1)</span>
+              <span class="m-val" id="tc-opex2" style="color:var(--warn)">AED 70.31</span>
+            </div>
+            <div class="tier-metric">
+              <span class="m-label">Gross profit / mo (Y1)</span>
+              <span class="m-val" id="tc-gp2" style="color:var(--t2)">AED 14.69</span>
+            </div>
+            <div class="tier-metric">
+              <span class="m-label">GM % Year 1</span>
+              <span class="m-val" id="tc-gm2y1" style="color:var(--t2)">17.3%</span>
+            </div>
+            <div class="tier-metric">
+              <span class="m-label">GM % Year 2+</span>
+              <span class="m-val" id="tc-gm2y2" style="color:#1570ef">71.8%</span>
+            </div>
+            <div class="tier-metric">
+              <span class="m-label">Net contrib / 12mo</span>
+              <span class="m-val" id="tc-nc2" style="color:var(--t2)">AED 326</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tier-card t3-card">
+          <div class="tier-name">Tier 3 · ALLCAN300</div>
+          <div class="tier-price" id="tc-p3">AED 110</div>
+          <div class="tier-metrics">
+            <div class="tier-metric">
+              <span class="m-label">Opex / mo (Y1)</span>
+              <span class="m-val" id="tc-opex3" style="color:var(--warn)">AED 97.89</span>
+            </div>
+            <div class="tier-metric">
+              <span class="m-label">Gross profit / mo (Y1)</span>
+              <span class="m-val" id="tc-gp3" style="color:var(--t3)">AED 12.11</span>
+            </div>
+            <div class="tier-metric">
+              <span class="m-label">GM % Year 1</span>
+              <span class="m-val" id="tc-gm3y1" style="color:var(--t3)">11.0%</span>
+            </div>
+            <div class="tier-metric">
+              <span class="m-label">GM % Year 2+</span>
+              <span class="m-val" id="tc-gm3y2" style="color:#1570ef">74.5%</span>
+            </div>
+            <div class="tier-metric">
+              <span class="m-label">Net contrib / 12mo</span>
+              <span class="m-val" id="tc-nc3" style="color:var(--t3)">AED 295</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MARGIN BARS -->
+      <div class="margin-bar-wrap">
+        <div class="margin-bar-title">Gross Margin Comparison — Year 1 vs Year 2+</div>
+        <div class="bar-group">
+          <div class="bar-label">
+            <span>Tier 1 · FMC130 · Year 1</span>
+            <span class="bar-pct t1" id="bar-lbl-t1y1">24.5%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill t1" id="bar-t1y1" style="width:24.5%"></div></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-label">
+            <span>Tier 1 · FMC130 · Year 2+</span>
+            <span class="bar-pct" id="bar-lbl-t1y2" style="color:#1570ef">66.7%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill y2" id="bar-t1y2" style="width:66.7%"></div></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-label">
+            <span>Tier 2 · LVCAN200 · Year 1</span>
+            <span class="bar-pct t2" id="bar-lbl-t2y1">17.3%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill t2" id="bar-t2y1" style="width:17.3%"></div></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-label">
+            <span>Tier 2 · LVCAN200 · Year 2+</span>
+            <span class="bar-pct" id="bar-lbl-t2y2" style="color:#1570ef">71.8%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill y2" id="bar-t2y2" style="width:71.8%"></div></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-label">
+            <span>Tier 3 · ALLCAN300 · Year 1</span>
+            <span class="bar-pct t3" id="bar-lbl-t3y1">11.0%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill t3" id="bar-t3y1" style="width:11%"></div></div>
+        </div>
+        <div class="bar-group" style="margin-bottom:0">
+          <div class="bar-label">
+            <span>Tier 3 · ALLCAN300 · Year 2+</span>
+            <span class="bar-pct" id="bar-lbl-t3y2" style="color:#1570ef">74.5%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill y2" id="bar-t3y2" style="width:74.5%"></div></div>
+        </div>
+      </div>
+
+      <!-- PAYBACK PERIODS -->
+      <div class="payback-row">
+        <div class="payback-card">
+          <div class="p-label">Tier 1 — Payback Period</div>
+          <div class="payback-track"><div class="payback-fill t1" id="pb-bar1" style="width:42%"></div></div>
+          <div class="payback-nums">
+            <span class="pb-val t1" id="pb-val1" style="color:var(--t1)">5.1 months</span>
+            <span class="pb-sub">/ 12mo contract</span>
+          </div>
+        </div>
+        <div class="payback-card">
+          <div class="p-label">Tier 2 — Payback Period</div>
+          <div class="payback-track"><div class="payback-fill t2" id="pb-bar2" style="width:55%"></div></div>
+          <div class="payback-nums">
+            <span class="pb-val t2" id="pb-val2" style="color:var(--t2)">6.7 months</span>
+            <span class="pb-sub">/ 12mo contract</span>
+          </div>
+        </div>
+        <div class="payback-card">
+          <div class="p-label">Tier 3 — Payback Period</div>
+          <div class="payback-track"><div class="payback-fill t3" id="pb-bar3" style="width:60%"></div></div>
+          <div class="payback-nums">
+            <span class="pb-val t3" id="pb-val3" style="color:var(--t3)">7.2 months</span>
+            <span class="pb-sub">/ 12mo contract</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BREAK-EVEN RAMP CHART -->
+      <div class="ramp-wrap">
+        <div class="ramp-title">
+          <span>Revenue Ramp vs Fixed Costs — 12 Month View</span>
+          <span class="be-month" id="be-month-badge">Break-even: Month 11</span>
+        </div>
+        <div class="chart-area">
+          <svg class="ramp-chart" id="ramp-svg" viewBox="0 0 800 180" preserveAspectRatio="none"></svg>
+        </div>
+        <div style="display:flex;gap:20px;margin-top:12px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:0.6rem;color:var(--muted2);">
+            <div style="width:20px;height:2px;background:var(--highlight)"></div> Monthly Revenue
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:0.6rem;color:var(--muted2);">
+            <div style="width:20px;height:2px;background:var(--red);border-top:2px dashed var(--red)"></div> Fixed Cost Line
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:0.6rem;color:var(--muted2);">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--highlight)"></div> Break-even point
+          </div>
+        </div>
+      </div>
+
+      <!-- OPEX BREAKDOWN -->
+      <div class="opex-wrap">
+        <div class="opex-title">Monthly Opex Stack per Device — Year 1 (MOQ 50)</div>
+        <div class="opex-grid">
+          <div class="opex-col t1-col">
+            <div class="opex-col-label">Tier 1 — FMC130</div>
+            <div class="opex-item"><span>SIM (du M2M)</span><span>AED 10.00</span></div>
+            <div class="opex-item"><span>Platform (Wialon)</span><span>AED 5.50</span></div>
+            <div class="opex-item"><span>HW amort (÷12)</span><span id="oe-hw1">AED 16.92</span></div>
+            <div class="opex-item"><span>Install amort (÷12)</span><span>AED 8.33</span></div>
+            <div class="opex-item"><span>Support & reserve</span><span>AED 5.00</span></div>
+            <div class="opex-item total-row"><span>Total Y1</span><span id="oe-tot1">AED 45.25</span></div>
+          </div>
+          <div class="opex-col t2-col">
+            <div class="opex-col-label">Tier 2 — LVCAN200</div>
+            <div class="opex-item"><span>SIM (du M2M)</span><span>AED 10.00</span></div>
+            <div class="opex-item"><span>Platform (Wialon)</span><span>AED 5.50</span></div>
+            <div class="opex-item"><span>HW amort (÷12)</span><span id="oe-hw2">AED 33.83</span></div>
+            <div class="opex-item"><span>Install amort (÷12)</span><span>AED 12.50</span></div>
+            <div class="opex-item"><span>Support & reserve</span><span>AED 6.50</span></div>
+            <div class="opex-item total-row"><span>Total Y1</span><span id="oe-tot2">AED 70.33</span></div>
+          </div>
+          <div class="opex-col t3-col">
+            <div class="opex-col-label">Tier 3 — ALLCAN300</div>
+            <div class="opex-item"><span>SIM (du M2M)</span><span>AED 10.00</span></div>
+            <div class="opex-item"><span>Platform (Wialon)</span><span>AED 5.50</span></div>
+            <div class="opex-item"><span>HW amort (÷12)</span><span id="oe-hw3">AED 49.08</span></div>
+            <div class="opex-item"><span>Install amort (÷12)</span><span>AED 20.83</span></div>
+            <div class="opex-item"><span>Support & reserve</span><span>AED 7.50</span></div>
+            <div class="opex-item total-row"><span>Total Y1</span><span id="oe-tot3">AED 97.91</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENARIOS -->
+      <div class="scenario-row">
+        <div class="scenario-card bull">
+          <div class="sc-label">Bull Case</div>
+          <div class="sc-month" id="sc-bull">Mo 8</div>
+          <div class="sc-devices" id="sc-bull-d">600 devices M12</div>
+        </div>
+        <div class="scenario-card base">
+          <div class="sc-label">Base Case</div>
+          <div class="sc-month" id="sc-base">Mo 11</div>
+          <div class="sc-devices" id="sc-base-d">400 devices M12</div>
+        </div>
+        <div class="scenario-card bear">
+          <div class="sc-label">Bear Case</div>
+          <div class="sc-month" id="sc-bear">Mo 22</div>
+          <div class="sc-devices" id="sc-bear-d">150 devices M12</div>
+        </div>
+      </div>
+
+    </div><!-- /results -->
+  </div><!-- /layout -->
+</div><!-- /app -->
+
+<script>
+// ─── CONSTANTS ───────────────────────────────────────────────────
+const SIM = { t1: 10.00, t2: 10.00, t3: 10.00 }; // du M2M IoT — AED 100/year confirmed · modelled at AED 10
+const PLATFORM = 5.50;
+const SUPPORT = { t1: 5.00, t2: 6.50, t3: 7.50 };
+const INSTALL = { t1: 100, t2: 150, t3: 250 };
+
+const DEFAULTS = {
+  p1: 60, p2: 80, p3: 110,
+  m1: 30, m2: 40,
+  hw1: 203, hw2: 408, hw3: 591,
+  sal: 16000, off: 1333, plat: 800, oh: 2200,
+  rampStart: 40, rampGrowth: 35,
+  installation charge: 0
+};
+
+function fmt(n, prefix='AED ') { return prefix + Math.round(n).toLocaleString(); }
+function fmtPct(n) { return n.toFixed(1) + '%'; }
+function fmtMo(n) { return n > 24 ? '>24 mo' : 'Mo ' + Math.round(n); }
+
+function getVals() {
+  const m1 = +document.getElementById('mix-t1').value;
+  const m2 = +document.getElementById('mix-t2').value;
+  const m3 = Math.max(0, 100 - m1 - m2);
+  return {
+    p1: +document.getElementById('price-t1').value,
+    p2: +document.getElementById('price-t2').value,
+    p3: +document.getElementById('price-t3').value,
+    m1: m1/100, m2: m2/100, m3: m3/100,
+    hw1: +document.getElementById('hw-t1').value,
+    hw2: +document.getElementById('hw-t2').value,
+    hw3: +document.getElementById('hw-t3').value,
+    sal: +document.getElementById('fix-sal').value,
+    off: +document.getElementById('fix-off').value,
+    plat: +document.getElementById('fix-plat').value,
+    oh: +document.getElementById('fix-oh').value,
+    rampStart: +document.getElementById('ramp-start').value,
+    rampGrowth: +document.getElementById('ramp-growth').value,
+    installation charge: +document.getElementById('installation charge').value,
+  };
+}
+
+function calcOpex(hw, install, sim, support) {
+  const hwAmort = hw / 12;
+  const installAmort = install / 12;
+  return {
+    y1: sim + PLATFORM + hwAmort + installAmort + support,
+    y2: sim + PLATFORM + support,
+    hwAmort
+  };
+}
+
+function calcPayback(hw, install, price, sim, support) {
+  const totalCapex = hw + install;
+  const monthlyContrib = price - (sim + PLATFORM + support);
+  if (monthlyContrib <= 0) return 999;
+  return totalCapex / monthlyContrib;
+}
+
+function calcBreakEven(fixedTotal, blendedRevenue, blendedOpexY2) {
+  const contribMargin = blendedRevenue - blendedOpexY2;
+  if (contribMargin <= 0) return 9999;
+  return fixedTotal / contribMargin;
+}
+
+function breakEvenMonth(beDevices, rampStart, rampGrowth) {
+  for (let mo = 1; mo <= 36; mo++) {
+    const devices = rampStart + (mo - 1) * rampGrowth;
+    if (devices >= beDevices) return mo;
+  }
+  return 37;
+}
+
+function update() {
+  const v = getVals();
+  const m3 = Math.max(0, 100 - (+document.getElementById('mix-t1').value) - (+document.getElementById('mix-t2').value));
+
+  // Labels
+  document.getElementById('lbl-p1').textContent = 'AED ' + v.p1;
+  document.getElementById('lbl-p2').textContent = 'AED ' + v.p2;
+  document.getElementById('lbl-p3').textContent = 'AED ' + v.p3;
+  document.getElementById('lbl-m1').textContent = Math.round(v.m1*100) + '%';
+  document.getElementById('lbl-m2').textContent = Math.round(v.m2*100) + '%';
+  document.getElementById('lbl-m3').textContent = m3 + '%';
+  document.getElementById('mix-t3').value = m3;
+  document.getElementById('lbl-hw1').textContent = 'AED ' + v.hw1;
+  document.getElementById('lbl-hw2').textContent = 'AED ' + v.hw2;
+  document.getElementById('lbl-hw3').textContent = 'AED ' + v.hw3;
+  document.getElementById('lbl-sal').textContent = 'AED ' + v.sal.toLocaleString();
+  document.getElementById('lbl-off').textContent = 'AED ' + v.off.toLocaleString();
+  document.getElementById('lbl-plat').textContent = 'AED ' + v.plat.toLocaleString();
+  document.getElementById('lbl-oh').textContent = 'AED ' + v.oh.toLocaleString();
+  document.getElementById('lbl-m1d').textContent = v.rampStart;
+  document.getElementById('lbl-growth').textContent = v.rampGrowth;
+  // installation charge removed
+
+  const fixedTotal = v.sal + v.off + v.plat + v.oh;
+  document.getElementById('lbl-fixed-total').textContent = 'AED ' + fixedTotal.toLocaleString();
+
+  // Per-tier opex
+  const o1 = calcOpex(v.hw1, INSTALL.t1, SIM.t1, SUPPORT.t1);
+  const o2 = calcOpex(v.hw2, INSTALL.t2, SIM.t2, SUPPORT.t2);
+  const o3 = calcOpex(v.hw3, INSTALL.t3, SIM.t3, SUPPORT.t3);
+
+  const gp1y1 = v.p1 - o1.y1; const gm1y1 = (gp1y1/v.p1)*100;
+  const gp2y1 = v.p2 - o2.y1; const gm2y1 = (gp2y1/v.p2)*100;
+  const gp3y1 = v.p3 - o3.y1; const gm3y1 = (gp3y1/v.p3)*100;
+  const gm1y2 = ((v.p1 - o1.y2)/v.p1)*100;
+  const gm2y2 = ((v.p2 - o2.y2)/v.p2)*100;
+  const gm3y2 = ((v.p3 - o3.y2)/v.p3)*100;
+
+  // Net contribution over 12 months
+  const nc1 = (v.p1 * 12) + v.installation charge - v.hw1 - INSTALL.t1 - (o1.y2 * 12);
+  const nc2 = (v.p2 * 12) + v.installation charge - v.hw2 - INSTALL.t2 - (o2.y2 * 12);
+  const nc3 = (v.p3 * 12) + v.installation charge - v.hw3 - INSTALL.t3 - (o3.y2 * 12);
+
+  // Payback
+  const pb1 = calcPayback(v.hw1, INSTALL.t1, v.p1, SIM.t1, SUPPORT.t1);
+  const pb2 = calcPayback(v.hw2, INSTALL.t2, v.p2, SIM.t2, SUPPORT.t2);
+  const pb3 = calcPayback(v.hw3, INSTALL.t3, v.p3, SIM.t3, SUPPORT.t3);
+
+  // Blended
+  const blendedRev = v.p1 * v.m1 + v.p2 * v.m2 + v.p3 * (m3/100);
+  const blendedOpexY2 = o1.y2 * v.m1 + o2.y2 * v.m2 + o3.y2 * (m3/100);
+  const beDevices = calcBreakEven(fixedTotal, blendedRev, blendedOpexY2);
+  const beArr = beDevices * blendedRev;
+
+  // Break-even month (base)
+  const beMonth = breakEvenMonth(beDevices, v.rampStart, v.rampGrowth);
+  const beBullMonth = breakEvenMonth(beDevices, v.rampStart, v.rampGrowth * 1.7);
+  const beBearMonth = breakEvenMonth(beDevices, v.rampStart, v.rampGrowth * 0.45);
+  const m12Base = v.rampStart + 11 * v.rampGrowth;
+  const m12Bull = Math.round(v.rampStart + 11 * v.rampGrowth * 1.7);
+  const m12Bear = Math.round(v.rampStart + 11 * v.rampGrowth * 0.45);
+
+  // ── UPDATE DOM ──
+
+  // Tier cards
+  document.getElementById('tc-p1').textContent = 'AED ' + v.p1;
+  document.getElementById('tc-p2').textContent = 'AED ' + v.p2;
+  document.getElementById('tc-p3').textContent = 'AED ' + v.p3;
+  document.getElementById('tc-opex1').textContent = 'AED ' + o1.y1.toFixed(2);
+  document.getElementById('tc-opex2').textContent = 'AED ' + o2.y1.toFixed(2);
+  document.getElementById('tc-opex3').textContent = 'AED ' + o3.y1.toFixed(2);
+  document.getElementById('tc-gp1').textContent = 'AED ' + gp1y1.toFixed(2);
+  document.getElementById('tc-gp2').textContent = 'AED ' + gp2y1.toFixed(2);
+  document.getElementById('tc-gp3').textContent = 'AED ' + gp3y1.toFixed(2);
+  document.getElementById('tc-gm1y1').textContent = fmtPct(gm1y1);
+  document.getElementById('tc-gm2y1').textContent = fmtPct(gm2y1);
+  document.getElementById('tc-gm3y1').textContent = fmtPct(gm3y1);
+  document.getElementById('tc-gm1y2').textContent = fmtPct(gm1y2);
+  document.getElementById('tc-gm2y2').textContent = fmtPct(gm2y2);
+  document.getElementById('tc-gm3y2').textContent = fmtPct(gm3y2);
+  document.getElementById('tc-nc1').textContent = fmt(nc1);
+  document.getElementById('tc-nc2').textContent = fmt(nc2);
+  document.getElementById('tc-nc3').textContent = fmt(nc3);
+
+  // Colour GM values red if negative
+  ['tc-gp1','tc-gm1y1'].forEach(id => {
+    document.getElementById(id).style.color = gp1y1 < 0 ? 'var(--red)' : 'var(--t1)';
+  });
+  ['tc-gp2','tc-gm2y1'].forEach(id => {
+    document.getElementById(id).style.color = gp2y1 < 0 ? 'var(--red)' : 'var(--t2)';
+  });
+  ['tc-gp3','tc-gm3y1'].forEach(id => {
+    document.getElementById(id).style.color = gp3y1 < 0 ? 'var(--red)' : 'var(--t3)';
+  });
+
+  // Top stats
+  document.getElementById('stat-be').textContent = Math.round(beDevices);
+  document.getElementById('stat-be').style.color = beDevices < 200 ? 'var(--t1)' : beDevices > 500 ? 'var(--red)' : 'var(--highlight)';
+  document.getElementById('stat-be-arr').textContent = fmt(beArr);
+  document.getElementById('stat-blend').textContent = 'AED ' + Math.round(blendedRev);
+  document.getElementById('stat-m12').textContent = m12Base;
+
+  // Margin bars
+  const clamp = (v, mn, mx) => Math.max(mn, Math.min(mx, v));
+  document.getElementById('bar-t1y1').style.width = clamp(gm1y1,0,100) + '%';
+  document.getElementById('bar-t1y2').style.width = clamp(gm1y2,0,100) + '%';
+  document.getElementById('bar-t2y1').style.width = clamp(gm2y1,0,100) + '%';
+  document.getElementById('bar-t2y2').style.width = clamp(gm2y2,0,100) + '%';
+  document.getElementById('bar-t3y1').style.width = clamp(gm3y1,0,100) + '%';
+  document.getElementById('bar-t3y2').style.width = clamp(gm3y2,0,100) + '%';
+  document.getElementById('bar-lbl-t1y1').textContent = fmtPct(gm1y1);
+  document.getElementById('bar-lbl-t1y2').textContent = fmtPct(gm1y2);
+  document.getElementById('bar-lbl-t2y1').textContent = fmtPct(gm2y1);
+  document.getElementById('bar-lbl-t2y2').textContent = fmtPct(gm2y2);
+  document.getElementById('bar-lbl-t3y1').textContent = fmtPct(gm3y1);
+  document.getElementById('bar-lbl-t3y2').textContent = fmtPct(gm3y2);
+
+  // Payback
+  const pbPct = (mo) => clamp((mo/12)*100, 0, 100);
+  document.getElementById('pb-val1').textContent = pb1 > 12 ? '>12 months' : pb1.toFixed(1) + ' months';
+  document.getElementById('pb-val2').textContent = pb2 > 12 ? '>12 months' : pb2.toFixed(1) + ' months';
+  document.getElementById('pb-val3').textContent = pb3 > 12 ? '>12 months' : pb3.toFixed(1) + ' months';
+  document.getElementById('pb-bar1').style.width = pbPct(pb1) + '%';
+  document.getElementById('pb-bar2').style.width = pbPct(pb2) + '%';
+  document.getElementById('pb-bar3').style.width = pbPct(pb3) + '%';
+
+  // Opex breakdown update (hw amort changes)
+  document.getElementById('oe-hw1').textContent = 'AED ' + (v.hw1/12).toFixed(2);
+  document.getElementById('oe-hw2').textContent = 'AED ' + (v.hw2/12).toFixed(2);
+  document.getElementById('oe-hw3').textContent = 'AED ' + (v.hw3/12).toFixed(2);
+  document.getElementById('oe-tot1').textContent = 'AED ' + o1.y1.toFixed(2);
+  document.getElementById('oe-tot2').textContent = 'AED ' + o2.y1.toFixed(2);
+  document.getElementById('oe-tot3').textContent = 'AED ' + o3.y1.toFixed(2);
+
+  // Break-even badge
+  document.getElementById('be-month-badge').textContent = beMonth > 36 ? 'Break-even: >36 mo' : 'Break-even: Month ' + beMonth;
+
+  // Scenarios
+  document.getElementById('sc-bull').textContent = beBullMonth > 24 ? '>24 mo' : 'Mo ' + beBullMonth;
+  document.getElementById('sc-base').textContent = beMonth > 24 ? '>24 mo' : 'Mo ' + beMonth;
+  document.getElementById('sc-bear').textContent = beBearMonth > 36 ? '>36 mo' : 'Mo ' + beBearMonth;
+  document.getElementById('sc-bull-d').textContent = m12Bull + ' devices M12';
+  document.getElementById('sc-base-d').textContent = m12Base + ' devices M12';
+  document.getElementById('sc-bear-d').textContent = m12Bear + ' devices M12';
+
+  // Verdict
+  const verdictEl = document.getElementById('verdict-text');
+  if (beDevices < 150) { verdictEl.textContent = 'Strong Go ✓'; verdictEl.style.color = 'var(--t1)'; }
+  else if (beDevices < 400) { verdictEl.textContent = 'Conditional Go ◈'; verdictEl.style.color = 'var(--highlight)'; }
+  else if (beDevices < 700) { verdictEl.textContent = 'Marginal ⚠'; verdictEl.style.color = 'var(--warn)'; }
+  else { verdictEl.textContent = 'Reconsider ✗'; verdictEl.style.color = 'var(--red)'; }
+
+  // ── RAMP CHART ──
+  drawRampChart(v, blendedRev, fixedTotal, beDevices);
+}
+
+function drawRampChart(v, blendedRev, fixedTotal, beDevices) {
+  const svg = document.getElementById('ramp-svg');
+  const W = 800, H = 180, PAD = { t: 10, r: 20, b: 30, l: 50 };
+  const months = 14;
+  const chartW = W - PAD.l - PAD.r;
+  const chartH = H - PAD.t - PAD.b;
+
+  // Calculate revenue per month
+  const revenues = [];
+  for (let mo = 1; mo <= months; mo++) {
+    const devices = v.rampStart + (mo-1) * v.rampGrowth;
+    revenues.push(devices * blendedRev);
+  }
+
+  const maxVal = Math.max(...revenues, fixedTotal * 1.5);
+  const xScale = (mo) => PAD.l + (mo / (months-1)) * chartW;
+  const yScale = (val) => PAD.t + chartH - (val / maxVal) * chartH;
+
+  // Find break-even point precisely
+  let beX = null, beY = null;
+  for (let mo = 0; mo < months - 1; mo++) {
+    if (revenues[mo] < fixedTotal && revenues[mo+1] >= fixedTotal) {
+      const t = (fixedTotal - revenues[mo]) / (revenues[mo+1] - revenues[mo]);
+      beX = xScale(mo + t);
+      beY = yScale(fixedTotal);
+    }
+  }
+
+  // Revenue area path
+  let areaPath = `M ${xScale(0)} ${yScale(0)}`;
+  revenues.forEach((r, i) => { areaPath += ` L ${xScale(i)} ${yScale(r)}`; });
+  areaPath += ` L ${xScale(months-1)} ${H - PAD.b} L ${xScale(0)} ${H - PAD.b} Z`;
+
+  // Revenue line
+  let linePath = `M ${xScale(0)} ${yScale(revenues[0])}`;
+  revenues.forEach((r, i) => { if(i > 0) linePath += ` L ${xScale(i)} ${yScale(r)}`; });
+
+  // Fixed cost line
+  const fcY = yScale(fixedTotal);
+  const fixedLinePath = `M ${xScale(0)} ${fcY} L ${xScale(months-1)} ${fcY}`;
+
+  // Y-axis labels
+  const yLabels = [0, 0.25, 0.5, 0.75, 1].map(t => ({
+    val: maxVal * t,
+    y: yScale(maxVal * t)
+  }));
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#c8f542" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#c8f542" stop-opacity="0.02"/>
+      </linearGradient>
+      <linearGradient id="revGrad2" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#f87171" stop-opacity="0.1"/>
+        <stop offset="100%" stop-color="#f87171" stop-opacity="0.02"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Grid lines -->
+    ${yLabels.map(l => `
+      <line x1="${PAD.l}" y1="${l.y}" x2="${W - PAD.r}" y2="${l.y}"
+        stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <text x="${PAD.l - 6}" y="${l.y + 4}" fill="#4a5068" 
+        font-family="'Space Mono', monospace" font-size="9" text-anchor="end">
+        ${l.val >= 1000 ? Math.round(l.val/1000) + 'K' : Math.round(l.val)}
+      </text>
+    `).join('')}
+
+    <!-- Revenue area -->
+    <path d="${areaPath}" fill="url(#revGrad)"/>
+
+    <!-- Revenue line -->
+    <path d="${linePath}" fill="none" stroke="#c8f542" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Fixed cost area (above line) -->
+    ${fcY > PAD.t ? `<rect x="${PAD.l}" y="${PAD.t}" width="${chartW}" height="${fcY - PAD.t}"
+      fill="url(#revGrad2)" opacity="0.5"/>` : ''}
+
+    <!-- Fixed cost dashed line -->
+    <path d="${fixedLinePath}" fill="none" stroke="#f87171" stroke-width="1.5"
+      stroke-dasharray="6 4" opacity="0.7"/>
+
+    <!-- Fixed cost label -->
+    <text x="${PAD.l + 8}" y="${fcY - 6}" fill="#f87171"
+      font-family="'Space Mono', monospace" font-size="8">
+      Fixed AED ${Math.round(fixedTotal/1000)}K/mo
+    </text>
+
+    <!-- Month labels -->
+    ${[1,2,3,4,5,6,7,8,9,10,11,12].map(mo => `
+      <text x="${xScale(mo-1)}" y="${H - PAD.b + 16}" fill="#4a5068"
+        font-family="'Space Mono', monospace" font-size="8" text-anchor="middle">
+        M${mo}
+      </text>
+    `).join('')}
+
+    <!-- Data points -->
+    ${revenues.map((r, i) => `
+      <circle cx="${xScale(i)}" cy="${yScale(r)}" r="3"
+        fill="${r >= fixedTotal ? '#c8f542' : '#4a5068'}" opacity="0.8"/>
+    `).join('')}
+
+    <!-- Break-even marker -->
+    ${beX !== null ? `
+      <line x1="${beX}" y1="${PAD.t}" x2="${beX}" y2="${H - PAD.b}"
+        stroke="#c8f542" stroke-width="1" stroke-dasharray="3 3" opacity="0.5"/>
+      <circle cx="${beX}" cy="${beY}" r="6"
+        fill="#c8f542" opacity="0.9"/>
+      <circle cx="${beX}" cy="${beY}" r="3"
+        fill="#050608"/>
+    ` : ''}
+  `;
+}
+
+function resetAll() {
+  Object.entries(DEFAULTS).forEach(([k, v]) => {
+    const map = {
+      p1: 'price-t1', p2: 'price-t2', p3: 'price-t3',
+      m1: 'mix-t1', m2: 'mix-t2',
+      hw1: 'hw-t1', hw2: 'hw-t2', hw3: 'hw-t3',
+      sal: 'fix-sal', off: 'fix-off', plat: 'fix-plat', oh: 'fix-oh',
+      rampStart: 'ramp-start', rampGrowth: 'ramp-growth',
+      installation charge: 'installation charge'
+    };
+    if (map[k]) document.getElementById(map[k]).value = v;
+  });
+  update();
+}
+
+// Attach all slider events
+document.querySelectorAll('input[type=range]').forEach(el => {
+  el.addEventListener('input', update);
+});
+
+// Initial render
+update();
+</script>
+</body>
+</html>

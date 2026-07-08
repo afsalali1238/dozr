@@ -1,0 +1,14 @@
+# Superseded/archived docs — not current context
+LOGISTICS/99_Archive/
+
+# Binary/design assets — not useful as text context
+LOGISTICS/05_Brand_Design/screenshots/*.png
+*.zip
+*.webp
+
+# Standard excludes (added proactively for when marketplace/ code exists)
+node_modules/
+.vercel/
+dist/
+build/
+*.log

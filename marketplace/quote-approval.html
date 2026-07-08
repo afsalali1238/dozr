@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approve your quote - Dozr</title>
+<meta name="description" content="Review your equipment quote and approve with one tap. No login needed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<main class="phone-page">
+  <div class="eyebrow" style="margin-bottom:22px">Quote ready - no login needed</div>
+  <div class="phone-card">
+    <div class="phone-topbar"><svg width="18" height="18" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M12 6c-2 0-3.2 1.3-3.2 3.4V18.5h4.4V11c0-1.1.5-1.7 1.5-1.7H17V6z" fill="var(--yellow)"/><path d="M14.5 14.5 21.5 18" stroke="var(--yellow)" stroke-width="3" stroke-linecap="round"/><circle cx="22.5" cy="20.5" r="2.6" fill="var(--yellow)"/><path d="M6.5 24H18" stroke="var(--yellow)" stroke-width="3" stroke-linecap="round"/></svg><span>dozr</span></div>
+    <div id="approval-body" class="phone-body">
+      <div class="photo" id="approvalPhoto" role="img" aria-label="CAT 320 excavator quoted for Al Quoz" data-cap="CAT 320 quote" style="height:132px;border-radius:14px;margin-bottom:16px"><span class="verified-badge">Verified supplier</span></div>
+      <div class="card-kicker" id="equipmentLabel">CAT 320 - 20 tonne excavator</div>
+      <h1 id="quoteHeading" style="font-size:22px;margin-bottom:6px">Quote from Gulf Heavy Rentals</h1>
+      <p class="text-muted" style="font-size:13px;line-height:1.5;margin:0">Review the confirmed vendor quote. Approving generates the PO and sends it to the vendor.</p>
+      <div class="approval-summary">
+        <div class="summary-row"><span>Rental dates</span><strong id="quoteDate">12 Aug 2026</strong></div>
+        <div class="summary-row"><span>Duration</span><strong id="quoteDuration">2 weeks</strong></div>
+        <div class="summary-row"><span>Deliver to</span><strong id="quoteLocation">Al Quoz Industrial 3</strong></div>
+      </div>
+      <div class="price-line" id="quotePrice">AED 18,400</div>
+      <p class="text-muted" style="font-size:13px;line-height:1.5;margin:8px 0 18px">Price valid for 48 hours. PO generated automatically on approval.</p>
+      <button id="approveQuote" class="btn btn-primary btn-full" type="button">Approve Quote</button>
+      <a class="link-muted" style="display:flex;justify-content:center;margin-top:14px" href="#" id="askQuestion">Ask a question</a>
+    </div>
+  </div>
+</main>
+<script src="js/whatsapp.js" defer></script>
+<script src="js/quote-approval.js" defer></script>
+</body>
+</html>
+
+
+

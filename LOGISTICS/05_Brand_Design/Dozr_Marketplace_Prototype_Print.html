@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-print-defaults>
+@media print {
+  @page { margin: 0.5in; }
+  h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+  figure, table, pre, blockquote, img, svg, tr, [class~="card" i] { break-inside: avoid; }
+  img, svg { max-width: 100%; }
+  p { orphans: 3; widows: 3; }
+}
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#F6F6F3;font-family:'Hanken Grotesk',system-ui,sans-serif;color:#141518;-webkit-font-smoothing:antialiased}
+  a{color:#141518;text-decoration:none}
+  a:hover{opacity:.75}
+  ::selection{background:#FFC400;color:#141518}
+  .photo{background:linear-gradient(135deg,#E9E6DF 0%,#DcD8CF 55%,#D0CCC2 100%);position:relative}
+  .photo::after{content:attr(data-cap);position:absolute;left:12px;bottom:10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(20,21,24,.4)}
+</style>
+</helmet>
+
+<!-- ===== SCREEN SWITCHER (prototype chrome) ===== -->
+<div style="position:sticky;top:0;z-index:80;background:#141518;padding:9px 16px;display:flex;align-items:center;gap:8px">
+  <span style="font-family:'Space Mono';font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8A8D93;margin-right:6px">Marketplace prototype</span>
+  <button onClick="{{ goHome }}" style="font-family:'Space Grotesk';font-weight:600;font-size:12px;border:none;border-radius:8px;padding:7px 14px;cursor:pointer;color:#8A8D93;background:transparent;color:{{ homeFg }};background:{{ homeBg }}">Home</button>
+  <button onClick="{{ goBrowse }}" style="font-family:'Space Grotesk';font-weight:600;font-size:12px;border:none;border-radius:8px;padding:7px 14px;cursor:pointer;color:#8A8D93;background:transparent;color:{{ browseFg }};background:{{ browseBg }}">Browse</button>
+  <button onClick="{{ goDetail }}" style="font-family:'Space Grotesk';font-weight:600;font-size:12px;border:none;border-radius:8px;padding:7px 14px;cursor:pointer;color:#8A8D93;background:transparent;color:{{ detailFg }};background:{{ detailBg }}">Detail + booking</button>
+  <button onClick="{{ goTracking }}" style="font-family:'Space Grotesk';font-weight:600;font-size:12px;border:none;border-radius:8px;padding:7px 14px;cursor:pointer;color:#8A8D93;background:transparent;color:{{ trackFg }};background:{{ trackBg }}">Tracking link</button>
+</div>
+
+<!-- ============================================================ -->
+<!-- HOME -->
+<!-- ============================================================ -->
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<div>
+  <!-- nav -->
+  <div style="background:#fff;border-bottom:1px solid #E8E8E3">
+    <div style="max-width:1120px;margin:0 auto;padding:16px 32px;display:flex;align-items:center;gap:28px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:32px;height:32px;border-radius:9px;background:#141518;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M12 6c-2 0-3.2 1.3-3.2 3.4V18.5h4.4V11c0-1.1.5-1.7 1.5-1.7H17V6z" fill="#FFC400"/><path d="M14.5 14.5 21.5 18" stroke="#FFC400" stroke-width="3" stroke-linecap="round"/><circle cx="22.5" cy="20.5" r="2.6" fill="#FFC400"/><path d="M6.5 24H18" stroke="#FFC400" stroke-width="3" stroke-linecap="round"/></svg></div>
+        <span style="font-family:'Space Grotesk';font-weight:700;font-size:21px;letter-spacing:-.02em">dozr</span>
+      </div>
+      <div style="display:flex;gap:22px;font-size:14px;font-weight:500;color:#5B5F66">
+        <span>Equipment</span><span>Freight</span><span>How it works</span><span>For vendors</span>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:16px">
+        <span style="font-size:14px;font-weight:500;color:#141518">Sign in</span>
+        <button style="font-family:'Space Grotesk';font-weight:600;font-size:13px;color:#141518;background:#fff;border:1px solid #D8D6CE;border-radius:10px;padding:10px 16px;cursor:pointer">List your fleet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- hero -->
+  <div style="max-width:1120px;margin:0 auto;padding:64px 32px 40px">
+    <div style="font-family:'Space Mono';font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9A9CA1;margin-bottom:20px;display:flex;align-items:center;gap:9px"><span style="width:8px;height:8px;border-radius:50%;background:#FFC400"></span>UAE construction logistics + equipment</div>
+    <h1 style="font-family:'Space Grotesk';font-weight:700;font-size:66px;line-height:0.98;letter-spacing:-.035em;margin:0 0 20px;max-width:820px">Move the iron.<br>On site by 7am.</h1>
+    <p style="font-size:19px;line-height:1.55;color:#5B5F66;max-width:560px;margin:0 0 36px">Book flatbeds and heavy equipment from a vetted UAE network. Fixed rates, confirmed in 2 hours, tracked by GPS the whole way.</p>
+
+    <!-- search bar -->
+    <div style="background:#fff;border:1.5px solid #141518;border-radius:16px;padding:10px;display:flex;align-items:stretch;gap:4px;max-width:940px;box-shadow:0 10px 30px rgba(20,21,24,.06)">
+      <div style="flex:1.4;padding:12px 16px;display:flex;flex-direction:column;gap:4px">
+        <span style="font-family:'Space Mono';font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#9A9CA1">What</span>
+        <span style="font-size:15px;font-weight:500;color:#141518">Mini excavator (up to 6T)</span>
+      </div>
+      <div style="width:1px;background:#E8E8E3;margin:8px 0"></div>
+      <div style="flex:1;padding:12px 16px;display:flex;flex-direction:column;gap:4px">
+        <span style="font-family:'Space Mono';font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#9A9CA1">Where</span>
+        <span style="font-size:15px;font-weight:500;color:#141518">Al Quoz, Dubai</span>
+      </div>
+      <div style="width:1px;background:#E8E8E3;margin:8px 0"></div>
+      <div style="flex:1;padding:12px 16px;display:flex;flex-direction:column;gap:4px">
+        <span style="font-family:'Space Mono';font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#9A9CA1">Dates</span>
+        <span style="font-size:15px;font-weight:500;color:#141518">12 – 26 Aug</span>
+      </div>
+      <button onClick="{{ goBrowse }}" style="font-family:'Space Grotesk';font-weight:700;font-size:15px;color:#141518;background:#FFC400;border:none;border-radius:11px;padding:0 32px;cursor:pointer" style-hover="background:#E6AF00">Search</button>
+    </div>
+
+    <!-- trust row -->
+    <div style="display:flex;gap:44px;margin-top:32px;flex-wrap:wrap">
+      <div><div style="font-family:'Space Grotesk';font-weight:700;font-size:24px">150+</div><div style="font-family:'Space Mono';font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9A9CA1;margin-top:2px">Vetted units</div></div>
+      <div><div style="font-family:'Space Grotesk';font-weight:700;font-size:24px">2 hrs</div><div style="font-family:'Space Mono';font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9A9CA1;margin-top:2px">To confirm</div></div>
+      <div><div style="font-family:'Space Grotesk';font-weight:700;font-size:24px">GPS</div><div style="font-family:'Space Mono';font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9A9CA1;margin-top:2px">Tracked live</div></div>
+      <div><div style="font-family:'Space Grotesk';font-weight:700;font-size:24px">1 link</div><div style="font-family:'Space Mono';font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9A9CA1;margin-top:2px">No login to track</div></div>
+    </div>
+  </div>
+
+  <!-- categories -->
+  <div style="max-width:1120px;margin:0 auto;padding:32px 32px 8px">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px">
+      <h2 style="font-family:'Space Grotesk';font-weight:600;font-size:26px;letter-spacing:-.02em;margin:0">Browse by category</h2>
+      <span style="font-size:14px;color:#5B5F66">View all →</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:14px">
+      <div onClick="{{ goBrowse }}" style="cursor:pointer">
+        <div class="photo" data-cap="Excavators" style="height:96px;border-radius:14px 14px 0 0"></div>
+        <div style="background:#fff;border:1px solid #E8E8E3;border-top:none;border-radius:0 0 14px 14px;padding:12px 14px"><div style="font-family:'Space Grotesk';font-weight:600;font-size:14px">Excavators</div><div style="font-family:'Space Mono';font-size:11px;color:#9A9CA1;margin-top:2px">42 units</div></div>
+      </div>
+      <div onClick="{{ goBrowse }}" style="cursor:pointer">
+        <div class="photo" data-cap="Loaders" style="height:96px;border-radius:14px 14px 0 0"></div>
+        <div style="background:#fff;border:1px solid #E8E8E3;border-top:none;border-radius:0 0 14px 14px;padding:12px 14px"><div style="font-family:'Space Grotesk';font-weight:600;font-size:14px">Wheel loaders</div><div style="font-family:'Space Mono';font-size:11px;color:#9A9CA1;margin-top:2px">28 units</div></div>
+      </div>
+      <div onClick="{{ goBrowse }}" style="cursor:pointer">
+        <div class="photo" data-cap="Cranes" style="height:96px;border-radius:14px 14px 0 0"></div>
+        <div style="background:#fff;border:1px solid #E8E8E3;border-top:none;border-radius:0 0 14px 14px;padding:12px 14px"><div style="font-family:'Space Grotesk';font-weight:600;font-size:14px">Cranes</div><div style="font-family:'Space Mono';font-size:11px;color:#9A9CA1;margin-top:2px">16 units</div></div>
+      </div>
+      <div onClick="{{ goBrowse }}" style="cursor:pointer">
+        <div class="photo" data-cap="Dump trucks" style="height:96px;border-radius:14px 14px 0 0"></div>
+        <div style="background:#fff;border:1px solid #E8E8E3;border-top:none;border-radius:0 0 14px 14px;padding:12px 14px"><div style="font-family:'Space Grotesk';font-weight:600;font-size:14px">Dump trucks</div><div style="font-family:'Space Mono';font-size:11px;color:#9A9CA1;margin-top:2px">34 units</div></div>
+      </div>
+      <div onClick="{{ goBrowse }}" style="cursor:pointer">
+        <div class="photo" data-cap="Flatbeds" style="height:96px;border-radius:14px 14px 0 0"></div>
+        <div style="background:#fff;border:1px solid #E8E8E3;border-top:none;border-radius:0 0 14px 14px;padding:12px 14px"><div style="font-family:'Space Grotesk';font-weight:600;font-size:14px">Flatbed trailers</div><div style="font-family:'Space Mono';font-size:11px;color:#9A9CA1;margin-top:2px">51 units</div></div>
+      </div>
+      <div onClick="{{ goBrowse }}" style="cursor:pointer">
+        <div class="photo" data-cap="Generators" style="height:96px;border-radius:14px 14px 0 0"></div>
+        <div style="background:#fff;border:1px solid #E8E8E3;border-top:none;border-radius:0 0 14px 14px;padding:12px 14px"><div style="font-family:'Space Grotesk';font-weight:600;font-size:14px">Generators</div><div style="font-family:'Space Mono';font-size:11px;color:#9A9CA1;margin-top:2px">23 units</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- featured -->
+  <div style="max-width:1120px;margin:0 auto;padding:48px 32px 8px">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px">
+      <h2 style="font-family:'Space Grotesk';font-weight:600;font-size:26px;letter-spacing:-.02em;margin:0">Available near Al Quoz</h2>
+      <span onClick="{{ goBrowse }}" style="font-size:14px;color:#5B5F66;cursor:pointer">See all 42 →</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+      <!-- card -->
+      <div onClick="{{ goDetail }}" style="background:#fff;border:1px solid #E8E8E3;border-radius:16px;overflow:hidden;cursor:pointer" style-hover="border-color:#141518">
+        <div class="photo" data-cap="Mini excavator" style="height:170px"><span style="position:absolute;top:12px;left:12px;font-family:'Space Mono';font-size:11px;padding:5px 10px;background:#fff;color:#1F9A6D;border-radius:6px">● Verified</span></div>
+        <div style="padding:16px 16px 18px">
+          <div style="font-family:'Space Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9A9CA1;margin-bottom:5px">Mini excavator</div>
+          <div style="font-family:'Space Grotesk';font-weight:600;font-size:18px;letter-spacing:-.01em;margin-bottom:10px">CAT 305 CR</div>
+          <div style="display:flex;gap:6px;margin-bottom:14px"><span style="font-family:'Space Mono';font-size:11px;padding:4px 9px;background:#F1F1EC;color:#5B5F66;border-radius:6px">5.0T</span><span style="font-family:'Space Mono';font-size:11px;padding:4px 9px;background:#F1F1EC;color:#5B5F66;border-radius:6px">Diesel</span><span style="font-family:'Space Mono';font-size:11px;padding:4px 9px;background:#F1F1EC;color:#5B5F66;border-radius:6px">Same-day</span></div>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between"><div><span style="font-family:'Space Grotesk';font-weight:700;font-size:21px">AED 850</span><span style="font-size:13px;color:#9A9CA1">/day</span></div><span style="font-family:'Space Grotesk';font-weight:600;font-size:13px;color:#141518;border:1px solid #D8D6CE;border-radius:8px;padding:9px 15px">View</span></div>
+        </div>
+      </div>
+      <div onClick="{{ goDetail }}" style="background:#fff;border:1px solid #E8E8E3;border-radius:16px;overflow:hidden;cursor:pointer" style-hover="border-color:#141518">
+        <div class="photo" data-cap="Excavator" style="height:170px"><span style="position:absolute;top:12px;left:12px;font-family:'Space Mono';font-size:11px;padding:5px 10px;background:#fff;color:#1F9A6D;border-radius:6px">● Verified</span></div>
+        <div style="padding:16px 16px 18px">
+          <div style="font-family:'Space Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9A9CA1;margin-bottom:5px">Excavator</div>
+          <div style="font-family:'Space Grotesk';font-weight:600;font-size:18px;letter-spacing:-.01em;margin-bottom:10px">CAT 320</div>
+          <div style="display:flex;gap:6px;margin-bottom:14px"><span style="font-family:'Space Mono';font-size:11px;padding:4px 9px;background:#F1F1EC;color:#5B5F66;border-radius:6px">20T</span><span style="font-family:'Space Mono';font-size:11px;padding:4px 9px;background:#F1F1EC;color:#5B5F66;border-radius:6px">Diesel</span><span style="font-family:'Space Mono';font-size:11px;padding:4px 9px;background:#F1F1EC;color:#5B5F66;border-radius:6px">GPS on</span></div>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between"><div><span style="font-family:'Space Grotesk';font-weight:700;font-size:21px">AED 1,900</span><span style="font-size:13px;color:#9A9CA1">/day</span></div><span style="font-family:'Space Grotesk';font-weight:600;font-size:13px;color:#141518;border:1px solid #D8D6CE;border-radius:8px;padding:9px 15px">View</span></div>
+        </div>
+      </div>
+      <div onClick="{{ goDetail }}" style="background:#fff;border:1px solid #E8E8E3;border-radius:16px;overflow:hidden;cursor:pointer" style-hover="border-color:#141518">
+        <div class="photo" data-cap="Wheel loader" style="height:170px"><span style="position:absolute;top:12px;left:12px;font-family:'Space Mono';font-size:11px;padding:5px 10px;background:#fff;color:#1F9A6D;border-radius:6px">● Verified</span></div>
+        <div style="padding:16px 16px 18px">
+          <div style="font-family:'Space Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9A9CA1;margin-bottom:5px">Wheel loader</div>
+          <div style="font-family:'Space Grotesk';font-weight:600;font-size:18px;letter-spacing:-.01em;margin-bottom:10px">Komatsu WA320</div>
+          <div style="display:flex;gap:6px;margin-bottom:14px"><span style="font-family:'Space Mono';font-size:11px;padding:4px 9px;background:#F1F1EC;color:#5B5F66;border-radius:6px">3.0m³</span><span style="font-family:'Space Mono';font-size:11px;padding:4px 9px;background:#F1F1EC;color:#5B5F66;border-radius:6px">Diesel</span><span style="font-family:'Space Mono';font-size:11px;padding:4px 9px;background:#F1F1EC;color:#5B5F66;border-radius:6px">Next-day</span></div>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between"><div><span style="font-family:'Space Grotesk';font-weight:700;font-size:21px">AED 1,400</span><span style="font-size:13px;color:#9A9CA1">/day</span></div><span style="font-family:'Space Grotesk';font-weight:600;font-size:13px;color:#141518;border:1px solid #D8D6CE;border-radius:8px;padding:9px 15px">View</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- how it works -->
+  <div style="max-width:1120px;margin:0 auto;padding:56px 32px 72px">
+    <div style="background:#141518;border-radius:20px;padding:44px 48px;display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr;gap:32px;align-items:start">
+      <div>
+        <h2 style="font-family:'Space Grotesk';font-weight:700;font-size:28px;letter-spacing:-.025em;color:#fff;margin:0 0 8px;line-height:1.1">How a booking works</h2>
+        <p style="font-size:14px;color:rgba(255,255,255,.6);line-height:1.6;margin:0">No phone tag. No paperwork. Book it, track it, prove it.</p>
+      </div>
+      <div><div style="font-family:'Space Mono';font-size:12px;color:#FFC400;margin-bottom:10px">01</div><div style="font-family:'Space Grotesk';font-weight:600;font-size:16px;color:#fff;margin-bottom:6px">Book</div><div style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.55">Pick the machine and dates. Fixed rate, no haggling.</div></div>
+      <div><div style="font-family:'Space Mono';font-size:12px;color:#FFC400;margin-bottom:10px">02</div><div style="font-family:'Space Grotesk';font-weight:600;font-size:16px;color:#fff;margin-bottom:6px">Track</div><div style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.55">Live GPS link — see the ETA on any phone, no login.</div></div>
+      <div><div style="font-family:'Space Mono';font-size:12px;color:#FFC400;margin-bottom:10px">03</div><div style="font-family:'Space Grotesk';font-weight:600;font-size:16px;color:#fff;margin-bottom:6px">Prove</div><div style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.55">Engine hours and ePOD become your delivery record.</div></div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ============================================================ -->
+<!-- BROWSE -->
+<!-- ============================================================ -->
+<sc-if value="{{ isBrowse }}" hint-placeholder-val="{{ false }}">
+<div>
+  <!-- nav + search -->
+  <div style="background:#fff;border-bottom:1px solid #E8E8E3;position:sticky;top:41px;z-index:40">
+    <div style="max-width:1180px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:20px">
+      <div onClick="{{ goHome }}" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+        <div style="width:30px;height:30px;border-radius:8px;background:#141518;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 32 32" fill="none"><path d="M12 6c-2 0-3.2 1.3-3.2 3.4V18.5h4.4V11c0-1.1.5-1.7 1.5-1.7H17V6z" fill="#FFC400"/><path d="M14.5 14.5 21.5 18" stroke="#FFC400" stroke-width="3" stroke-linecap="round"/><circle cx="22.5" cy="20.5" r="2.6" fill="#FFC400"/><path d="M6.5 24H18" stroke="#FFC400" stroke-width="3" stroke-linecap="round"/></svg></div>
+        <span style="font-family:'Space Grotesk';font-weight:700;font-size:19px;letter-spacing:-.02em">dozr</span>
+      </div>
+      <div style="flex:1;display:flex;align-items:center;gap:2px;background:#fff;border:1.5px solid #141518;border-radius:12px;padding:5px 5px 5px 16px;max-width:720px">
+        <span style="font-size:14px;color:#141518;font-weight:500">Excavators</span>
+        <span style="color:#D8D6CE;margin:0 10px">·</span>
+        <span style="font-size:14px;color:#5B5F66">Al Quoz</span>
+        <span style="color:#D8D6CE;margin:0 10px">·</span>
+        <span style="font-size:14px;color:#5B5F66">12 – 26 Aug</span>
+        <button style="margin-left:auto;font-family:'Space Grotesk';font-weight:700;font-size:14px;color:#141518;background:#FFC400;border:none;border-radius:9px;padding:9px 20px;cursor:pointer">Search</button>
+      </div>
+      <span style="margin-left:auto;font-size:14px;font-weight:500">Sign in</span>
+    </div>
+  </div>
+
+  <div style="max-width:1180px;margin:0 auto;padding:26px 32px 72px;display:grid;grid-template-columns:230px 1fr;gap:32px">
+    <!-- filters -->
+    <div>
+      <div style="font-family:'Space Grotesk';font-weight:600;font-size:16px;margin-bottom:16px">Filters</div>
+      <div style="display:flex;flex-direction:column;gap:22px">
+        <div>
+          <div style="font-family:'Space Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9A9CA1;margin-bottom:10px">Operating weight</div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px">
+            <span style="font-family:'Hanken Grotesk';font-weight:500;font-size:13px;padding:7px 13px;background:#141518;color:#fff;border-radius:999px">Up to 6T</span>
+            <span style="font-family:'Hanken Grotesk';font-weight:500;font-size:13px;padding:7px 13px;background:#fff;color:#5B5F66;border:1px solid #E8E8E3;border-radius:999px">6–20T</span>
+            <span style="font-family:'Hanken Grotesk';font-weight:500;font-size:13px;padding:7px 13px;background:#fff;color:#5B5F66;border:1px solid #E8E8E3;border-radius:999px">20T+</span>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'Space Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9A9CA1;margin-bottom:10px">Availability</div>
+          <div style="display:flex;flex-direction:column;gap:9px;font-size:14px;color:#141518">
+            <label style="display:flex;align-items:center;gap:9px"><span style="width:17px;height:17px;border-radius:5px;background:#141518;display:inline-flex;align-items:center;justify-content:center;color:#FFC400;font-size:11px">✓</span>Same-day</label>
+            <label style="display:flex;align-items:center;gap:9px"><span style="width:17px;height:17px;border-radius:5px;border:1.5px solid #D8D6CE"></span>Next-day</label>
+            <label style="display:flex;align-items:center;gap:9px"><span style="width:17px;height:17px;border-radius:5px;border:1.5px solid #D8D6CE"></span>This week</label>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'Space Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9A9CA1;margin-bottom:10px">Day rate (AED)</div>
+          <div style="height:4px;background:#E8E8E3;border-radius:999px;position:relative;margin:14px 4px"><span style="position:absolute;left:8%;right:32%;top:0;height:100%;background:#141518;border-radius:999px"></span><span style="position:absolute;left:8%;top:50%;transform:translate(-50%,-50%);width:15px;height:15px;border-radius:50%;background:#fff;border:2px solid #141518"></span><span style="position:absolute;left:68%;top:50%;transform:translate(-50%,-50%);width:15px;height:15px;border-radius:50%;background:#fff;border:2px solid #141518"></span></div>
+          <div style="display:flex;justify-content:space-between;font-family:'Space Mono';font-size:11px;color:#5B5F66"><span>500</span><span>3,500</span></div>
+        </div>
+        <div>
+          <div style="font-family:'Space Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9A9CA1;margin-bottom:10px">Verified only</div>
+          <label style="display:flex;align-items:center;gap:9px;font-size:14px"><span style="width:34px;height:20px;border-radius:999px;background:#141518;position:relative;display:inline-block"><span style="position:absolute;right:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#FFC400"></span></span>On</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- results -->
+    <div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px">
+        <div><span style="font-family:'Space Grotesk';font-weight:700;font-size:20px">42 excavators</span><span style="font-size:14px;color:#9A9CA1;margin-left:8px">near Al Quoz</span></div>
+        <span style="font-family:'Space Mono';font-size:12px;color:#5B5F66">Sort: Price ↑</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px">
+        <!-- 6 cards -->
+        <div onClick="{{ goDetail }}" style="background:#fff;border:1px solid #E8E8E3;border-radius:16px;overflow:hidden;cursor:pointer" style-hover="border-color:#141518">
+          <div class="photo" data-cap="Mini excavator" style="height:140px"><span style="position:absolute;top:11px;left:11px;font-family:'Space Mono';font-size:10px;padding:4px 9px;background:#fff;color:#1F9A6D;border-radius:6px">● Verified</span></div>
+          <div style="padding:14px">
+            <div style="font-family:'Space Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#9A9CA1;margin-bottom:4px">Mini excavator · 5.0T</div>
+            <div style="font-family:'Space Grotesk';font-weight:600;font-size:16px;margin-bottom:12px">CAT 305 CR</div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between"><div><span style="font-family:'Space Grotesk';font-weight:700;font-size:17px">AED 850</span><span style="font-size:12px;color:#9A9CA1">/day</span></div><span style="font-family:'Space Grotesk';font-weight:600;font-size:12px;color:#141518;border:1px solid #D8D6CE;border-radius:8px;padding:8px 13px">View</span></div>
+          </div>
+        </div>
+        <div onClick="{{ goDetail }}" style="background:#fff;border:1px solid #E8E8E3;border-radius:16px;overflow:hidden;cursor:pointer" style-hover="border-color:#141518">
+          <div class="photo" data-cap="Excavator" style="height:140px"><span style="position:absolute;top:11px;left:11px;font-family:'Space Mono';font-size:10px;padding:4px 9px;background:#fff;color:#1F9A6D;border-radius:6px">● Verified</span></div>
+          <div style="padding:14px">
+            <div style="font-family:'Space Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#9A9CA1;margin-bottom:4px">Excavator · 13T</div>
+            <div style="font-family:'Space Grotesk';font-weight:600;font-size:16px;margin-bottom:12px">Hitachi ZX130</div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between"><div><span style="font-family:'Space Grotesk';font-weight:700;font-size:17px">AED 1,350</span><span style="font-size:12px;color:#9A9CA1">/day</span></div><span style="font-family:'Space Grotesk';font-weight:600;font-size:12px;color:#141518;border:1px solid #D8D6CE;border-radius:8px;padding:8px 13px">View</span></div>
+          </div>
+        </div>
+        <div onClick="{{ goDetail }}" style="background:#fff;border:1px solid #E8E8E3;border-radius:16px;overflow:hidden;cursor:pointer" style-hover="border-color:#141518">
+          <div class="photo" data-cap="Excavator" style="height:140px"><span style="position:absolute;top:11px;left:11px;font-family:'Space Mono';font-size:10px;padding:4px 9px;background:#fff;color:#1F9A6D;border-radius:6px">● Verified</span></div>
+          <div style="padding:14px">
+            <div style="font-family:'Space Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#9A9CA1;margin-bottom:4px">Excavator · 20T</div>
+            <div style="font-family:'Space Grotesk';font-weight:600;font-size:16px;margin-bottom:12px">CAT 320</div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between"><div><span style="font-family:'Space Grotesk';font-weight:700;font-size:17px">AED 1,900</span><span style="font-size:12px;color:#9A9CA1">/day</span></div><span style="font-family:'Space Grotesk';font-weight:600;font-size:12px;color:#141518;border:1px solid #D8D6CE;border-radius:8px;padding:8px 13px">View</span></div>
+          </div>
+        </div>
+        <div onClick="{{ goDetail }}" style="background:#fff;border:1px solid #E8E8E3;border-radius:16px;overflow:hidden;cursor:pointer" style-hover="border-color:#141518">
+          <div class="photo" data-cap="Excavator" style="height:140px"></div>
+          <div style="padding:14px">
+            <div style="font-family:'Space Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#9A9CA1;margin-bottom:4px">Excavator · 8T</div>
+            <div style="font-family:'Space Grotesk';font-weight:600;font-size:16px;margin-bottom:12px">Kubota KX080</div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between"><div><span style="font-family:'Space Grotesk';font-weight:700;font-size:17px">AED 1,050</span><span style="font-size:12px;color:#9A9CA1">/day</span></div><span style="font-family:'Space Grotesk';font-weight:600;font-size:12px;color:#141518;border:1px solid #D8D6CE;border-radius:8px;padding:8px 13px">View</span></div>
+          </div>
+        </div>
+        <div onClick="{{ goDetail }}" style="background:#fff;border:1px solid #E8E8E3;border-radius:16px;overflow:hidden;cursor:pointer" style-hover="border-color:#141518">
+          <div class="photo" data-cap="Excavator" style="height:140px"><span style="position:absolute;top:11px;left:11px;font-family:'Space Mono';font-size:10px;padding:4px 9px;background:#fff;color:#1F9A6D;border-radius:6px">● Verified</span></div>
+          <div style="padding:14px">
+            <div style="font-family:'Space Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#9A9CA1;margin-bottom:4px">Excavator · 22T</div>
+            <div style="font-family:'Space Grotesk';font-weight:600;font-size:16px;margin-bottom:12px">Volvo EC220</div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between"><div><span style="font-family:'Space Grotesk';font-weight:700;font-size:17px">AED 2,050</span><span style="font-size:12px;color:#9A9CA1">/day</span></div><span style="font-family:'Space Grotesk';font-weight:600;font-size:12px;color:#141518;border:1px solid #D8D6CE;border-radius:8px;padding:8px 13px">View</span></div>
+          </div>
+        </div>
+        <div onClick="{{ goDetail }}" style="background:#fff;border:1px solid #E8E8E3;border-radius:16px;overflow:hidden;cursor:pointer" style-hover="border-color:#141518">
+          <div class="photo" data-cap="Excavator" style="height:140px"></div>
+          <div style="padding:14px">
+            <div style="font-family:'Space Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#9A9CA1;margin-bottom:4px">Excavator · 36T</div>
+            <div style="font-family:'Space Grotesk';font-weight:600;font-size:16px;margin-bottom:12px">CAT 336</div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between"><div><span style="font-family:'Space Grotesk';font-weight:700;font-size:17px">AED 2,900</span><span style="font-size:12px;color:#9A9CA1">/day</span></div><span style="font-family:'Space Grotesk';font-weight:600;font-size:12px;color:#141518;border:1px solid #D8D6CE;border-radius:8px;padding:8px 13px">View</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ============================================================ -->
+<!-- DETAIL + BOOKING -->
+<!-- ============================================================ -->
+<sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+<div>
+  <div style="background:#fff;border-bottom:1px solid #E8E8E3">
+    <div style="max-width:1120px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:14px">
+      <div onClick="{{ goHome }}" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+        <div style="width:30px;height:30px;border-radius:8px;background:#141518;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 32 32" fill="none"><path d="M12 6c-2 0-3.2 1.3-3.2 3.4V18.5h4.4V11c0-1.1.5-1.7 1.5-1.7H17V6z" fill="#FFC400"/><path d="M14.5 14.5 21.5 18" stroke="#FFC400" stroke-width="3" stroke-linecap="round"/><circle cx="22.5" cy="20.5" r="2.6" fill="#FFC400"/><path d="M6.5 24H18" stroke="#FFC400" stroke-width="3" stroke-linecap="round"/></svg></div>
+        <span style="font-family:'Space Grotesk';font-weight:700;font-size:19px;letter-spacing:-.02em">dozr</span>
+      </div>
+      <span onClick="{{ goBrowse }}" style="font-size:14px;color:#5B5F66;cursor:pointer;margin-left:8px">‹ Back to results</span>
+    </div>
+  </div>
+
+  <div style="max-width:1120px;margin:0 auto;padding:32px 32px 72px;display:grid;grid-template-columns:1.35fr 1fr;gap:40px">
+    <!-- left: gallery + specs -->
+    <div>
+      <div style="font-family:'Space Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9A9CA1;margin-bottom:6px">Excavator · 20 tonne</div>
+      <h1 style="font-family:'Space Grotesk';font-weight:700;font-size:34px;letter-spacing:-.025em;margin:0 0 18px">CAT 320</h1>
+      <div class="photo" data-cap="CAT 320 · in-situ, Al Quoz" style="height:320px;border-radius:16px"><span style="position:absolute;top:14px;left:14px;font-family:'Space Mono';font-size:11px;padding:5px 11px;background:#fff;color:#1F9A6D;border-radius:6px">● Verified supplier</span></div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px">
+        <div class="photo" data-cap="" style="height:74px;border-radius:10px"></div>
+        <div class="photo" data-cap="" style="height:74px;border-radius:10px"></div>
+        <div class="photo" data-cap="" style="height:74px;border-radius:10px"></div>
+        <div class="photo" data-cap="" style="height:74px;border-radius:10px"></div>
+      </div>
+
+      <div style="font-family:'Space Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9A9CA1;margin:32px 0 14px">Specs</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#E8E8E3;border:1px solid #E8E8E3;border-radius:12px;overflow:hidden">
+        <div style="background:#fff;padding:16px 18px"><div style="font-family:'Space Mono';font-size:11px;color:#9A9CA1;margin-bottom:3px">Operating weight</div><div style="font-family:'Space Grotesk';font-weight:600;font-size:16px">20.3 T</div></div>
+        <div style="background:#fff;padding:16px 18px"><div style="font-family:'Space Mono';font-size:11px;color:#9A9CA1;margin-bottom:3px">Engine hours</div><div style="font-family:'Space Grotesk';font-weight:600;font-size:16px">4,182 hrs</div></div>
+        <div style="background:#fff;padding:16px 18px"><div style="font-family:'Space Mono';font-size:11px;color:#9A9CA1;margin-bottom:3px">Fuel</div><div style="font-family:'Space Grotesk';font-weight:600;font-size:16px">Diesel</div></div>
+        <div style="background:#fff;padding:16px 18px"><div style="font-family:'Space Mono';font-size:11px;color:#9A9CA1;margin-bottom:3px">Dig depth</div><div style="font-family:'Space Grotesk';font-weight:600;font-size:16px">6.7 m</div></div>
+        <div style="background:#fff;padding:16px 18px"><div style="font-family:'Space Mono';font-size:11px;color:#9A9CA1;margin-bottom:3px">GPS tracking</div><div style="font-family:'Space Grotesk';font-weight:600;font-size:16px;color:#1F9A6D">● Live</div></div>
+        <div style="background:#fff;padding:16px 18px"><div style="font-family:'Space Mono';font-size:11px;color:#9A9CA1;margin-bottom:3px">Year</div><div style="font-family:'Space Grotesk';font-weight:600;font-size:16px">2021</div></div>
+      </div>
+      <p style="font-size:15px;line-height:1.7;color:#5B5F66;margin:24px 0 0">Well-maintained 20-tonne crawler excavator with full service history. GPS-tracked — you get a live link the moment it leaves the yard, plus an engine-hours report at the end of the hire. Operator available on request.</p>
+    </div>
+
+    <!-- right: booking rail -->
+    <div>
+      <div style="position:sticky;top:60px;background:#fff;border:1.5px solid #141518;border-radius:18px;padding:24px">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:4px">
+          <div><span style="font-family:'Space Grotesk';font-weight:700;font-size:30px">AED 1,900</span><span style="font-size:15px;color:#9A9CA1">/day</span></div>
+          <span style="font-family:'Space Mono';font-size:11px;padding:5px 10px;background:#E7F6EF;color:#1F9A6D;border-radius:6px">Same-day</span>
+        </div>
+        <div style="font-size:13px;color:#5B5F66;margin-bottom:20px">AED 11,400 / week · delivery from AED 400</div>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div>
+            <div style="font-family:'Space Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#9A9CA1;margin-bottom:7px">Rental start</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid #E8E8E3;border-radius:10px;padding:13px 14px"><span style="font-size:15px">12 Aug 2026</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9A9CA1" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></div>
+          </div>
+          <div>
+            <div style="font-family:'Space Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#9A9CA1;margin-bottom:7px">Duration</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid #E8E8E3;border-radius:10px;padding:13px 14px"><span style="font-size:15px">2 weeks</span><span style="color:#9A9CA1;font-size:12px">▼</span></div>
+          </div>
+          <div>
+            <div style="font-family:'Space Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#9A9CA1;margin-bottom:7px">Deliver to</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid #E8E8E3;border-radius:10px;padding:13px 14px"><span style="font-size:15px">Al Quoz Industrial 3</span></div>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid #E8E8E3;margin:20px 0;padding-top:16px;display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;justify-content:space-between;font-size:14px;color:#5B5F66"><span>AED 1,900 × 14 days</span><span style="color:#141518">AED 26,600</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:14px;color:#5B5F66"><span>Delivery + pickup</span><span style="color:#141518">AED 800</span></div>
+          <div style="display:flex;justify-content:space-between;font-family:'Space Grotesk';font-weight:700;font-size:17px;margin-top:4px"><span>Total</span><span>AED 27,400</span></div>
+        </div>
+
+        <button onClick="{{ goTracking }}" style="width:100%;font-family:'Space Grotesk';font-weight:700;font-size:16px;color:#141518;background:#FFC400;border:none;border-radius:11px;padding:15px;cursor:pointer;margin-bottom:10px" style-hover="background:#E6AF00">Book now</button>
+        <button style="width:100%;font-family:'Space Grotesk';font-weight:600;font-size:15px;color:#141518;background:#fff;border:1px solid #D8D6CE;border-radius:11px;padding:14px;cursor:pointer">Request a quote</button>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:16px;font-size:13px;color:#5B5F66"><span style="width:8px;height:8px;border-radius:50%;background:#1F9A6D"></span>Verified supplier · replies in ~40 min</div>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ============================================================ -->
+<!-- TRACKING LINK (mobile, no login) -->
+<!-- ============================================================ -->
+<sc-if value="{{ isTracking }}" hint-placeholder-val="{{ false }}">
+<div style="min-height:calc(100vh - 41px);background:#EEECE6;display:flex;flex-direction:column;align-items:center;padding:40px 20px 60px">
+  <div style="font-family:'Space Mono';font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#9A9CA1;margin-bottom:22px">Shared tracking link · no login needed</div>
+  <div style="width:340px;background:#fff;border:1.5px solid #141518;border-radius:32px;overflow:hidden;box-shadow:0 24px 60px rgba(20,21,24,.14)">
+    <!-- phone top bar -->
+    <div style="background:#141518;padding:14px 20px;display:flex;align-items:center;justify-content:center;gap:9px">
+      <svg width="18" height="18" viewBox="0 0 32 32" fill="none"><path d="M12 6c-2 0-3.2 1.3-3.2 3.4V18.5h4.4V11c0-1.1.5-1.7 1.5-1.7H17V6z" fill="#FFC400"/><path d="M14.5 14.5 21.5 18" stroke="#FFC400" stroke-width="3" stroke-linecap="round"/><circle cx="22.5" cy="20.5" r="2.6" fill="#FFC400"/><path d="M6.5 24H18" stroke="#FFC400" stroke-width="3" stroke-linecap="round"/></svg>
+      <span style="font-family:'Space Grotesk';font-weight:700;font-size:16px;letter-spacing:-.02em;color:#fff">dozr</span>
+    </div>
+    <!-- map -->
+    <div class="photo" data-cap="Live GPS" style="height:230px">
+      <svg viewBox="0 0 340 230" style="position:absolute;inset:0;width:100%;height:100%"><path d="M40 190 Q120 150 170 120 T300 55" stroke="#141518" stroke-width="3" fill="none" stroke-dasharray="2 8" stroke-linecap="round"/></svg>
+      <span style="position:absolute;left:36px;bottom:34px;width:12px;height:12px;border-radius:50%;background:#141518;border:2px solid #fff"></span>
+      <span style="position:absolute;right:34px;top:44px;width:16px;height:16px;border-radius:50%;background:#FFC400;border:3px solid #141518"></span>
+      <span style="position:absolute;right:22px;top:20px;font-family:'Space Mono';font-size:10px;background:#141518;color:#fff;padding:3px 7px;border-radius:5px">CAT 320</span>
+    </div>
+    <div style="padding:18px 20px 22px">
+      <div style="font-family:'Space Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9A9CA1;margin-bottom:4px">Your delivery</div>
+      <div style="font-family:'Space Grotesk';font-weight:700;font-size:20px;letter-spacing:-.02em;margin-bottom:16px">CAT 320 · en route</div>
+
+      <div style="border:1px solid #E8E8E3;border-radius:12px;padding:14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div><div style="font-family:'Space Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#9A9CA1;margin-bottom:2px">Arriving</div><div style="font-family:'Space Grotesk';font-weight:700;font-size:22px">06:52</div></div>
+        <div style="text-align:right"><div style="font-size:13px;color:#5B5F66">14 min away</div><div style="font-size:13px;color:#5B5F66">8.2 km · Al Quoz</div></div>
+      </div>
+
+      <!-- timeline -->
+      <div style="display:flex;flex-direction:column;gap:0;margin-bottom:18px">
+        <div style="display:flex;gap:12px"><div style="display:flex;flex-direction:column;align-items:center"><span style="width:14px;height:14px;border-radius:50%;background:#1F9A6D;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px">✓</span><span style="width:2px;flex:1;background:#1F9A6D;min-height:22px"></span></div><div style="padding-bottom:16px"><div style="font-weight:600;font-size:14px">Booked & confirmed</div><div style="font-size:12px;color:#9A9CA1">Yesterday, 15:04</div></div></div>
+        <div style="display:flex;gap:12px"><div style="display:flex;flex-direction:column;align-items:center"><span style="width:14px;height:14px;border-radius:50%;background:#1F9A6D;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px">✓</span><span style="width:2px;flex:1;background:#FFC400;min-height:22px"></span></div><div style="padding-bottom:16px"><div style="font-weight:600;font-size:14px">Dispatched from yard</div><div style="font-size:12px;color:#9A9CA1">Today, 06:20</div></div></div>
+        <div style="display:flex;gap:12px"><div style="display:flex;flex-direction:column;align-items:center"><span style="width:14px;height:14px;border-radius:50%;background:#FFC400;border:2px solid #141518"></span><span style="width:2px;flex:1;background:#E8E8E3;min-height:22px"></span></div><div style="padding-bottom:16px"><div style="font-weight:700;font-size:14px">En route</div><div style="font-size:12px;color:#5B5F66">Now · driver Rashid</div></div></div>
+        <div style="display:flex;gap:12px"><div style="display:flex;flex-direction:column;align-items:center"><span style="width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #D8D6CE"></span></div><div><div style="font-weight:600;font-size:14px;color:#9A9CA1">Arrived on site</div></div></div>
+      </div>
+
+      <div style="display:flex;gap:10px">
+        <button style="flex:1;font-family:'Space Grotesk';font-weight:700;font-size:14px;color:#141518;background:#FFC400;border:none;border-radius:10px;padding:13px;cursor:pointer">Call driver</button>
+        <button style="flex:1;font-family:'Space Grotesk';font-weight:600;font-size:14px;color:#141518;background:#fff;border:1px solid #D8D6CE;border-radius:10px;padding:13px;cursor:pointer">Share</button>
+      </div>
+    </div>
+  </div>
+  <div style="font-family:'Space Mono';font-size:11px;color:#9A9CA1;margin-top:22px;max-width:320px;text-align:center;line-height:1.6">Sent by WhatsApp when the machine left the yard. Opens on any phone — nothing to install, no account.</div>
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { screen: 'home' };
+  renderVals() {
+    const s = this.state.screen;
+    const tab = (n) => ({ bg: s === n ? '#FFC400' : 'transparent', fg: s === n ? '#141518' : '#8A8D93' });
+    const h = tab('home'), b = tab('browse'), d = tab('detail'), t = tab('tracking');
+    return {
+      isHome: s === 'home', isBrowse: s === 'browse', isDetail: s === 'detail', isTracking: s === 'tracking',
+      homeBg: h.bg, homeFg: h.fg, browseBg: b.bg, browseFg: b.fg, detailBg: d.bg, detailFg: d.fg, trackBg: t.bg, trackFg: t.fg,
+      goHome: () => { this.setState({ screen: 'home' }); window.scrollTo(0, 0); },
+      goBrowse: () => { this.setState({ screen: 'browse' }); window.scrollTo(0, 0); },
+      goDetail: () => { this.setState({ screen: 'detail' }); window.scrollTo(0, 0); },
+      goTracking: () => { this.setState({ screen: 'tracking' }); window.scrollTo(0, 0); },
+    };
+  }
+}
+</script>
+<script>
+(async () => {
+  if (!document.title || !document.title.trim()) document.title = "Dozr Marketplace";
+  // Prepend so page-supplied @page / break rules (deck-stage's margin:0,
+  // author CSS) keep source-order precedence over the baseline.
+  const baseCss = document.createElement('style');
+  baseCss.textContent = "@media print {\n  figure, table { break-inside: avoid; }\n  *, *::before, *::after {\n    print-color-adjust: exact; -webkit-print-color-adjust: exact;\n    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;\n    animation-delay: -99s !important; animation-duration: .001s !important;\n    animation-iteration-count: 1 !important; animation-fill-mode: both !important;\n    animation-play-state: running !important; transition-duration: 0s !important;\n  }\n}";
+  document.head.prepend(baseCss);
+  if (document.readyState === 'loading') {
+    await new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }));
+  }
+  let ds = document.querySelector('deck-stage');
+  // whenDefined never resolves when nothing registers the element, so only
+  // await it when a <deck-stage> tag exists (and race a timeout regardless).
+  if (ds && !customElements.get('deck-stage')) {
+    try {
+      await Promise.race([
+        customElements.whenDefined('deck-stage'),
+        new Promise((r) => setTimeout(r, 3000)),
+      ]);
+    } catch (e) {}
+    ds = document.querySelector('deck-stage');
+  }
+  // dc-runtime assigns window.DCLogic at init and mounts into #dc-root on
+  // DOMContentLoaded; settle on that subtree so React has rendered before
+  // print(). Non-DC pages fall through to weighing body.
+  const isDc = !ds && 'DCLogic' in window;
+  const settleRoot = ds || (isDc ? document.getElementById('dc-root') : null) || document.body;
+  if (settleRoot) {
+    // Weigh only content children — skip script/style/template so inline
+    // Babel/CSS doesn't register as stable "content" before the framework
+    // has mounted anything.
+    const MEDIA = 'img,svg,canvas,video,picture,iframe,embed,object';
+    const weigh = () => {
+      let text = 0, media = 0;
+      for (const c of settleRoot.children) {
+        const t = c.tagName;
+        if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+        text += (c.textContent || '').trim().length;
+        media += c.querySelectorAll(MEDIA).length + (c.matches(MEDIA) ? 1 : 0);
+      }
+      return text + media * 100;
+    };
+    // "Non-zero and stable" alone is not sufficient to mean rendered: generic
+    // body can carry a static shell while async main content is pending, and
+    // #dc-root can carry the root DC's static text while child refs are still
+    // .sc-placeholder boxes. Gate generic on readyState 'complete', and never
+    // accept stability while a dc-runtime placeholder is present.
+    const isGeneric = settleRoot === document.body;
+    const deadline = Date.now() + 15000;
+    let last = -1, stable = 0;
+    while (Date.now() < deadline) {
+      const n = weigh();
+      const ready =
+        (!isGeneric || document.readyState === 'complete') &&
+        !settleRoot.querySelector('.sc-placeholder');
+      if (n > 0 && n === last && ready) { if (++stable >= 2) break; } else { stable = 0; }
+      last = n;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+  }
+  // Project support.js may predate runtime default-seeding; push via bridge.
+  if (isDc && window.__dcSetProps && window.__dcRootName) {
+    try {
+      const dpEl = document.querySelector('script[data-dc-script]');
+      const meta = JSON.parse((dpEl && dpEl.getAttribute('data-props')) || '{}');
+      const bag = {};
+      for (const k in meta)
+        if (k[0] !== '$' && meta[k] && meta[k].default !== undefined)
+          bag[k] = meta[k].default;
+      if (Object.keys(bag).length) {
+        window.__dcSetProps(window.__dcRootName(), bag);
+        await new Promise((r) => setTimeout(r, 50));
+      }
+    } catch (e) {}
+  }
+  // Reveal content gated on scroll or visibility before printing. Lazy <img>,
+  // IntersectionObserver fade-ins, and collapsed <details> don't render while
+  // off-screen, so a long page would print with them blank or closed. Open
+  // every <details>, force native-lazy images eager, and scroll the document
+  // through its full height to trip lazy-load + IO; then wait (bounded) for the
+  // newly-triggered images. Inert for deck-stage (slides aren't scroll-gated).
+  try {
+    for (const d of document.querySelectorAll('details')) d.open = true;
+    for (const img of document.querySelectorAll('img[loading="lazy"]'))
+      img.loading = 'eager';
+    const scroller = document.scrollingElement || document.documentElement;
+    const full = Math.max(scroller.scrollHeight, document.body.scrollHeight);
+    const step = window.innerHeight || 800;
+    for (let y = 0; y <= full; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((r) => requestAnimationFrame(r));
+    }
+    window.scrollTo(0, 0);
+    await Promise.race([
+      Promise.all(
+        [...document.images].map((img) =>
+          img.complete
+            ? null
+            : new Promise((res) => {
+                img.addEventListener('load', res, { once: true });
+                img.addEventListener('error', res, { once: true });
+              })
+        )
+      ),
+      new Promise((r) => setTimeout(r, 4000)),
+    ]);
+  } catch (e) {}
+  try { await document.fonts.ready; } catch (e) {}
+  // Jump every animation to its end state so print() never captures a slide
+  // mid-entrance. Ordering matters: the 0s-transition style must be live
+  // BEFORE data-deck-active is set so attribute-keyed transitions don't
+  // start a (now-0s) run from the pre-active base.
+  const st = document.createElement('style');
+  st.textContent = '*,*::before,*::after{animation-delay:-99s !important;animation-duration:.001s !important;animation-iteration-count:1 !important;animation-fill-mode:both !important;animation-play-state:running !important;transition-duration:0s !important}';
+  document.head.appendChild(st);
+  for (const d of document.querySelectorAll('deck-stage')) {
+    for (const c of d.children) {
+      const t = c.tagName;
+      if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+      c.setAttribute('data-deck-active', '');
+    }
+  }
+  // Re-append deck-stage's @page last so no author @page can add a margin and
+  // spill each full-bleed slide onto two sheets. Backstop for old copies.
+  if (ds) {
+    let pg = document.getElementById('deck-stage-print-page');
+    if (!pg) {
+      pg = document.createElement('style');
+      pg.textContent = '@page{size:' + (+ds.getAttribute('width') || 1920) +
+        'px ' + (+ds.getAttribute('height') || 1080) + 'px;margin:0}';
+    }
+    document.body.appendChild(pg);
+  }
+  try {
+    const sweep = () => {
+      for (const a of document.getAnimations()) {
+        try { a.finish(); } catch (e) {
+          try { a.currentTime = (a.effect && a.effect.getComputedTiming().duration) || 0; a.pause(); } catch (e2) {}
+        }
+      }
+    };
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+  } catch (e) {}
+  // Size the PDF page to the rendered design unless the file opted into
+  // standard paper via @page{size:letter|A4|…}. Decks own their own @page.
+  // Wrappers (body, …) lose padding+margin so the frame sits at (0,0); the
+  // frame itself loses only margin — its padding is INSIDE the measured
+  // rect and must stay, or content shifts and leaves a gap at bottom/right.
+  var __m = null;
+  try { __m = (() => {
+  var STAMP = true;
+  var docEl = document.documentElement;
+  var doc = { width: docEl.scrollWidth, height: docEl.scrollHeight };
+
+  var ds = document.querySelector('deck-stage');
+  if (ds) {
+    var dw = Number(ds.getAttribute('width')) || 1920;
+    var dh = Number(ds.getAttribute('height')) || 1080;
+    var n = typeof ds.length === 'number' ? ds.length : ds.children.length;
+    var idx = typeof ds.index === 'number' ? ds.index : 0;
+    var frames = [];
+    for (var i = 0; i < n; i++) frames.push({ left: 0, top: 0, width: dw, height: dh });
+    return { kind: 'deck', source: 'declared', doc: doc, frames: frames,
+      authored: frames.map(function(){return{width:true,height:true}}),
+      deck: { width: dw, height: dh, slideCount: n, index: idx },
+      signals: { paperPage: false, pxPage: false } };
+  }
+
+  // Declared kind: a doc-page tag names the kind outright, so no signal
+  // heuristics run (like the deck branch above, signals report false —
+  // they describe inferred classifications only). The tag alone is not
+  // trusted: the element must have upgraded (shadowRoot present), so a
+  // leftover tag whose script was deleted falls through to the heuristics
+  // that handle plain markup.
+  var stageSx = window.scrollX || 0, stageSy = window.scrollY || 0;
+  var dp = document.querySelector('doc-page');
+  if (dp && dp.shadowRoot) {
+    // Crop to the sheet, not the host — the desk around it is screen-only
+    // chrome that must not land in PNG exports.
+    var sheet = dp.shadowRoot.querySelector('.sheet');
+    var sr = (sheet || dp).getBoundingClientRect();
+    return { kind: 'paper-doc', source: 'declared', doc: doc,
+      frames: [{ left: sr.left + stageSx, top: sr.top + stageSy,
+        width: sr.width, height: sr.height }],
+      authored: [{ width: false, height: false }],
+      signals: { paperPage: false, pxPage: false } };
+  }
+  var paperPage = false, pxPage = false;
+  var eachRule = function (fn) {
+    for (var s = 0; s < document.styleSheets.length; s++) {
+      var rs; try { rs = document.styleSheets[s].cssRules; } catch (e) { continue; }
+      for (var r = 0; r < rs.length; r++) {
+        fn(rs[r]);
+        if (rs[r].cssRules) for (var n = 0; n < rs[r].cssRules.length; n++) fn(rs[r].cssRules[n]);
+      }
+    }
+  };
+  eachRule(function (r) {
+    if (r.type !== 6) return;
+    var m = /\bsize\s*:\s*([^;}]+)/i.exec(r.cssText || '');
+    if (!m) return;
+    if (/\b(letter|a[3-5]|legal|ledger)\b/i.test(m[1])) paperPage = true;
+    if (/\d+(?:\.\d+)?px\b/i.test(m[1])) pxPage = true;
+  });
+  var signals = { paperPage: paperPage, pxPage: pxPage };
+
+  var pxVal = function (v) {
+    var m = /^(\d+(?:\.\d+)?)px$/.exec(v || ''); return m ? +m[1] : 0;
+  };
+  var authoredPx = function (el, prop) {
+    if (pxVal(el.style[prop])) return true;
+    var attr = el.getAttribute(prop);
+    if (attr && /^\d+$/.test(attr)) return true;
+    var hit = false;
+    eachRule(function (r) {
+      if (hit || r.type !== 1 || !r.style) return;
+      try { if (el.matches(r.selectorText) && pxVal(r.style[prop])) hit = true; } catch (e) {}
+    });
+    return hit;
+  };
+
+  var el = document.body, rootPxW = false;
+  for (;;) {
+    var kids = [];
+    for (var c = 0; c < el.children.length; c++) {
+      var t = el.children[c].tagName;
+      if (t !== 'SCRIPT' && t !== 'STYLE' && t !== 'TEMPLATE') kids.push(el.children[c]);
+    }
+    if (kids.length !== 1 || !(kids[0] instanceof HTMLElement)) break;
+    if (STAMP) el.setAttribute('data-om-frame-wrap', '');
+    el = kids[0];
+    rootPxW = authoredPx(el, 'width');
+    if (rootPxW) break;
+  }
+  if (!rootPxW) rootPxW = authoredPx(el, 'width');
+
+  // @page{size:letter} alone is a flowing doc; with a px-width root it's a
+  // fixed sheet pretending to be paper — fall through and size to render.
+  if (paperPage && !rootPxW) {
+    return { kind: 'paper-doc', source: 'inferred', doc: doc, signals: signals,
+      frames: [{ left: 0, top: 0, width: doc.width, height: doc.height }],
+      authored: [{ width: false, height: false }] };
+  }
+
+  var sx = window.scrollX || 0, sy = window.scrollY || 0;
+  var rectOf = function (e) {
+    var r = e.getBoundingClientRect();
+    var oy; try { oy = getComputedStyle(e).overflowY; } catch (err) {}
+    var h = oy === 'visible' ? Math.max(r.height, e.scrollHeight || 0) : r.height;
+    return { left: r.left + sx, top: r.top + sy, width: r.width, height: h };
+  };
+
+  // Multi-frame: ≥2 visible non-fixed children, each with authored px width
+  // AND height, all within ±2px of each other. Off unless the page opts in
+  // via data-om-multi-frame on the stop element — guards against card grids
+  // and pricing tables that match the geometry but aren't separate canvases.
+  if (el.hasAttribute('data-om-multi-frame')) {
+    var cands = [];
+    for (var k = 0; k < el.children.length; k++) {
+      var ch = el.children[k];
+      var cs; try { cs = getComputedStyle(ch); } catch (e) { continue; }
+      if (cs.display === 'none' || cs.visibility === 'hidden' || cs.position === 'fixed') continue;
+      var rc = rectOf(ch);
+      if (rc.width < 2 || rc.height < 2) continue;
+      if (!authoredPx(ch, 'width') || !authoredPx(ch, 'height')) continue;
+      cands.push(rc);
+    }
+    if (cands.length >= 2) {
+      var w0 = cands[0].width, h0 = cands[0].height, ok = true;
+      for (var q = 1; q < cands.length; q++)
+        if (Math.abs(cands[q].width - w0) > 2 || Math.abs(cands[q].height - h0) > 2) ok = false;
+      if (ok) return { kind: 'multi-frame', source: 'inferred', doc: doc, signals: signals,
+        frames: cands, authored: cands.map(function(){return{width:true,height:true}}) };
+    }
+  }
+
+  if (STAMP) el.setAttribute('data-om-frame', '');
+  return { kind: 'single-canvas', source: 'inferred', doc: doc, signals: signals,
+    frames: [rectOf(el)],
+    authored: [{ width: rootPxW, height: authoredPx(el, 'height') }] };
+})(); } catch (e) {}
+  var frame = null;
+  if (__m && __m.kind === 'single-canvas') {
+    var f = __m.frames && __m.frames[0];
+    if (f && f.width >= 200 && f.height >= 200) {
+      frame = f;
+      var fst = document.createElement('style');
+      fst.textContent = '@media print{@page{size:' + Math.ceil(f.width) + 'px ' +
+        Math.ceil(f.height) + 'px;margin:0}' +
+        'html,body,[data-om-frame-wrap]{padding:0!important;margin:0!important;background:none!important}' +
+        '[data-om-frame]{margin:0!important}}';
+      document.body.appendChild(fst);
+    }
+  }
+  // Relax break-inside on oversized elements. An element taller than a
+  // printable page can't honor break-inside: avoid — browsers either overflow
+  // it or push it whole to the next page, leaving a blank gap, then break it
+  // anyway at an arbitrary point. After the final layout (content revealed,
+  // animations jumped), find elements taller than a page that still compute
+  // break-inside: avoid and reset them to auto, so the browser breaks them at
+  // their children's boundaries instead (children keep their own avoid). PAGE_PX
+  // is a conservative portrait estimate at 96 CSS px/in — Letter/A4 usable
+  // height minus our 0.5in margins — so only clearly-oversized elements are
+  // touched and under-page elements still stay whole. Skipped for decks (slides
+  // are sized to the page) and for fixed-size canvases (frame set, or an author
+  // px-based @page) — runs as before for flowing docs on letter/A4.
+  try {
+    if (!ds && !frame && !(__m && __m.signals && __m.signals.pxPage)) {
+      const PAGE_PX = 1024;
+      // Our print defaults add a real @page margin only when the source has
+      // no @page of its own; computed style can't tell us (it reports screen
+      // media), so read the injected rule directly.
+      const defaults = document.querySelector('style[data-omelette-print-defaults]');
+      const pageInset = /@page\s*\{[^}]*margin/.test(defaults ? defaults.textContent || '' : '');
+      const SEL = 'section,article,figure,table,pre,blockquote,[class~="card" i],[class~="page" i],[class~="sheet" i]';
+      for (const el of document.body.querySelectorAll(SEL)) {
+        if (el instanceof HTMLElement && el.offsetHeight > PAGE_PX) {
+          el.setAttribute('data-om-oversized', '');
+          // Fake-paged docs simulate sheets with over-tall break-after:page
+          // boxes; honoring the break spills half-blank pages and ends a
+          // colored box mid-sheet. Flow them, and (only when we own the page
+          // inset) drop the redundant padding/background via the rule below.
+          const cs = getComputedStyle(el);
+          if (cs.breakAfter === 'page' || cs.pageBreakAfter === 'always') {
+            el.setAttribute('data-om-fakepage', '');
+          }
+        }
+      }
+      const ost = document.createElement('style');
+      ost.textContent = '@media print{' +
+        '[data-om-oversized]{break-inside:auto !important;page-break-inside:auto !important}' +
+        '[data-om-fakepage]{break-after:auto !important;page-break-after:auto !important}' +
+        (pageInset ? '[data-om-fakepage]{padding:0 !important;background:none !important}' : '') +
+        '}';
+      document.head.appendChild(ost);
+    }
+  } catch (e) {}
+  // macOS Preview renders Skia-PDF Luminosity soft-masks as opaque grey boxes;
+  // swap the CSS that triggers them for Preview-safe forms.
+  try {
+    for (const el of document.body.querySelectorAll('*')) {
+      const cs = getComputedStyle(el);
+
+      if (cs.boxShadow !== 'none' && cs.filter === 'none') {
+        const outs = [], kept = [];
+        for (const s of cs.boxShadow.split(/,(?![^(]*[)])/)) {
+          const t = s.trim();
+          const m = t.match(/^(rgba?[(][^)]+[)]) (-?[0-9.]+px) (-?[0-9.]+px) ([0-9.]+px) -?[0-9.]+px$/);
+          if (m && parseFloat(m[4]) > 0) outs.push('drop-shadow(' + m[2] + ' ' + m[3] + ' ' + m[4] + ' ' + m[1] + ')');
+          else kept.push(t);
+        }
+        if (outs.length) {
+          el.style.setProperty('filter', outs.join(' '), 'important');
+          el.style.setProperty('box-shadow', kept.join(', ') || 'none', 'important');
+        }
+      }
+
+      const mask = cs.maskImage && cs.maskImage !== 'none' ? cs.maskImage : cs.webkitMaskImage;
+      if (mask && mask !== 'none' && cs.filter === 'none') el.style.setProperty('filter', 'opacity(1)', 'important');
+    }
+  } catch (e) {}
+  setTimeout(() => { try { window.print(); } catch (e) {} }, 200);
+})();
+</script>
+</body>
+</html>

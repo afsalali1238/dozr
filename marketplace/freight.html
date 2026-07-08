@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freight Booking - Dozr</title>
+<meta name="description" content="Request flatbed and heavy freight quotes across the UAE with Dozr. Share origin, destination, cargo, and date for a WhatsApp-native quote.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-nav">
+  <div class="container">
+    <a class="logo" href="index.html" aria-label="Dozr home">
+      <div style="width:30px;height:30px;border-radius:8px;background:var(--ink);display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M12 6c-2 0-3.2 1.3-3.2 3.4V18.5h4.4V11c0-1.1.5-1.7 1.5-1.7H17V6z" fill="var(--yellow)"/><path d="M14.5 14.5 21.5 18" stroke="var(--yellow)" stroke-width="3" stroke-linecap="round"/><circle cx="22.5" cy="20.5" r="2.6" fill="var(--yellow)"/><path d="M6.5 24H18" stroke="var(--yellow)" stroke-width="3" stroke-linecap="round"/></svg></div>
+      <span>dozr</span>
+    </a>
+    <nav class="links" data-nav-menu data-open="false" aria-label="Primary">
+      <a href="browse.html" aria-current="false">Equipment</a>
+      <a href="freight.html" aria-current="page">Freight</a>
+      <a href="index.html#how-it-works" aria-current="false">How it works</a>
+      <span class="nav-disabled" aria-disabled="true">For vendors soon</span>
+    </nav>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false">Menu</button>
+    <button class="nav-auth" type="button" disabled title="Accounts launch after quote workflow QA">Sign in soon</button>
+  </div>
+</header>
+
+<main id="main-content" class="container freight-layout">
+  <section>
+    <div class="eyebrow hero-eyebrow">UAE freight booking</div>
+    <h1 style="font-size:clamp(40px,6vw,58px);line-height:1;margin-bottom:18px">Move machines, steel, and site cargo without the phone chase.</h1>
+    <p class="text-muted" style="font-size:18px;line-height:1.6;max-width:620px;margin:0 0 28px">Tell Dozr the lane, cargo, and date. We source the right flatbed or heavy truck from verified operators and send the quote back on WhatsApp.</p>
+    <div class="steps-band" style="padding:28px">
+      <div><div class="step-number">01</div><h2 style="font-size:16px;margin-bottom:6px">Share the lane</h2><div class="step-copy">Origin, destination, cargo, and preferred date.</div></div>
+      <div><div class="step-number">02</div><h2 style="font-size:16px;margin-bottom:6px">Get matched</h2><div class="step-copy">Dozr checks verified freight vendors with the right equipment.</div></div>
+      <div><div class="step-number">03</div><h2 style="font-size:16px;margin-bottom:6px">Track delivery</h2><div class="step-copy">Dispatch, GPS link, ePOD, and invoice stay WhatsApp-native.</div></div>
+    </div>
+  </section>
+
+  <aside>
+    <form class="freight-form" id="freightForm">
+      <h2 style="font-size:24px;margin-bottom:8px">Request freight quote</h2>
+      <p class="text-muted" style="font-size:14px;line-height:1.5;margin:0 0 20px">No payment required. A Dozr dispatcher confirms the quote on WhatsApp.</p>
+      <div class="form-stack">
+        <div><label class="field-label" for="origin">Origin</label><input class="input-control" id="origin" type="text" value="Jebel Ali Port" autocomplete="address-level2" required></div>
+        <div><label class="field-label" for="destination">Destination</label><input class="input-control" id="destination" type="text" value="Al Quoz Industrial 3" autocomplete="address-level2" required></div>
+        <div><label class="field-label" for="cargo">Cargo</label><input class="input-control" id="cargo" type="text" value="20 tonne excavator" required></div>
+        <div><label class="field-label" for="freightDate">Pickup date</label><input class="input-control" id="freightDate" type="date" value="2026-08-12" required></div>
+        <div><label class="field-label" for="vehicleType">Vehicle type</label><select class="input-control" id="vehicleType" required><option value="Lowbed trailer">Lowbed trailer</option><option value="Flatbed trailer">Flatbed trailer</option><option value="Crane truck">Crane truck</option><option value="Box truck">Box truck</option><option value="Not sure">Not sure</option></select></div>
+      </div>
+      <button type="submit" id="freightQuote" class="btn btn-primary btn-full" style="margin-top:20px;text-decoration:none">Request Quote</button>
+    </form>
+  </aside>
+</main>
+
+<footer class="site-footer"><div class="container">&copy; 2026 Dozr. UAE construction &amp; port logistics.</div></footer>
+<script src="js/whatsapp.js" defer></script>
+<script src="js/main.js" defer></script>
+<script src="js/freight.js" defer></script>
+</body>
+</html>

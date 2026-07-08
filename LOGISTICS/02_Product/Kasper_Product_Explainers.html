@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasper — Product Explainers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:     #0D1B2A;
+  --navy2:    #1A2B4A;
+  --teal:     #1D9E75;
+  --teal-dk:  #0F6E56;
+  --teal-lt:  #E8F5EF;
+  --gold:     #BA7517;
+  --gold-lt:  #FDF6E3;
+  --blue:     #1565C0;
+  --blue-lt:  #EBF3FB;
+  --purple:   #7C3AED;
+  --purple-lt:#F5F3FF;
+  --red:      #C0392B;
+  --red-lt:   #FDEDEC;
+  --muted:    #7A8BA0;
+  --border:   #2D4263;
+  --text:     #1E293B;
+  --text2:    #475569;
+  --text3:    #94A3B8;
+  --bg:       #F8F9FA;
+  --bg2:      #F1F5F9;
+  --white:    #FFFFFF;
+
+  --c-client: #1565C0;
+  --c-ops:    #1D9E75;
+  --c-vendor: #BA7517;
+  --c-driver: #7C3AED;
+  --c-sys:    #475569;
+
+  --font-sans: 'DM Sans', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── TOP NAV ───────────────────────────────────── */
+.top-nav {
+  background: var(--navy);
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--teal);
+  letter-spacing: .12em;
+  padding: 14px 0;
+  margin-right: 16px;
+}
+.nav-item {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 14px 10px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-item:hover { color: #fff; }
+.nav-item.active { color: var(--teal); border-bottom-color: var(--teal); }
+
+/* ── COVER ─────────────────────────────────────── */
+.cover {
+  background: var(--navy);
+  padding: 56px 48px 48px;
+  border-bottom: 1px solid var(--border);
+}
+.cover-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.cover-title {
+  font-size: 38px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -.02em;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+.cover-sub {
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+.cover-layers {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+.cover-layer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--navy2);
+  border: .5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  font-size: 11px;
+  color: var(--text3);
+}
+.cover-layer-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--teal);
+}
+.cover-layer-name {
+  font-weight: 500;
+  color: #fff;
+}
+.cover-arrow {
+  color: var(--border);
+  padding: 0 4px;
+  align-self: center;
+  font-size: 14px;
+}
+
+/* ── LAYOUT ────────────────────────────────────── */
+.page { max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
+
+/* ── PRODUCT SECTION ───────────────────────────── */
+.product-section {
+  margin-top: 56px;
+  scroll-margin-top: 52px;
+}
+.product-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 24px 28px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 28px;
+  border: .5px solid transparent;
+}
+.ph-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  opacity: .7;
+  margin-bottom: 4px;
+}
+.ph-title {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  margin-bottom: 6px;
+}
+.ph-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.ph-desc {
+  font-size: 13px;
+  line-height: 1.65;
+  opacity: .85;
+  max-width: 640px;
+}
+.ph-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+.ph-pill {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+/* ── SECTION HEADING ───────────────────────────── */
+.sh {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin: 28px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: .5px solid #E2E8F0;
+}
+
+/* ── PROBLEM CARDS ─────────────────────────────── */
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.prob-card {
+  background: var(--white);
+  border: .5px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  border-left: 3px solid var(--red);
+}
+.prob-icon { font-size: 18px; margin-bottom: 6px; }
+.prob-title { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.prob-body { font-size: 11.5px; color: var(--text2); line-height: 1.55; }
+
+/* ── FLOW GRID (matching SaaS HTML) ────────────── */
+.flow-header-row {
+  display: grid;
+  gap: 0;
+  margin-bottom: 4px;
+}
+.flow-col-head {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 8px 6px 12px;
+  border-bottom: .5px solid #E2E8F0;
+}
+.flow-grid {
+  display: grid;
+  gap: 0;
+  margin-bottom: 4px;
+}
+.flow-lane {
+  border-right: .5px solid #E2E8F0;
+  padding: 4px 6px;
+}
+.flow-lane:last-child { border-right: none; }
+
+.fs {
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  margin: 5px 0;
+  font-size: 11px;
+  line-height: 1.4;
+  position: relative;
+}
+.fs-title { font-weight: 600; font-size: 11.5px; margin-bottom: 3px; }
+.fs-sub { font-size: 10.5px; opacity: .8; }
+.fs-empty { height: 10px; }
+
+.fs-client  { background: color-mix(in srgb, var(--c-client)  12%, transparent); border: .5px solid color-mix(in srgb, var(--c-client)  28%, transparent); }
+.fs-client  .fs-title { color: color-mix(in srgb, var(--c-client)  90%, white); }
+.fs-ops     { background: color-mix(in srgb, var(--c-ops)     12%, transparent); border: .5px solid color-mix(in srgb, var(--c-ops)     28%, transparent); }
+.fs-ops     .fs-title { color: color-mix(in srgb, var(--c-ops)     90%, white); }
+.fs-vendor  { background: color-mix(in srgb, var(--c-vendor)  12%, transparent); border: .5px solid color-mix(in srgb, var(--c-vendor)  28%, transparent); }
+.fs-vendor  .fs-title { color: color-mix(in srgb, var(--c-vendor)  80%, #a05000); }
+.fs-driver  { background: color-mix(in srgb, var(--c-driver)  12%, transparent); border: .5px solid color-mix(in srgb, var(--c-driver)  28%, transparent); }
+.fs-driver  .fs-title { color: color-mix(in srgb, var(--c-driver)  90%, white); }
+.fs-sys     { background: color-mix(in srgb, var(--c-sys)     10%, transparent); border: .5px solid color-mix(in srgb, var(--c-sys)     22%, transparent); }
+.fs-sys     .fs-title { color: var(--c-sys); }
+
+.wa-badge   { background: #25D366; color: #fff; font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 10px; display: inline-block; margin-top: 4px; }
+.auto-badge { background: var(--bg2); color: var(--text3); font-size: 9px; padding: 1px 6px; border-radius: 10px; display: inline-block; margin-top: 4px; }
+.phase-badge { font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 10px; display: inline-block; margin-top: 4px; }
+
+/* ── FEATURES TABLE ────────────────────────────── */
+.feat-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.feat-table th {
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.feat-table td {
+  padding: 9px 12px;
+  border-bottom: .5px solid #E2E8F0;
+  vertical-align: top;
+  color: var(--text2);
+  line-height: 1.55;
+}
+.feat-table td:first-child { font-weight: 600; color: var(--text); width: 220px; }
+.feat-table tr:last-child td { border-bottom: none; }
+.feat-table tr:nth-child(even) td { background: var(--bg2); }
+
+/* ── PRICING TABLE ─────────────────────────────── */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.plan-card {
+  background: var(--white);
+  border: .5px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  padding: 18px 16px;
+  position: relative;
+  overflow: hidden;
+}
+.plan-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.plan-name { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.plan-price { font-family: var(--font-mono); font-size: 22px; font-weight: 700; line-height: 1; margin-bottom: 2px; }
+.plan-per { font-size: 10px; color: var(--text3); margin-bottom: 12px; }
+.plan-meta { font-size: 11px; color: var(--text2); margin-bottom: 3px; }
+.plan-meta span { font-weight: 600; color: var(--text); }
+.plan-divider { height: .5px; background: #E2E8F0; margin: 12px 0; }
+.plan-features { font-size: 10.5px; color: var(--text2); line-height: 1.7; }
+.plan-features li { list-style: none; padding-left: 0; }
+.plan-features li::before { content: '· '; color: var(--text3); }
+
+/* ── REVENUE BOX ───────────────────────────────── */
+.rev-box {
+  background: var(--white);
+  border: .5px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.rev-box table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.rev-box th {
+  text-align: left;
+  padding: 8px 14px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text3);
+  background: var(--bg2);
+  border-bottom: .5px solid #E2E8F0;
+}
+.rev-box td {
+  padding: 9px 14px;
+  border-bottom: .5px solid #E2E8F0;
+  color: var(--text2);
+}
+.rev-box tr:last-child td { border-bottom: none; }
+.rev-box .hi { font-weight: 700; }
+.rev-box .total-row td { background: var(--bg2); font-weight: 600; color: var(--text); }
+
+/* ── ALERT BOX ─────────────────────────────────── */
+.alert-box {
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  margin: 14px 0;
+  border-left: 3px solid;
+}
+.alert-box .alert-title { font-size: 12px; font-weight: 700; margin-bottom: 5px; }
+.alert-box .alert-body { font-size: 12px; line-height: 1.65; color: var(--text2); }
+
+/* ── ROADMAP ───────────────────────────────────── */
+.roadmap-track {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+.roadmap-phase {
+  flex: 1;
+  min-width: 180px;
+  border-right: .5px solid #E2E8F0;
+  padding: 0 16px 0 0;
+  margin-right: 16px;
+}
+.roadmap-phase:last-child { border-right: none; margin-right: 0; }
+.rp-head {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid;
+}
+.rp-item {
+  font-size: 11.5px;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 6px;
+  background: var(--white);
+  border: .5px solid #E2E8F0;
+  line-height: 1.45;
+}
+.rp-item-title { font-weight: 600; color: var(--text); font-size: 11px; margin-bottom: 2px; }
+.rp-item-sub { font-size: 10.5px; color: var(--text2); }
+
+/* ── DIVIDER ───────────────────────────────────── */
+.divider { height: .5px; background: #E2E8F0; margin: 32px 0; }
+
+/* ── WHY BOX ───────────────────────────────────── */
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+.why-card {
+  background: var(--white);
+  border: .5px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+.why-num { font-family: var(--font-mono); font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.why-label { font-size: 10px; color: var(--text3); font-weight: 500; }
+.why-desc { font-size: 11.5px; color: var(--text2); margin-top: 8px; line-height: 1.55; }
+
+/* ── FOOTER ────────────────────────────────────── */
+.footer {
+  background: var(--navy);
+  padding: 24px 48px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 64px;
+  border-top: 1px solid var(--border);
+}
+.footer span { color: var(--teal); }
+
+/* ── PRINT / CLEAN ─────────────────────────────── */
+@media print {
+  .top-nav { position: static; }
+  .product-section { page-break-before: always; }
+  .product-section:first-child { page-break-before: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="top-nav">
+  <div class="nav-logo">KASPER</div>
+  <a class="nav-item active" href="#marketplace">01 — Marketplace</a>
+  <a class="nav-item" href="#vendoros">02 — Vendor OS</a>
+  <a class="nav-item" href="#gps">03 — GPS-as-a-Service</a>
+  <a class="nav-item" href="#telematics">04 — Telematics</a>
+</nav>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-eyebrow">Kasper Technologies FZ-LLC · Product Explainers · May 2026</div>
+  <div class="cover-title">Four Products.<br>One Platform.</div>
+  <div class="cover-sub">UAE construction logistics has zero digital penetration. Every product Kasper builds removes one real friction from a real job. Each layer funds and unlocks the next.</div>
+  <div class="cover-layers">
+    <div class="cover-layer">
+      <span class="cover-layer-num">01</span>
+      <span class="cover-layer-name">Marketplace</span>
+      <span>Book · Track · ePOD · Invoice</span>
+    </div>
+    <div class="cover-arrow">→</div>
+    <div class="cover-layer">
+      <span class="cover-layer-num">02</span>
+      <span class="cover-layer-name">Vendor OS</span>
+      <span>SaaS for 1–50 truck operators</span>
+    </div>
+    <div class="cover-arrow">→</div>
+    <div class="cover-layer">
+      <span class="cover-layer-num">03</span>
+      <span class="cover-layer-name">GPS-as-a-Service</span>
+      <span>Hardware subscription on vendor fleet</span>
+    </div>
+    <div class="cover-arrow">→</div>
+    <div class="cover-layer">
+      <span class="cover-layer-num">04</span>
+      <span class="cover-layer-name">Telematics & Data</span>
+      <span>Intelligence layer · The moat</span>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PRODUCT 1 — MARKETPLACE                                    -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="product-section" id="marketplace">
+
+  <div class="product-header" style="background:color-mix(in srgb,var(--teal) 8%,white); border-color:color-mix(in srgb,var(--teal) 20%,transparent);">
+    <div style="flex:1">
+      <div class="ph-num" style="color:var(--teal)">PRODUCT 01</div>
+      <div class="ph-title" style="color:var(--navy)">Kasper Marketplace</div>
+      <div class="ph-tag" style="background:color-mix(in srgb,var(--teal) 15%,transparent);color:var(--teal-dk)">● LIVE — Building Now</div>
+      <div class="ph-desc" style="color:var(--text2)">The starting point. We are already doing this manually for real clients. The platform codifies what Kasper ops does via WhatsApp today — booking → dispatch → tracking → ePOD → invoice — and makes it completable in a few clicks. We start with Client and Ops, then add Vendor and Driver portals once the core flow is proven.</div>
+      <div class="ph-pills">
+        <span class="ph-pill" style="background:color-mix(in srgb,var(--c-client) 12%,transparent);color:var(--c-client)">Client portal</span>
+        <span class="ph-pill" style="background:color-mix(in srgb,var(--c-ops) 12%,transparent);color:var(--teal-dk)">Ops dashboard</span>
+        <span class="ph-pill" style="background:color-mix(in srgb,var(--c-vendor) 12%,transparent);color:var(--gold)">Vendor portal</span>
+        <span class="ph-pill" style="background:color-mix(in srgb,var(--c-driver) 12%,transparent);color:var(--purple)">Driver app</span>
+        <span class="ph-pill" style="background:var(--bg2);color:var(--text3)">8–15% commission</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <div class="sh">The Problem — What's happening right now without Kasper</div>
+  <div class="problem-grid">
+    <div class="prob-card">
+      <div class="prob-icon">📞</div>
+      <div class="prob-title">5–10 phone calls per job</div>
+      <div class="prob-body">A project manager needs one truck from Khor Fakkan to Dubai. He calls 6 brokers. 4 don't answer. 2 quote over the phone with nothing in writing.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">📍</div>
+      <div class="prob-title">Zero tracking</div>
+      <div class="prob-body">"I'll call the driver" is the standard response when a client asks where the truck is. There is no live visibility at any point in the job.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">📄</div>
+      <div class="prob-title">Paper PODs go missing</div>
+      <div class="prob-body">Delivery proof is a paper note in a driver's cab. It gets wet, torn, or lost. Disputes take weeks. Invoices get blocked with no proof of delivery to attach.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">🗓️</div>
+      <div class="prob-title">7–14 day invoicing</div>
+      <div class="prob-body">Invoice arrives long after the job. The client has moved on. Cash flow is destroyed on both sides because nobody can close the job loop on time.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">💬</div>
+      <div class="prob-title">No audit trail</div>
+      <div class="prob-body">Pricing disputes, damage claims, timing disagreements — nothing is provable. The entire job lifecycle lives in someone's WhatsApp and memory.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">🔁</div>
+      <div class="prob-title">Ops bottleneck at every step</div>
+      <div class="prob-body">Every update requires a human call or message. The ops team can only handle 8–10 simultaneous jobs without things falling through the cracks.</div>
+    </div>
+  </div>
+
+  <!-- HOW WE SOLVE IT -->
+  <div class="sh">How We Solve It — Build sequence: Client+Ops first, then Vendor, then Driver</div>
+  <div class="alert-box" style="background:var(--teal-lt);border-color:var(--teal);">
+    <div class="alert-title" style="color:var(--teal-dk)">Why this sequence</div>
+    <div class="alert-body">We are already running jobs manually for real clients. Step 1 is to make the client booking and ops coordination digital. We can still use WhatsApp with vendors temporarily. Once the client–ops flow is solid and we have real job data, we add the vendor portal so vendors self-serve. Then we add the driver app for GPS and ePOD. Each step removes one manual bottleneck.</div>
+  </div>
+
+  <!-- FLOW -->
+  <div class="sh">Complete job flow — all four actors</div>
+  <div style="background:var(--white);border:.5px solid #E2E8F0;border-radius:var(--radius-md);padding:16px;overflow-x:auto;">
+    <div class="flow-header-row" style="grid-template-columns:repeat(5,1fr)">
+      <div class="flow-col-head" style="color:var(--c-client)">Client</div>
+      <div class="flow-col-head" style="color:var(--c-ops)">Kasper Ops</div>
+      <div class="flow-col-head" style="color:var(--c-vendor)">Vendor</div>
+      <div class="flow-col-head" style="color:var(--c-driver)">Driver</div>
+      <div class="flow-col-head" style="color:var(--c-sys)">System (Auto)</div>
+    </div>
+
+    <!-- ROW 1: Booking -->
+    <div class="flow-grid" style="grid-template-columns:repeat(5,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-client">
+          <div class="fs-title">Books online</div>
+          <div class="fs-sub">Fills booking form: equipment type or freight route, date, cargo, contact. Instant job code issued.</div>
+          <span class="wa-badge">Web / WhatsApp</span>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-ops">
+          <div class="fs-title">Reviews new job</div>
+          <div class="fs-sub">Sees all enquiry details in ops dashboard. Reviews requirements, selects vendors to RFQ.</div>
+          <span class="auto-badge">Notified instantly</span>
+        </div>
+      </div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">Job record created</div>
+          <div class="fs-sub">Supabase row inserted. Job code auto-generated. Status: enquiry. Ops notified.</div>
+          <span class="auto-badge">Auto</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 2: RFQ -->
+    <div class="flow-grid" style="grid-template-columns:repeat(5,1fr)">
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-ops">
+          <div class="fs-title">Broadcasts RFQ</div>
+          <div class="fs-sub">Selects vendors from network by checkbox. Sets job requirements, deadline. Sends in one click.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-vendor">
+          <div class="fs-title">Receives RFQ alert</div>
+          <div class="fs-sub">WhatsApp notification + dashboard badge. Sees full job details: route, cargo, date, requirements.</div>
+          <span class="wa-badge">WhatsApp</span>
+        </div>
+      </div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">RFQ broadcast sent</div>
+          <div class="fs-sub">Status → rfq_sent. Vendors notified. Timer starts for quote deadline.</div>
+          <span class="auto-badge">Auto</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 3: Quote -->
+    <div class="flow-grid" style="grid-template-columns:repeat(5,1fr)">
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-ops">
+          <div class="fs-title">Compares vendor quotes</div>
+          <div class="fs-sub">Quote comparison table shows all vendor prices side by side. Margin calculator: adds Kasper margin, previews client price.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-vendor">
+          <div class="fs-title">Submits quote in 60 sec</div>
+          <div class="fs-sub">Types their price. Taps Send. Done. No PDF to build, no email to write.</div>
+          <span class="wa-badge">60 seconds</span>
+        </div>
+      </div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">Quote PDF generated</div>
+          <div class="fs-sub">jsPDF builds quote with VAT, validity, PO terms. Uploaded to Storage. Sent to client via WhatsApp + email.</div>
+          <span class="auto-badge">Auto</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 4: Client Approves -->
+    <div class="flow-grid" style="grid-template-columns:repeat(5,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-client">
+          <div class="fs-title">Reviews &amp; approves quote</div>
+          <div class="fs-sub">Opens approval link from WhatsApp. Sees price, VAT, terms. One tap to approve. PO auto-generated.</div>
+          <span class="wa-badge">One tap</span>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-ops">
+          <div class="fs-title">Confirms vendor + sets margin</div>
+          <div class="fs-sub">Picks winning vendor. Locked-in margin shown. Ops can optionally call client first for big jobs.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-vendor">
+          <div class="fs-title">Receives vendor PO</div>
+          <div class="fs-sub">Their own PO (at vendor price) arrives via WhatsApp. Confirms availability. Assigns driver.</div>
+          <span class="wa-badge">WhatsApp</span>
+        </div>
+      </div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">Dual PO generated</div>
+          <div class="fs-sub">Client PO (at client price). Vendor PO (at vendor price). Both auto-sent. Status → confirmed.</div>
+          <span class="auto-badge">Auto</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 5: Dispatch -->
+    <div class="flow-grid" style="grid-template-columns:repeat(5,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-client">
+          <div class="fs-title">Receives driver details</div>
+          <div class="fs-sub">Driver name, plate, phone number, and live tracking link — all via WhatsApp before the truck moves.</div>
+          <span class="wa-badge">WhatsApp</span>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-ops">
+          <div class="fs-title">Confirms dispatch</div>
+          <div class="fs-sub">Ops can see dispatch calendar for availability. Confirms time. WhatsApp sent to driver with deep link.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-vendor">
+          <div class="fs-title">Assigns driver from fleet</div>
+          <div class="fs-sub">Picks driver in portal. WhatsApp deep link auto-generated and sent to driver phone.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-driver">
+          <div class="fs-title">Opens job link from WhatsApp</div>
+          <div class="fs-sub">No login. No app install. Job details loaded from signed URL. Taps Start Trip.</div>
+          <span class="wa-badge">WhatsApp deep link</span>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">Status → in_transit</div>
+          <div class="fs-sub">Job status updated. Client tracking page goes live. GPS push begins from driver phone.</div>
+          <span class="auto-badge">Auto</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 6: Live tracking -->
+    <div class="flow-grid" style="grid-template-columns:repeat(5,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-client">
+          <div class="fs-title">Watches live GPS</div>
+          <div class="fs-sub">Leaflet.js map in browser. Driver pin moves in real time. "Last updated: 12 sec ago." No app needed.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-ops">
+          <div class="fs-title">Fleet view in dashboard</div>
+          <div class="fs-sub">Ops sees all active jobs on map. Status of every truck. No calls to drivers needed during transit.</div>
+        </div>
+      </div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-driver">
+          <div class="fs-title">GPS pushes every 10 sec</div>
+          <div class="fs-sub">Browser geolocation → Supabase PATCH. Offline queue with retry. Works on any Android. No app install.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">Coordinates updated live</div>
+          <div class="fs-sub">Supabase Realtime pushes to client tracking page. Stale warning if GPS silent >5 min.</div>
+          <span class="auto-badge">Auto</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 7: ePOD -->
+    <div class="flow-grid" style="grid-template-columns:repeat(5,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-client">
+          <div class="fs-title">Signs ePOD on phone</div>
+          <div class="fs-sub">Tracking page shows sign-off prompt. Receiver name + signature. Geo-timestamped. Done in 30 seconds.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-ops">
+          <div class="fs-title">Job closes automatically</div>
+          <div class="fs-sub">Once both signatures done, ops sees job as completed. No manual close-out. Invoice triggered.</div>
+          <span class="auto-badge">Auto-notified</span>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-vendor">
+          <div class="fs-title">Payment pending notification</div>
+          <div class="fs-sub">Dashboard shows job as epod_done. Vendor price and expected payment date visible.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-driver">
+          <div class="fs-title">Captures ePOD</div>
+          <div class="fs-sub">Delivery photo + driver signature. Receiver name and designation typed. Submits. Job done.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">Invoice + delivery note auto-generated</div>
+          <div class="fs-sub">PDF invoice with VAT + Telr payment link. Delivery note with dual signatures. Both sent via WhatsApp + email.</div>
+          <span class="auto-badge">Auto</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 8: Payment -->
+    <div class="flow-grid" style="grid-template-columns:repeat(5,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-client">
+          <div class="fs-title">Pays invoice</div>
+          <div class="fs-sub">Telr payment link in WhatsApp. Card or bank transfer. Instant confirmation. All docs accessible.</div>
+          <span class="wa-badge">WhatsApp</span>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-ops">
+          <div class="fs-title">Revenue recorded</div>
+          <div class="fs-sub">Kasper margin locked in. Vendor payment scheduled per terms (day 7–14). Audit trail complete.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-vendor">
+          <div class="fs-title">Paid per agreed terms</div>
+          <div class="fs-sub">Vendor receives payment within agreed window. Dashboard shows revenue, jobs, margin for the month.</div>
+        </div>
+      </div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">Job fully closed</div>
+          <div class="fs-sub">All documents in audit trail. Vendor scorecard updated. Data feeds into future telematics layer.</div>
+          <span class="auto-badge">Auto</span>
+        </div>
+      </div>
+    </div>
+  </div><!-- end flow -->
+
+  <!-- FEATURES -->
+  <div class="sh">What the platform includes — feature by feature</div>
+  <div style="background:var(--white);border:.5px solid #E2E8F0;border-radius:var(--radius-md);overflow:hidden;">
+    <table class="feat-table">
+      <thead><tr style="background:var(--teal)"><th>Feature</th><th>What it does — what it replaces</th></tr></thead>
+      <tbody>
+        <tr><td>Digital booking form</td><td>Client fills one form online. Equipment type or freight route, date, cargo, contact. Instant job code generated. Replaces: 5–10 phone calls to find a truck.</td></tr>
+        <tr><td>RFQ broadcast to vendors</td><td>Ops selects vendors by checkbox, sends job brief in one click. All vendors see identical info. Replaces: calling each vendor individually to explain the same job.</td></tr>
+        <tr><td>Margin calculator</td><td>Ops enters vendor price. System calculates and previews client price and Kasper margin live before committing. Replaces: mental arithmetic and margin errors.</td></tr>
+        <tr><td>One-click client approval</td><td>Client receives quote via WhatsApp. One tap to approve. PO auto-generated and sent. Replaces: back-and-forth email negotiation with no paper trail.</td></tr>
+        <tr><td>Dispatch calendar</td><td>7-day visual grid of job availability per vehicle. Real data. Prevents double-booking. Replaces: Excel spreadsheet or memory.</td></tr>
+        <tr><td>Driver WhatsApp deep link</td><td>Vendor assigns driver. System generates signed URL. WhatsApp message with one tap to open job. No app install, no login form. Replaces: phone call to driver explaining the job.</td></tr>
+        <tr><td>Live GPS tracking (phone-based)</td><td>Driver browser pushes location every 10 seconds. Client sees Leaflet.js map in their browser. Works offline with retry. Replaces: "I'll call the driver to find out."</td></tr>
+        <tr><td>Dual ePOD sign-off</td><td>Driver captures delivery photo + signature. Client signs on tracking page. Both geo-timestamped. Dispute-proof. Replaces: paper delivery note in driver's cab.</td></tr>
+        <tr><td>Auto invoice + payment link</td><td>On ePOD completion, invoice PDF generated with VAT and Telr payment link. Sent via WhatsApp and email. Replaces: invoice emailed from Word 7–14 days later.</td></tr>
+        <tr><td>9 tracked job statuses</td><td>enquiry → rfq_sent → quoted → confirmed → dispatched → in_transit → delivered → epod_pending → complete. Client, ops, vendor, and driver all see live status.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- REVENUE MODEL -->
+  <div class="sh">Revenue model</div>
+  <div class="rev-box">
+    <table>
+      <thead><tr><th>Stream</th><th>How it works</th><th>Unit economics</th><th>Year 1 target</th></tr></thead>
+      <tbody>
+        <tr><td>Transaction commission</td><td>8–15% markup on vendor price per booking. Kasper charges client price, pays vendor price, keeps the margin.</td><td class="hi" style="color:var(--teal)">AED 144/job avg (at 12% on AED 1,200 booking)</td><td>AED 4.5M (from 500 jobs/mo by month 12)</td></tr>
+        <tr><td>Equipment rental commission</td><td>Same model — 8–12% on equipment rental bookings for cranes, generators, compressors.</td><td>AED 200–800 per booking depending on asset value</td><td>Included in Year 1 figure above</td></tr>
+        <tr class="total-row"><td>Break-even threshold</td><td colspan="3">250 jobs per month × AED 144 margin = AED 36,000/month. Operating cost target: AED 35,000/month. Break-even at Month 6.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- WHY DO IT -->
+  <div class="sh">Why we do this first</div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-num" style="color:var(--teal)">Already</div>
+      <div class="why-label">doing it manually</div>
+      <div class="why-desc">We are running real jobs for real clients on WhatsApp and Excel right now. The platform just makes it digital. No demand risk — the demand is already proven.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num" style="color:var(--teal)">Hormuz</div>
+      <div class="why-label">created the window</div>
+      <div class="why-desc">97% shipping reduction pushed clients to land freight. Those clients found Kasper. The demand spike is real and shippers who discover land routes keep them even after sea lanes reopen.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num" style="color:var(--teal)">Zero</div>
+      <div class="why-label">direct competitors</div>
+      <div class="why-desc">No platform in GCC combines construction equipment rental + freight booking + vendor-facing SaaS + GPS. The gap is real and it is open right now.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num" style="color:var(--teal)">Funds</div>
+      <div class="why-label">everything else</div>
+      <div class="why-desc">Marketplace revenue at 500 jobs/month covers ops, platform cost, and early Vendor OS build. Each product funds the next one. No external capital needed to start.</div>
+    </div>
+  </div>
+
+  <!-- ROADMAP -->
+  <div class="sh">Build sequence — Marketplace roadmap</div>
+  <div class="roadmap-track">
+    <div class="roadmap-phase">
+      <div class="rp-head" style="color:var(--teal);border-color:var(--teal)">Week 1–2 · Client + Ops</div>
+      <div class="rp-item"><div class="rp-item-title">Booking form live</div><div class="rp-item-sub">Client fills form. Job code generated. Ops notified.</div></div>
+      <div class="rp-item"><div class="rp-item-title">Ops dashboard</div><div class="rp-item-sub">Job list, status view, WhatsApp links to vendors.</div></div>
+      <div class="rp-item"><div class="rp-item-title">Quote + PO PDF</div><div class="rp-item-sub">jsPDF auto-generates. Sent to client via WhatsApp.</div></div>
+      <div class="rp-item"><div class="rp-item-title">Client approval link</div><div class="rp-item-sub">One-tap approve. PO locked. Status updated.</div></div>
+    </div>
+    <div class="roadmap-phase">
+      <div class="rp-head" style="color:var(--gold);border-color:var(--gold)">Week 3 · Vendor portal</div>
+      <div class="rp-item"><div class="rp-item-title">Vendor login (OTP)</div><div class="rp-item-sub">Supabase Auth. Phone OTP. No password.</div></div>
+      <div class="rp-item"><div class="rp-item-title">RFQ tab</div><div class="rp-item-sub">Vendor sees jobs, submits price in 60 seconds.</div></div>
+      <div class="rp-item"><div class="rp-item-title">Fleet management</div><div class="rp-item-sub">Add drivers, plates, vehicle types. Assign to jobs.</div></div>
+      <div class="rp-item"><div class="rp-item-title">Payments tab</div><div class="rp-item-sub">Completed jobs, vendor price, payment status.</div></div>
+    </div>
+    <div class="roadmap-phase">
+      <div class="rp-head" style="color:var(--purple);border-color:var(--purple)">Week 4 · Driver app + GPS</div>
+      <div class="rp-item"><div class="rp-item-title">WhatsApp deep link</div><div class="rp-item-sub">Driver opens job from link. Signed token auth. No login.</div></div>
+      <div class="rp-item"><div class="rp-item-title">GPS push (phone)</div><div class="rp-item-sub">Every 10 sec. Offline queue. Retry on reconnect.</div></div>
+      <div class="rp-item"><div class="rp-item-title">Mark delivered</div><div class="rp-item-sub">One tap. Triggers ePOD flow on client side.</div></div>
+      <div class="rp-item"><div class="rp-item-title">ePOD capture</div><div class="rp-item-sub">Photo + signature canvas. Client counter-signs.</div></div>
+    </div>
+    <div class="roadmap-phase">
+      <div class="rp-head" style="color:var(--blue);border-color:var(--blue)">Month 2+ · Harden</div>
+      <div class="rp-item"><div class="rp-item-title">RFQ broadcast UI</div><div class="rp-item-sub">Select vendors by checkbox. Quote comparison table.</div></div>
+      <div class="rp-item"><div class="rp-item-title">Dispatch calendar</div><div class="rp-item-sub">7-day grid. Real availability. No double-booking.</div></div>
+      <div class="rp-item"><div class="rp-item-title">Vendor scorecard</div><div class="rp-item-sub">On-time rate, ePOD rate per vendor. Ops visible.</div></div>
+      <div class="rp-item"><div class="rp-item-title">WhatsApp API (360dialog)</div><div class="rp-item-sub">Replace deep links with proper API notifications.</div></div>
+    </div>
+  </div>
+
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PRODUCT 2 — VENDOR OS                                      -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="product-section" id="vendoros">
+
+  <div class="product-header" style="background:color-mix(in srgb,var(--gold) 8%,white); border-color:color-mix(in srgb,var(--gold) 20%,transparent);">
+    <div style="flex:1">
+      <div class="ph-num" style="color:var(--gold)">PRODUCT 02</div>
+      <div class="ph-title" style="color:var(--navy)">Kasper Vendor OS</div>
+      <div class="ph-tag" style="background:color-mix(in srgb,var(--gold) 15%,transparent);color:var(--gold)">● Building Now — Phase 2</div>
+      <div class="ph-desc" style="color:var(--text2)">Once the marketplace is running and we have real vendor relationships, we package the same tools we built for ourselves into a standalone SaaS product. A 1-truck operator can get a booking link, quote in 60 seconds, send a VAT-compliant invoice, and track their driver — all from WhatsApp. Starts at AED 299/month. Less than AED 10/day.</div>
+      <div class="ph-pills">
+        <span class="ph-pill" style="background:color-mix(in srgb,#25D366 15%,transparent);color:#15803d">WhatsApp-native</span>
+        <span class="ph-pill" style="background:color-mix(in srgb,var(--c-client) 12%,transparent);color:var(--c-client)">60-sec quoting</span>
+        <span class="ph-pill" style="background:color-mix(in srgb,var(--c-vendor) 12%,transparent);color:var(--gold)">PDF invoice auto</span>
+        <span class="ph-pill" style="background:color-mix(in srgb,var(--c-driver) 12%,transparent);color:var(--purple)">Live GPS</span>
+        <span class="ph-pill" style="background:color-mix(in srgb,var(--c-ops) 12%,transparent);color:var(--teal-dk)">Digital ePOD</span>
+        <span class="ph-pill" style="background:var(--bg2);color:var(--text3)">AED 299–999/month</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <div class="sh">The Problem — UAE logistics SME reality</div>
+  <div class="problem-grid">
+    <div class="prob-card">
+      <div class="prob-icon">📝</div>
+      <div class="prob-title">Quoting by voice note</div>
+      <div class="prob-body">Most 1–10 truck operators receive a WhatsApp voice note from a client asking for a price. They reply with another voice note. Nothing is written. Nothing is legally binding. Disputes are guaranteed.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">🧾</div>
+      <div class="prob-title">Invoices from Word or photos</div>
+      <div class="prob-body">The invoice is a Word document template with the price typed in, or a photo of a handwritten note. No TRN. No VAT breakdown. Clients with legal departments won't pay these. Jobs get held up for weeks.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">📲</div>
+      <div class="prob-title">Tracking by phone call</div>
+      <div class="prob-body">"Where's my truck?" is answered by calling the driver. The vendor then calls the client back. This loop happens 3–5 times per job. Every call costs time and destroys the professionalism of the service.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">💰</div>
+      <div class="prob-title">No idea if they made money</div>
+      <div class="prob-body">Small operators have no dashboard. At the end of the month they count bank deposits and receipts. They have no idea which driver was profitable, which client pays on time, or what their margin per job is.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">🗂️</div>
+      <div class="prob-title">Enterprise clients won't use them</div>
+      <div class="prob-body">Large construction companies and developers want proper documentation: VAT-compliant invoice, delivery note with signature, real tracking. Small operators cannot provide this, so they lose those contracts.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">⚠️</div>
+      <div class="prob-title">Can't scale beyond 2–3 trucks</div>
+      <div class="prob-body">Without digital tools, the owner has to personally manage every job. When they add a second or third truck, coordination becomes impossible. Growth is capped by the owner's bandwidth, not the market.</div>
+    </div>
+  </div>
+
+  <!-- HOW WE SOLVE IT -->
+  <div class="sh">How Vendor OS solves it — flow from the vendor's perspective</div>
+  <div class="alert-box" style="background:var(--gold-lt);border-color:var(--gold);">
+    <div class="alert-title" style="color:var(--gold)">Why vendors will pay for this</div>
+    <div class="alert-body">A 5-truck operator gets their first WhatsApp enquiry via Vendor OS booking link. They quote in 60 seconds — the system builds the PDF. The client approves with one tap. The driver gets a WhatsApp link, starts GPS. The invoice auto-generates on delivery. The owner sees AED 2,400 earned this week in their dashboard. It took them 3 minutes of total effort. That experience — once — is all the pitch they need.</div>
+  </div>
+
+  <!-- FLOW -->
+  <div class="sh">Complete Vendor OS flow — four actors</div>
+  <div style="background:var(--white);border:.5px solid #E2E8F0;border-radius:var(--radius-md);padding:16px;overflow-x:auto;">
+    <div class="flow-header-row" style="grid-template-columns:repeat(4,1fr)">
+      <div class="flow-col-head" style="color:var(--c-client)">Client</div>
+      <div class="flow-col-head" style="color:var(--c-vendor)">Vendor (owner)</div>
+      <div class="flow-col-head" style="color:var(--c-driver)">Driver</div>
+      <div class="flow-col-head" style="color:var(--c-sys)">System (Auto)</div>
+    </div>
+
+    <div class="flow-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-client">
+          <div class="fs-title">WhatsApp enquiry or booking link</div>
+          <div class="fs-sub">Sends message to vendor's WhatsApp or fills their booking link. Vehicle type, route, date, cargo details.</div>
+          <span class="wa-badge">WhatsApp</span>
+        </div>
+      </div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">Enquiry captured automatically</div>
+          <div class="fs-sub">Webhook creates job record. Vendor notified. All client details saved. No data entry needed from vendor.</div>
+          <span class="auto-badge">Auto</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-vendor">
+          <div class="fs-title">Opens dashboard — sees enquiry</div>
+          <div class="fs-sub">WhatsApp ping + dashboard notification. Route, cargo, date, client contact all visible. No back-and-forth needed.</div>
+          <span class="wa-badge">WhatsApp alert</span>
+        </div>
+      </div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+    </div>
+
+    <div class="flow-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-client">
+          <div class="fs-title">Receives professional quote PDF</div>
+          <div class="fs-sub">PDF with vendor logo, TRN, VAT breakdown, 48h validity, payment terms — via WhatsApp and email. Looks like a real company.</div>
+          <span class="wa-badge">WhatsApp + email</span>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-vendor">
+          <div class="fs-title">Types price → taps Send Quote</div>
+          <div class="fs-sub">One field: AED amount. One button. Quote PDF is auto-generated and sent. Total time: 60 seconds. No Word, no email, no calls.</div>
+          <span class="wa-badge">60 seconds</span>
+        </div>
+      </div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">jsPDF generates quote</div>
+          <div class="fs-sub">Company name, TRN, logo, line items, VAT 5%, validity, payment terms. Uploaded to Supabase Storage. Delivered via WhatsApp + email.</div>
+          <span class="auto-badge">Auto</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-client">
+          <div class="fs-title">Approves with one tap</div>
+          <div class="fs-sub">Clicks approval link in WhatsApp. Sees quote details. Taps Approve. PO auto-generated and sent to both parties.</div>
+          <span class="wa-badge">One tap</span>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-vendor">
+          <div class="fs-title">Gets PO — assigns driver</div>
+          <div class="fs-sub">WhatsApp alert: "New job confirmed — AED 1,200". Picks driver from fleet roster. Sends WhatsApp deep link to driver.</div>
+          <span class="wa-badge">WhatsApp</span>
+        </div>
+      </div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">PO generated + sent</div>
+          <div class="fs-sub">PDF PO with job reference, client details, price, terms. Sent to both vendor and client. Status → confirmed.</div>
+          <span class="auto-badge">Auto</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-client">
+          <div class="fs-title">Gets driver details + tracking link</div>
+          <div class="fs-sub">Driver name, plate, phone, and live tracking URL sent via WhatsApp. Client knows exactly who is coming.</div>
+          <span class="wa-badge">WhatsApp</span>
+        </div>
+      </div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-driver">
+          <div class="fs-title">Opens WhatsApp link → starts trip</div>
+          <div class="fs-sub">No app install. Job loaded from signed URL. Taps Start Trip. GPS begins pushing every 10 seconds.</div>
+          <span class="wa-badge">Deep link</span>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">Status → in_transit. Live tracking active.</div>
+          <div class="fs-sub">Client tracking link goes live. GPS coordinates pushed every 10s. Offline queue handles signal gaps.</div>
+          <span class="auto-badge">Auto</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-client">
+          <div class="fs-title">Watches live GPS on phone</div>
+          <div class="fs-sub">Leaflet.js map in browser. No app. Driver pin updates live. "Last updated 8 sec ago."</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-vendor">
+          <div class="fs-title">Fleet view in dashboard</div>
+          <div class="fs-sub">Sees all active drivers on map. No calls needed. Knows where every truck is without asking.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-driver">
+          <div class="fs-title">GPS running in background</div>
+          <div class="fs-sub">Push every 10 sec. Offline queue. Retry on reconnect. Works on any Android, any signal.</div>
+        </div>
+      </div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+    </div>
+
+    <div class="flow-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-client">
+          <div class="fs-title">Signs ePOD at delivery</div>
+          <div class="fs-sub">Tracking page shows sign-off prompt on delivery. Receiver name + signature. Geo-timestamped. 30 seconds.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-vendor">
+          <div class="fs-title">Job complete — revenue logged</div>
+          <div class="fs-sub">Dashboard shows job closed, amount earned. Invoice auto-sent. No manual work. Vendor tracks revenue in real time.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-driver">
+          <div class="fs-title">Captures ePOD — photo + signature</div>
+          <div class="fs-sub">Delivery photo. Driver signature canvas. Receiver name. Submit. Triggers client sign-off prompt.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">Invoice auto-generated + sent</div>
+          <div class="fs-sub">VAT-compliant PDF invoice with payment link. Delivery note with dual signatures. Both sent via WhatsApp + email to client.</div>
+          <span class="auto-badge">Auto</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="sh">Feature set — what's included in every plan</div>
+  <div style="background:var(--white);border:.5px solid #E2E8F0;border-radius:var(--radius-md);overflow:hidden;">
+    <table class="feat-table">
+      <thead><tr style="background:var(--gold)"><th>Feature</th><th>What it does and why it matters for an SME vendor</th></tr></thead>
+      <tbody>
+        <tr><td>Booking link + QR code</td><td>Unique URL per vendor: /book?vendor=ID. Share on WhatsApp status, Instagram bio, business card. Client fills form — vendor gets notified. No phone tag.</td></tr>
+        <tr><td>WhatsApp enquiry intake</td><td>Client sends WhatsApp to vendor's number. Webhook creates the job automatically. Vendor never has to type out client details from a voice note.</td></tr>
+        <tr><td>60-second quoting</td><td>Type AED price. Tap send. jsPDF builds a professional quote PDF with company logo, TRN, VAT 5% breakdown, 48h validity. Auto-delivered. No Word. No email. No calls.</td></tr>
+        <tr><td>Auto PO on approval</td><td>Client approves via link → PO auto-generated with job reference, terms, price. Both parties get PDF. Creates legal paper trail with zero effort.</td></tr>
+        <tr><td>Driver assignment + WhatsApp deep link</td><td>Pick driver from roster. System generates signed URL. WhatsApp sent to driver. One tap opens job details. No login, no app install, no confusion.</td></tr>
+        <tr><td>Live GPS (phone-based)</td><td>Driver opens the link. Starts trip. GPS pushes every 10 seconds to Supabase. Client sees Leaflet.js map in their browser. Offline queue + retry handles signal gaps.</td></tr>
+        <tr><td>Digital ePOD</td><td>Driver captures delivery photo + signature. Client signs on tracking page. Both geo-timestamped. Dispute-proof delivery evidence. Replaces paper that gets wet and lost.</td></tr>
+        <tr><td>Auto invoice + Telr payment link</td><td>Invoice PDF generated on ePOD completion. VAT-compliant. Telr payment link embedded. Sent via WhatsApp and email. Client pays from phone. Invoice-to-payment time: hours, not weeks.</td></tr>
+        <tr><td>Revenue dashboard</td><td>Jobs this month, revenue, margin per job, on-time rate per driver. Owner-operator CEO view. First time many vendors will know their actual revenue without counting receipts.</td></tr>
+        <tr><td>Multi-driver fleet management</td><td>Add drivers, vehicle plates, vehicle types. See which driver is on which job. Assign, track, review — all from one screen.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PRICING -->
+  <div class="sh">Pricing — starts at less than AED 10/day</div>
+  <div class="pricing-grid">
+    <div class="plan-card" style="border-color:color-mix(in srgb,var(--teal) 30%,transparent)">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--teal)"></div>
+      <div class="plan-name">Starter</div>
+      <div class="plan-price" style="color:var(--teal)">AED 299</div>
+      <div class="plan-per">per month</div>
+      <div class="plan-meta">Jobs: <span>Up to 30/month</span></div>
+      <div class="plan-meta">Drivers: <span>Up to 3</span></div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Booking link + QR code</li>
+        <li>WhatsApp enquiry intake</li>
+        <li>60-second quoting</li>
+        <li>PDF invoice (VAT-compliant)</li>
+        <li>Phone-based GPS tracking</li>
+        <li>Digital ePOD dual sign-off</li>
+        <li>Basic revenue dashboard</li>
+      </ul>
+    </div>
+    <div class="plan-card" style="border-color:color-mix(in srgb,var(--gold) 30%,transparent)">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)"></div>
+      <div class="plan-name">Growth</div>
+      <div class="plan-price" style="color:var(--gold)">AED 599</div>
+      <div class="plan-per">per month</div>
+      <div class="plan-meta">Jobs: <span>Up to 100/month</span></div>
+      <div class="plan-meta">Drivers: <span>Up to 10</span></div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Everything in Starter</li>
+        <li>WhatsApp API automation</li>
+        <li>Multi-user access</li>
+        <li>Full analytics dashboard</li>
+        <li>Client job portal</li>
+        <li>Vendor scorecard per driver</li>
+      </ul>
+    </div>
+    <div class="plan-card" style="border-color:color-mix(in srgb,var(--blue) 30%,transparent)">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue)"></div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price" style="color:var(--blue)">AED 999</div>
+      <div class="plan-per">per month</div>
+      <div class="plan-meta">Jobs: <span>Unlimited</span></div>
+      <div class="plan-meta">Drivers: <span>Unlimited</span></div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Everything in Growth</li>
+        <li>Custom domain</li>
+        <li>Arabic RTL UI</li>
+        <li>Equipment catalog</li>
+        <li>White-label option</li>
+        <li>API access</li>
+      </ul>
+    </div>
+    <div class="plan-card" style="border-color:color-mix(in srgb,var(--teal) 30%,transparent);background:var(--teal-lt)">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--teal-dk)"></div>
+      <div class="plan-name">Kasper Marketplace Vendors</div>
+      <div class="plan-price" style="color:var(--teal-dk)">FREE</div>
+      <div class="plan-per">included with marketplace</div>
+      <div class="plan-meta">Jobs: <span>Marketplace jobs included</span></div>
+      <div class="plan-meta">Drivers: <span>Included</span></div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Full Pro tier at no cost</li>
+        <li>RFQs fed directly from Kasper marketplace</li>
+        <li>Vendors can also take their own direct clients</li>
+        <li>Switching cost: very high</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- REVENUE -->
+  <div class="sh">SaaS revenue model</div>
+  <div class="rev-box">
+    <table>
+      <thead><tr><th>Milestone</th><th>Vendors</th><th>Avg plan</th><th>MRR</th><th>ARR</th></tr></thead>
+      <tbody>
+        <tr><td>Month 9</td><td>50</td><td>AED 399/mo</td><td class="hi" style="color:var(--teal)">AED 19,950</td><td>AED 239,400</td></tr>
+        <tr><td>Month 15</td><td>150</td><td>AED 399/mo</td><td class="hi" style="color:var(--teal)">AED 59,850</td><td>AED 718,200</td></tr>
+        <tr><td>Month 24</td><td>400</td><td>AED 399/mo</td><td class="hi" style="color:var(--teal)">AED 159,600</td><td>AED 1,915,200</td></tr>
+        <tr class="total-row"><td colspan="4">COGS per vendor per month</td><td>< AED 5 (Supabase, hosting)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sh">Why we do this — the three reasons</div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-num" style="color:var(--gold)">Lock-in</div>
+      <div class="why-label">Vendors don't leave</div>
+      <div class="why-desc">Once a vendor's entire job history, client contacts, invoices, and documents are in Vendor OS, they cannot leave without losing everything. Switching cost is very high without any hardware.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num" style="color:var(--gold)">Upgrade</div>
+      <div class="why-label">Vendors level up instantly</div>
+      <div class="why-desc">A 2-truck operator with Vendor OS can serve enterprise clients who demand proper documentation. Their addressable market expands the moment they sign up.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num" style="color:var(--gold)">Gateway</div>
+      <div class="why-label">Natural path to GPS</div>
+      <div class="why-desc">A vendor who uses Vendor OS daily, trusts the platform, and sees value will be the first to say yes to a GPS device on their truck. Vendor OS is the sales motion for Product 3.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num" style="color:var(--gold)">Data</div>
+      <div class="why-label">Every job feeds the moat</div>
+      <div class="why-desc">Every job processed by Vendor OS adds to Kasper's dataset of UAE freight rates, routes, driver performance, and delivery times. This data becomes valuable in Product 4.</div>
+    </div>
+  </div>
+
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PRODUCT 3 — GPS-as-a-Service                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="product-section" id="gps">
+
+  <div class="product-header" style="background:color-mix(in srgb,var(--blue) 8%,white); border-color:color-mix(in srgb,var(--blue) 20%,transparent);">
+    <div style="flex:1">
+      <div class="ph-num" style="color:var(--blue)">PRODUCT 03</div>
+      <div class="ph-title" style="color:var(--navy)">GPS-as-a-Service</div>
+      <div class="ph-tag" style="background:color-mix(in srgb,var(--blue) 15%,transparent);color:var(--blue)">● Phase 3 — Month 6+</div>
+      <div class="ph-desc" style="color:var(--text2)">We start with phone-based GPS from day one — it's free and works for 80% of use cases. Once we have a vendor base from the marketplace and Vendor OS, we introduce hardware GPS devices (Teltonika FMB920) on vendor trucks at AED 80–150/device/month. The hardware pays back in under 3 months. Once the device is on the truck, the vendor cannot leave — it is physically locked to our platform. That is the switching cost that builds our moat.</div>
+      <div class="ph-pills">
+        <span class="ph-pill" style="background:color-mix(in srgb,var(--blue) 12%,transparent);color:var(--blue)">Teltonika FMB920</span>
+        <span class="ph-pill" style="background:color-mix(in srgb,var(--teal) 12%,transparent);color:var(--teal-dk)">Phone GPS → Hardware GPS</span>
+        <span class="ph-pill" style="background:color-mix(in srgb,var(--purple) 12%,transparent);color:var(--purple)">AED 80–150/device/mo</span>
+        <span class="ph-pill" style="background:var(--bg2);color:var(--text3)">&lt;3 month payback</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <div class="sh">The Problem — why phone GPS alone isn't enough</div>
+  <div class="problem-grid">
+    <div class="prob-card">
+      <div class="prob-icon">🔋</div>
+      <div class="prob-title">Phone GPS dies mid-trip</div>
+      <div class="prob-body">Driver's battery hits 5%. Screen turns off. GPS stops. Client's tracking map goes blank. The vendor has no idea where their asset is. This happens on every third job.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">🚜</div>
+      <div class="prob-title">Equipment has no phone</div>
+      <div class="prob-body">A crane, generator, or compressor rented for 3 months on a construction site doesn't have a phone attached to it. Phone GPS works for trucks. It cannot work for equipment assets.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">🏗️</div>
+      <div class="prob-title">Enterprise needs hardware</div>
+      <div class="prob-body">A main contractor managing AED 50M of equipment across 12 sites will not accept "trust the driver's phone." They need a device. Hardware GPS is the threshold for enterprise contracts.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">⛽</div>
+      <div class="prob-title">No fuel or engine data</div>
+      <div class="prob-body">Phone GPS gives coordinates. Nothing else. Vendors have no idea about fuel consumption, engine hours, or idling time. They cannot predict maintenance. Breakdowns cost AED 30–80K per incident.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">💸</div>
+      <div class="prob-title">Existing hardware is too expensive</div>
+      <div class="prob-body">Fleet management systems in the UAE cost AED 3,000–8,000/vehicle upfront plus high monthly fees. A 3-truck operator cannot afford this. Nobody has made GPS affordable for SME fleets.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">🔓</div>
+      <div class="prob-title">No switching cost in SaaS alone</div>
+      <div class="prob-body">A Vendor OS subscriber can cancel and switch to a competitor. A vendor with a Kasper GPS device on every truck cannot — the device is physically on their asset and locked to our platform.</div>
+    </div>
+  </div>
+
+  <!-- HOW WE SOLVE IT -->
+  <div class="sh">Two-phase GPS strategy — start free, then monetise hardware</div>
+  <div style="background:var(--white);border:.5px solid #E2E8F0;border-radius:var(--radius-md);overflow:hidden;">
+    <table class="feat-table">
+      <thead><tr style="background:var(--blue)"><th>Phase</th><th>How it works</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Phase 1 — Phone GPS<br><span style="font-weight:400;font-size:11px;color:var(--text3)">Live now · Free</span></td>
+          <td>Driver opens job link on their phone. Browser geolocation pushes coordinates every 10 seconds via gps.js to Supabase. Offline queue with retry handles signal drops. Client sees Leaflet.js map updating live. Zero hardware, zero cost. Works for freight trucks in 80% of cases. This is what we use for the marketplace from day one.</td>
+        </tr>
+        <tr>
+          <td>Phase 3 — Hardware GPS<br><span style="font-weight:400;font-size:11px;color:var(--text3)">Month 6+ · AED 80–150/mo</span></td>
+          <td>Teltonika FMB920 device installed on vendor truck or equipment asset. Hardwired to ignition. Sends GPS, engine hours, fuel, and ignition status every 10–30 seconds regardless of whether anyone is holding a phone. Kasper charges AED 80–150/device/month subscription. Hardware cost: AED 160–220/unit. Vendor subscription pays back hardware in under 3 months.</td>
+        </tr>
+        <tr>
+          <td>What vendors get from hardware</td>
+          <td>Live fleet map with every vehicle. Route history and full trip playback. Engine hours for service scheduling. Fuel monitoring for theft and waste detection. Geofence alerts when truck arrives or leaves a site. Insurance documentation from trip evidence. All of this replaces what they currently do not have at all.</td>
+        </tr>
+        <tr>
+          <td>What Kasper gets from hardware</td>
+          <td>AED 80–150 recurring revenue per device per month. Physical switching cost — vendor cannot leave without physically removing the device and losing all historical data. Foundation dataset for the telematics and AI layer in Product 4. At 500 devices, AED 60,000 MRR. At 1,000 devices, AED 120,000 MRR.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FLOW -->
+  <div class="sh">GPS-as-a-Service flow — from vendor sign-up to recurring revenue</div>
+  <div style="background:var(--white);border:.5px solid #E2E8F0;border-radius:var(--radius-md);padding:16px;overflow-x:auto;">
+    <div class="flow-header-row" style="grid-template-columns:repeat(4,1fr)">
+      <div class="flow-col-head" style="color:var(--c-vendor)">Vendor</div>
+      <div class="flow-col-head" style="color:var(--c-driver)">Driver / Asset</div>
+      <div class="flow-col-head" style="color:var(--c-client)">Client</div>
+      <div class="flow-col-head" style="color:var(--c-sys)">Kasper Platform</div>
+    </div>
+
+    <div class="flow-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-vendor">
+          <div class="fs-title">Upgrades to GPS plan</div>
+          <div class="fs-sub">Vendor already using Vendor OS. Kasper ops calls to offer hardware upgrade. Vendor agrees. Device shipped or installed on-site.</div>
+          <span class="phase-badge" style="background:color-mix(in srgb,var(--blue) 15%,transparent);color:var(--blue)">Phase 3</span>
+        </div>
+      </div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">Device provisioned + billing activated</div>
+          <div class="fs-sub">SIM activated. Traccar server receives first ping. Vendor dashboard upgraded to show hardware GPS data. Monthly billing starts.</div>
+          <span class="auto-badge">Auto</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-vendor">
+          <div class="fs-title">Monitors full fleet in real time</div>
+          <div class="fs-sub">Dashboard shows every truck. Live map. Engine status. Route history. Which driver is where, for how long. No phone calls. No guessing.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-driver">
+          <div class="fs-title">Device runs silently in background</div>
+          <div class="fs-sub">No action needed from driver. Ignition-triggered. GPS, engine hours, and fuel reports automatically. Driver just drives.</div>
+          <span class="auto-badge">Automatic</span>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-client">
+          <div class="fs-title">Tracking link always live</div>
+          <div class="fs-sub">Enterprise client can see equipment location at any time — not just during active jobs. Crane on site for 3 months? Always trackable.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">Data streams continuously</div>
+          <div class="fs-sub">GPS, engine hours, fuel level, ignition events all written to Supabase via Traccar API. Foundation for telematics layer.</div>
+          <span class="auto-badge">Auto</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-vendor">
+          <div class="fs-title">Gets maintenance alert</div>
+          <div class="fs-sub">Engine hours hit threshold. Platform sends WhatsApp: "Truck 3 due for service in 2 weeks." Vendor books service proactively.</div>
+          <span class="wa-badge">WhatsApp alert</span>
+        </div>
+      </div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">AED 80–150 billed monthly</div>
+          <div class="fs-sub">Per device subscription auto-renews. Vendor invoice generated. Kasper MRR grows with each device added. 100 devices = AED 12,000 MRR.</div>
+          <span class="auto-badge">Recurring</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HARDWARE -->
+  <div class="sh">Hardware specification</div>
+  <div style="background:var(--white);border:.5px solid #E2E8F0;border-radius:var(--radius-md);overflow:hidden;">
+    <table class="feat-table">
+      <thead><tr style="background:var(--blue)"><th>Item</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Device</td><td>Teltonika FMB920 — industry standard, used in 140+ countries, UAE-proven fleet hardware</td></tr>
+        <tr><td>Connectivity</td><td>4G LTE + GPS + Bluetooth — UAE Etisalat/du network coverage 99.9%</td></tr>
+        <tr><td>What it reports</td><td>GPS coordinates, speed, engine hours, ignition on/off, fuel level (with sensor), door open/close, geofence entry/exit</td></tr>
+        <tr><td>UAE distributors</td><td>Technotel, Ahilia Technology, Transtek — all stock FMB920. Lead time: 3–5 days.</td></tr>
+        <tr><td>Hardware cost</td><td>AED 160–220 per unit at volume (50+ units). AED 220–280 for small pilot batch of 10.</td></tr>
+        <tr><td>SIM cost</td><td>AED 25–35/month per device (Etisalat or du IoT SIM). Included in subscription pricing.</td></tr>
+        <tr><td>Pilot plan</td><td>Start with 10 units on 5 vendor trucks. Prove the hardware model. Cost: AED 2,000–2,800 hardware + AED 300 SIMs/month.</td></tr>
+        <tr><td>Payback</td><td>At AED 120/device/month subscription: hardware paid back in under 2 months from subscription revenue alone.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- REVENUE -->
+  <div class="sh">Revenue at scale</div>
+  <div class="rev-box">
+    <table>
+      <thead><tr><th>Devices</th><th>Avg rate</th><th>MRR</th><th>ARR</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>10 devices</td><td>AED 120/mo</td><td class="hi" style="color:var(--blue)">AED 1,200</td><td>AED 14,400</td><td>Pilot batch. Proves model.</td></tr>
+        <tr><td>50 devices</td><td>AED 120/mo</td><td class="hi" style="color:var(--blue)">AED 6,000</td><td>AED 72,000</td><td>Month 9 target</td></tr>
+        <tr><td>100 devices</td><td>AED 120/mo</td><td class="hi" style="color:var(--blue)">AED 12,000</td><td>AED 144,000</td><td>Month 12 target</td></tr>
+        <tr><td>500 devices</td><td>AED 120/mo</td><td class="hi" style="color:var(--blue)">AED 60,000</td><td>AED 720,000</td><td>Year 2 target</td></tr>
+        <tr class="total-row"><td>1,000 devices</td><td>AED 120/mo</td><td class="hi" style="color:var(--blue)">AED 120,000</td><td>AED 1,440,000</td><td>Year 3 target</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PRODUCT 4 — TELEMATICS & DATA                              -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="product-section" id="telematics">
+
+  <div class="product-header" style="background:color-mix(in srgb,var(--purple) 8%,white); border-color:color-mix(in srgb,var(--purple) 20%,transparent);">
+    <div style="flex:1">
+      <div class="ph-num" style="color:var(--purple)">PRODUCT 04</div>
+      <div class="ph-title" style="color:var(--navy)">Telematics &amp; Data Intelligence</div>
+      <div class="ph-tag" style="background:color-mix(in srgb,var(--purple) 15%,transparent);color:var(--purple)">● Phase 4 — Month 12+</div>
+      <div class="ph-desc" style="color:var(--text2)">Once GPS hardware is on hundreds of trucks and thousands of jobs are in the database, the data itself becomes the product. Every job, every GPS ping, every ePOD signature adds to a dataset that no competitor can replicate without running the same jobs. Predictive maintenance, AI dispatch, emissions reporting, lane rate indices, AI dashcam scoring, and dynamic pricing — each is a separately sellable product built on data Kasper already owns.</div>
+      <div class="ph-pills">
+        <span class="ph-pill" style="background:color-mix(in srgb,var(--purple) 12%,transparent);color:var(--purple)">Predictive maintenance</span>
+        <span class="ph-pill" style="background:color-mix(in srgb,var(--teal) 12%,transparent);color:var(--teal-dk)">AI dispatch</span>
+        <span class="ph-pill" style="background:color-mix(in srgb,var(--gold) 12%,transparent);color:var(--gold)">ESG / emissions</span>
+        <span class="ph-pill" style="background:color-mix(in srgb,var(--blue) 12%,transparent);color:var(--blue)">Lane rate index</span>
+        <span class="ph-pill" style="background:var(--bg2);color:var(--text3)">AED 1,500–5,000/month SaaS</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <div class="sh">The Problem — what UAE fleet operators cannot do today</div>
+  <div class="problem-grid">
+    <div class="prob-card">
+      <div class="prob-icon">🔧</div>
+      <div class="prob-title">Breakdowns are surprises</div>
+      <div class="prob-body">Vendors have no early warning system. A truck breaks down mid-job. Emergency repair costs AED 30–80K. Client job delayed. Contract penalty. All of this was predictable — with engine hour data.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">🚛</div>
+      <div class="prob-title">Deadhead trips waste 40% of capacity</div>
+      <div class="prob-body">A truck delivers to Fujairah and drives back empty. 40% of UAE construction fleet kilometres are dead runs. AI dispatch can match a return load in real time and convert that dead run into revenue.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">🌿</div>
+      <div class="prob-title">ESG reporting is impossible</div>
+      <div class="prob-body">UAE sustainability mandates and KSA Vision 2030 require CO2 per equipment type per hour. Enterprise clients need this for regulatory compliance. Nobody can provide it today without telematics data.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">📊</div>
+      <div class="prob-title">Nobody knows freight rates</div>
+      <div class="prob-body">There is no published UAE freight rate index by lane. Rates are quoted by feel. Freight forwarders, insurers, and developers have no benchmark. Kasper will own this data after 10,000 jobs.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">🎥</div>
+      <div class="prob-title">Insurance is overpriced</div>
+      <div class="prob-body">Logistics SMEs pay full fleet insurance rates with no proof of driver behaviour. AI dashcam scoring with incident detection can cut premiums 10–20%. Insurance companies will fund the hardware to get the data.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">⚡</div>
+      <div class="prob-title">Surge demand is invisible</div>
+      <div class="prob-body">During the Hormuz crisis, demand for land freight surged 733%. Rates didn't adjust in real time. With dynamic pricing on a live supply-demand signal, Kasper captures that upside systematically.</div>
+    </div>
+  </div>
+
+  <!-- HOW WE SOLVE IT -->
+  <div class="sh">What the data layer enables — six intelligence products</div>
+  <div style="background:var(--white);border:.5px solid #E2E8F0;border-radius:var(--radius-md);overflow:hidden;">
+    <table class="feat-table">
+      <thead><tr style="background:var(--purple)"><th>Intelligence Product</th><th>What it does · Who pays · Why they pay</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Predictive Maintenance</td>
+          <td>ML model trained on engine hours + sensor data from Teltonika devices. Flags failure risk 2–3 weeks in advance. Alert sent to vendor via WhatsApp: "Truck 3 — service due in 14 days based on engine hours and thermal data." Vendors pay to avoid AED 50,000 breakdown costs per incident. Target: 15–20% reduction in unplanned downtime.</td>
+        </tr>
+        <tr>
+          <td>AI Dispatch</td>
+          <td>After every job, platform checks: is there a return load available near the delivery point? Matches load to nearest available driver with the right vehicle type. Automatically fills return trips. Cuts deadhead percentage from 40% to under 20%. Directly increases vendor revenue per truck per day. Kasper earns commission on every matched return load.</td>
+        </tr>
+        <tr>
+          <td>Emissions Intelligence</td>
+          <td>CO2 per equipment type per engine hour, calculated from Teltonika fuel + hours data. Generates ESG compliance reports for UAE sustainability mandates and KSA Vision 2030. Enterprise construction clients and developers need this for regulatory reporting. Required for contracts with Abu Dhabi government entities from 2027. Sell as annual subscription to enterprise clients.</td>
+        </tr>
+        <tr>
+          <td>Lane Rate Index</td>
+          <td>After 10,000 jobs processed through the marketplace, Kasper owns the only comprehensive dataset of UAE construction freight rates by corridor: Khor Fakkan → Dubai, Fujairah → Abu Dhabi, Sharjah → Al Ain, and so on. Published as a quarterly rate index. Sold to freight forwarders, insurers, developers, and government planning departments. No competitor can replicate without processing the same volume of real jobs.</td>
+        </tr>
+        <tr>
+          <td>AI Dashcam Scoring</td>
+          <td>Dashcam + AI scoring for driver behaviour: harsh braking, lane changes, fatigue detection, incident footage. Insurance-grade video evidence. AXA Gulf, RSA, and others will give 10–20% premium reductions for verified dashcam users. Insurance companies will co-fund the hardware to access the data. Sells itself: vendors pay for the device with insurance savings.</td>
+        </tr>
+        <tr>
+          <td>Dynamic Pricing Engine</td>
+          <td>Real-time rate adjustment based on live supply-demand signal. If available trucks drop below 20% of typical capacity on a corridor, rate automatically suggests surge price. Kasper captures the upside during demand spikes — Hormuz crisis, Ramadan, major project kicks. Commission on each booking grows with rate. No manual repricing by ops needed.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FLOW -->
+  <div class="sh">How the data layer compounds over time</div>
+  <div style="background:var(--white);border:.5px solid #E2E8F0;border-radius:var(--radius-md);padding:16px;overflow-x:auto;">
+    <div class="flow-header-row" style="grid-template-columns:repeat(4,1fr)">
+      <div class="flow-col-head" style="color:var(--c-ops)">Marketplace jobs</div>
+      <div class="flow-col-head" style="color:var(--c-vendor)">Vendor OS + GPS</div>
+      <div class="flow-col-head" style="color:var(--purple)">Data layer (Kasper)</div>
+      <div class="flow-col-head" style="color:var(--c-sys)">Intelligence products</div>
+    </div>
+
+    <div class="flow-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-ops">
+          <div class="fs-title">Every booking → rate data</div>
+          <div class="fs-sub">Route, cargo type, price, vendor, time of day. 10,000 jobs = the UAE lane rate index.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-vendor">
+          <div class="fs-title">Every GPS ping → movement data</div>
+          <div class="fs-sub">500 devices × 6 pings/min = 180,000 data points/hour. Route times, traffic patterns, site dwell times.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-driver">
+          <div class="fs-title">Every ePOD → performance data</div>
+          <div class="fs-sub">On-time rate per driver, per vendor, per route. Dispute rate. Damage rate. Client satisfaction proxy.</div>
+          <span class="phase-badge" style="background:color-mix(in srgb,var(--purple) 15%,transparent);color:var(--purple)">ML input</span>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">Lane Rate Index</div>
+          <div class="fs-sub">Quarterly published rate index per UAE corridor. Sell annual subscription to forwarders, insurers, developers.</div>
+          <span class="auto-badge">Phase 4</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-vendor">
+          <div class="fs-title">Engine hours + fuel data</div>
+          <div class="fs-sub">FMB920 reports engine hours, RPM spikes, fuel drops. Maintenance patterns emerge after 90 days of data.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-driver">
+          <div class="fs-title">ML model trained per asset type</div>
+          <div class="fs-sub">Separate models per vehicle type: truck, crane, generator. Failure prediction per asset class.</div>
+          <span class="phase-badge" style="background:color-mix(in srgb,var(--purple) 15%,transparent);color:var(--purple)">AI</span>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">Predictive Maintenance alerts</div>
+          <div class="fs-sub">WhatsApp to vendor 14 days before predicted failure. Vendors pay to avoid AED 50K breakdowns.</div>
+          <span class="auto-badge">Phase 4</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="flow-lane">
+        <div class="fs fs-ops">
+          <div class="fs-title">Live supply-demand signal</div>
+          <div class="fs-sub">Available trucks vs active jobs per corridor in real time. Demand spikes visible before rates adjust.</div>
+        </div>
+      </div>
+      <div class="flow-lane"><div class="fs-empty"></div></div>
+      <div class="flow-lane">
+        <div class="fs fs-driver">
+          <div class="fs-title">Dynamic pricing model</div>
+          <div class="fs-sub">Suggests surge rate automatically when supply drops below threshold on a corridor.</div>
+        </div>
+      </div>
+      <div class="flow-lane">
+        <div class="fs fs-sys">
+          <div class="fs-title">AI Dispatch + Dynamic Pricing</div>
+          <div class="fs-sub">Return load matching fills dead runs. Surge pricing captures Hormuz-style demand spikes. Kasper earns more per job automatically.</div>
+          <span class="auto-badge">Phase 4</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="sh">Telematics SaaS pricing — Phase 4</div>
+  <div class="pricing-grid">
+    <div class="plan-card">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--purple)"></div>
+      <div class="plan-name">Fleet Intelligence SaaS</div>
+      <div class="plan-price" style="color:var(--purple)">AED 1,500–5,000</div>
+      <div class="plan-per">per month per fleet operator</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Predictive maintenance alerts</li>
+        <li>AI dispatch + backhaul matching</li>
+        <li>Driver scoring dashboard</li>
+        <li>Fleet utilisation report</li>
+        <li>For: mid-size operators 10–100 trucks</li>
+      </ul>
+    </div>
+    <div class="plan-card">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--teal)"></div>
+      <div class="plan-name">ESG &amp; Emissions Reporting</div>
+      <div class="plan-price" style="color:var(--teal)">AED 2,000–8,000</div>
+      <div class="plan-per">per project or per month</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>CO2 per equipment type per hour</li>
+        <li>Regulatory compliance reports</li>
+        <li>Scope 3 emissions for contractors</li>
+        <li>For: enterprise construction clients, developers</li>
+      </ul>
+    </div>
+    <div class="plan-card">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)"></div>
+      <div class="plan-name">Lane Rate Index</div>
+      <div class="plan-price" style="color:var(--gold)">AED 5,000–20,000</div>
+      <div class="plan-per">annual subscription</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Quarterly UAE freight rate by corridor</li>
+        <li>Historical rate trends</li>
+        <li>Demand index per lane</li>
+        <li>For: freight forwarders, insurers, developers</li>
+      </ul>
+    </div>
+    <div class="plan-card">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue)"></div>
+      <div class="plan-name">AI Dashcam Scoring</div>
+      <div class="plan-price" style="color:var(--blue)">AED 150–300</div>
+      <div class="plan-per">per device per month</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Driver behaviour scoring</li>
+        <li>Incident detection + footage</li>
+        <li>Insurance-grade evidence</li>
+        <li>10–20% insurance premium reduction</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- REVENUE -->
+  <div class="sh">Revenue model — why this layer has the highest margin</div>
+  <div class="rev-box">
+    <table>
+      <thead><tr><th>Product</th><th>Revenue model</th><th>Why margin is near 100%</th></tr></thead>
+      <tbody>
+        <tr><td>Predictive maintenance</td><td>Included in fleet SaaS AED 1,500–5,000/mo</td><td>ML model is trained once. Runs on data Kasper already has. Zero incremental cost per alert.</td></tr>
+        <tr><td>AI dispatch</td><td>Commission on matched return loads (8–12%)</td><td>Pure matching. Kasper earns on the return load with no additional ops cost. Data does the work.</td></tr>
+        <tr><td>Emissions reporting</td><td>AED 2,000–8,000 per project or subscription</td><td>Report generated from existing GPS + engine data. Incremental cost: near zero. High compliance urgency.</td></tr>
+        <tr><td>Lane rate index</td><td>AED 5,000–20,000 annual subscription</td><td>Data already collected from marketplace jobs. Publishing it costs nothing. Demand is institutional.</td></tr>
+        <tr class="total-row"><td colspan="3">The data moat: after 10,000 jobs and 500 GPS devices, Kasper's dataset on UAE construction freight is genuinely unique. No competitor can replicate it without processing the same jobs. That dataset is worth far more than the transaction revenue that created it.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- WHY -->
+  <div class="sh">Why we build toward this from day one</div>
+  <div class="alert-box" style="background:var(--purple-lt);border-color:var(--purple);">
+    <div class="alert-title" style="color:var(--purple)">Every job we run today is an investment in this layer</div>
+    <div class="alert-body">Every booking in the marketplace, every GPS ping from a Vendor OS driver, every ePOD signature — all of it feeds the telematics data model. The teams running the marketplace in Month 1 are not just earning commission. They are training the dataset that makes Kasper irreplaceable in Year 3. This is the reason we do not build only the marketplace. The data lock-in starts from day one.</div>
+  </div>
+
+  <div class="why-grid" style="margin-top:16px">
+    <div class="why-card">
+      <div class="why-num" style="color:var(--purple)">0</div>
+      <div class="why-label">competitors with this data in GCC</div>
+      <div class="why-desc">No platform in the GCC is collecting this specific combination of construction freight rates + GPS + ePOD performance data. The window to own this dataset is open now.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num" style="color:var(--purple)">~100%</div>
+      <div class="why-label">gross margin on data products</div>
+      <div class="why-desc">Once the ML models are trained and the rate index is built, serving another subscriber costs essentially nothing. This is the highest-margin revenue layer in the entire stack.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num" style="color:var(--purple)">Year 3</div>
+      <div class="why-label">when this becomes the primary story</div>
+      <div class="why-desc">By Year 3 with 10,000+ jobs and 500+ GPS devices, the telematics and data layer will be what makes Kasper defensible against any well-funded competitor who tries to enter the market.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num" style="color:var(--purple)">AED 22M+</div>
+      <div class="why-label">combined ARR target Year 3</div>
+      <div class="why-desc">Marketplace AED 19.5M + Vendor SaaS AED 1.9M + GPS AED 1.15M. Telematics adds on top of this. Three independent revenue streams, each growing separately.</div>
+    </div>
+  </div>
+
+</section>
+
+</div><!-- end .page -->
+
+<footer class="footer">
+  <span>KASPER Technologies FZ-LLC</span> · in5 / TECOM Group, Dubai · kasperlogistics.vercel.app · May 2026 · Confidential
+</footer>
+
+<script>
+// Active nav link on scroll
+const sections = document.querySelectorAll('.product-section');
+const navItems = document.querySelectorAll('.nav-item');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navItems.forEach(n => n.classList.remove('active'));
+      const id = entry.target.id;
+      const active = document.querySelector(`.nav-item[href="#${id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.2, rootMargin: '-52px 0px 0px 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

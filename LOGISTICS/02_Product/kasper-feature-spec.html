@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasper GPS — Feature Specification</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2f4f7;--panel:#fff;--panel2:#fafbfc;
+  --ink:#101828;--ink2:#475467;--ink3:#98a2b3;
+  --line:#e4e7ec;--line2:#d0d5dd;
+  --brand:#155eef;--brand-soft:#eff4ff;
+  --green:#079455;--green-soft:#ecfdf3;
+  --amber:#dc6803;--amber-soft:#fffaeb;
+  --red:#d92d20;--red-soft:#fef3f2;
+  --purple:#6938ef;--purple-soft:#f4f3ff;
+  --t1:#155eef;--t2:#dc6803;--t3:#6938ef;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);font-family:'Space Grotesk',sans-serif;color:var(--ink);min-height:100vh}
+.page{max-width:1100px;margin:0 auto;padding:48px 24px 100px}
+
+/* HEADER */
+.doc-header{padding-bottom:32px;border-bottom:2px solid var(--ink);margin-bottom:48px}
+.doc-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+.doc-header h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.doc-header h1 span{color:var(--brand)}
+.doc-meta{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px}
+.tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;padding:4px 12px;border-radius:99px;border:1px solid var(--line2);color:var(--ink2)}
+.tag.must{background:var(--red-soft);border-color:#fca5a5;color:var(--red)}
+.tag.should{background:var(--amber-soft);border-color:#fde68a;color:var(--amber)}
+.tag.could{background:var(--green-soft);border-color:#a7f3d0;color:var(--green)}
+
+/* SCREEN SECTION */
+.screen-section{margin-bottom:72px}
+.screen-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px;flex-wrap:wrap;justify-content:space-between}
+.screen-header-left{}
+.screen-num{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--ink3);letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px}
+.screen-header h2{font-size:1.4rem;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.screen-header p{font-size:.88rem;color:var(--ink2);max-width:560px;line-height:1.5}
+.tier-badges{display:flex;gap:6px}
+.tb{font-family:'IBM Plex Mono',monospace;font-size:.58rem;padding:3px 10px;border-radius:99px;letter-spacing:.08em}
+.tb.all{background:var(--brand-soft);color:var(--brand)}
+.tb.t2{background:var(--amber-soft);color:var(--amber)}
+.tb.t3{background:var(--purple-soft);color:var(--purple)}
+
+/* MOCKUP */
+.mockup-wrap{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 2px 16px rgba(16,24,40,.06);margin-bottom:20px}
+.mockup-chrome{background:#f9fafb;border-bottom:1px solid var(--line);padding:10px 16px;display:flex;align-items:center;gap:10px}
+.chrome-dots{display:flex;gap:5px}
+.chrome-dots span{width:10px;height:10px;border-radius:50%}
+.chrome-dots span:nth-child(1){background:#ff5f57}
+.chrome-dots span:nth-child(2){background:#febc2e}
+.chrome-dots span:nth-child(3){background:#28c840}
+.chrome-url{font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--ink3);background:var(--bg);padding:4px 14px;border-radius:8px;flex:1;max-width:360px}
+.app-shell{display:grid;grid-template-columns:190px 1fr;min-height:460px}
+.sidebar{background:#fafbfc;border-right:1px solid var(--line);padding:16px 10px}
+.sidebar-logo{font-weight:700;font-size:.88rem;padding:8px 10px;margin-bottom:14px;letter-spacing:-.01em}
+.sidebar-logo span{color:var(--brand)}
+.nav-item{font-size:.76rem;padding:8px 10px;border-radius:8px;color:var(--ink2);display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.nav-item.active{background:var(--brand-soft);color:var(--brand);font-weight:600}
+.main{padding:20px}
+.main-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.main-top h3{font-size:1rem;font-weight:600;letter-spacing:-.01em}
+.badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.58rem;padding:3px 9px;border-radius:99px}
+.badge.live{background:var(--green-soft);color:var(--green)}
+.badge.t2b{background:var(--amber-soft);color:var(--amber)}
+.badge.t3b{background:var(--purple-soft);color:var(--purple)}
+
+/* KPI ROW */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.kpi{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:11px 13px}
+.kpi-v{font-size:1.15rem;font-weight:700;line-height:1;letter-spacing:-.02em}
+.kpi-v.g{color:var(--green)}.kpi-v.a{color:var(--amber)}.kpi-v.r{color:var(--red)}.kpi-v.b{color:var(--brand)}
+.kpi-l{font-family:'IBM Plex Mono',monospace;font-size:.55rem;color:var(--ink3);margin-top:4px;letter-spacing:.05em;text-transform:uppercase}
+
+/* MAP */
+.map-box{border-radius:10px;position:relative;height:250px;overflow:hidden;border:1px solid var(--line);background:#e8f0f9}
+.map-box .map-tiles{position:absolute;inset:0;width:100%;height:100%}
+.road{display:none}
+.vmarker{position:absolute;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;border:3px solid #fff;box-shadow:0 2px 8px rgba(16,24,40,.2)}
+.vmarker.mov{background:var(--green)}
+.vmarker.idl{background:var(--amber)}
+.vmarker.stp{background:var(--ink3)}
+.vmarker.alt{background:var(--red);animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{box-shadow:0 0 0 0 rgba(217,45,32,.4)}50%{box-shadow:0 0 0 8px rgba(217,45,32,0)}}
+.vtag{position:absolute;top:36px;left:50%;transform:translateX(-50%);background:#fff;font-size:.52rem;font-family:'IBM Plex Mono',monospace;padding:2px 5px;border-radius:4px;white-space:nowrap;box-shadow:0 1px 3px rgba(16,24,40,.12)}
+.gfence{position:absolute;border:2px dashed var(--brand);border-radius:12px;background:rgba(21,94,239,.05)}
+.gfl{position:absolute;top:-8px;left:8px;background:var(--brand);color:#fff;font-size:.5rem;font-family:'IBM Plex Mono',monospace;padding:1px 6px;border-radius:3px}
+
+/* ROWS */
+.row-list{display:flex;flex-direction:column;gap:5px}
+.row-item{display:flex;justify-content:space-between;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:.75rem}
+.row-item .nm{font-weight:600}
+.row-item .mt{color:var(--ink3);font-size:.66rem;font-family:'IBM Plex Mono',monospace}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:6px}
+.dot.g{background:var(--green)}.dot.a{background:var(--amber)}.dot.x{background:var(--ink3)}.dot.r{background:var(--red)}
+
+/* GAUGE */
+.gauge-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.gauge{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:12px;text-align:center}
+.gauge-val{font-size:.95rem;font-weight:700;margin-bottom:2px}
+.gauge-lbl{font-family:'IBM Plex Mono',monospace;font-size:.55rem;color:var(--ink3);text-transform:uppercase}
+
+/* BAR CHART */
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:110px;padding:8px;background:var(--panel2);border:1px solid var(--line);border-radius:9px}
+.bar{flex:1;border-radius:5px 5px 0 0;position:relative;min-height:6px}
+.bar.ok{background:var(--brand);opacity:.8}
+.bar.warn{background:var(--amber)}
+.bar.bad{background:var(--red)}
+.bar-l{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-size:.5rem;color:var(--ink3);font-family:'IBM Plex Mono',monospace;white-space:nowrap}
+
+/* ALERTS */
+.alert-item{display:flex;gap:10px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:5px;font-size:.74rem}
+.alert-item.crit{border-left:3px solid var(--red)}
+.alert-item.warn{border-left:3px solid var(--amber)}
+.alert-item.info{border-left:3px solid var(--brand)}
+.alert-item.ok{border-left:3px solid var(--green)}
+.at{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--ink3);white-space:nowrap}
+
+/* FEATURE NOTES */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.feat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.feat-tag{display:inline-block;margin-bottom:8px}
+.feat h4{font-size:.88rem;font-weight:600;margin-bottom:5px}
+.feat p{font-size:.76rem;color:var(--ink2);line-height:1.55}
+.feat .dev-note{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--brand);background:var(--brand-soft);padding:6px 10px;border-radius:6px;margin-top:8px;line-height:1.5}
+
+/* DIVIDER */
+.section-divider{height:1px;background:var(--line);margin:60px 0}
+
+/* CLIENT PHONE */
+.phone-frame{max-width:320px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:28px;overflow:hidden;box-shadow:0 6px 32px rgba(16,24,40,.1)}
+.phone-notch{height:26px;background:#f9fafb;display:flex;justify-content:center;align-items:center}
+.phone-notch::after{content:'';width:80px;height:14px;background:var(--ink);border-radius:99px;opacity:.85}
+.phone-body{padding:16px}
+
+/* PLAYBACK */
+.playback-bar{height:5px;background:var(--line);border-radius:99px;position:relative;margin:8px 0}
+.playback-fill{position:absolute;left:0;width:55%;height:100%;background:var(--brand);border-radius:99px}
+.playback-thumb{position:absolute;left:55%;top:-4px;width:13px;height:13px;background:#fff;border:3px solid var(--brand);border-radius:50%;transform:translateX(-50%)}
+
+/* MAINTENANCE */
+.maint-row{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;margin-bottom:5px;font-size:.76rem}
+.maint-row.ov{border-left:3px solid var(--red)}
+.maint-row.due{border-left:3px solid var(--amber)}
+.maint-row.ok{border-left:3px solid var(--green)}
+
+/* REPORT ROW */
+.report-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;margin-bottom:5px;font-size:.78rem;cursor:default}
+.report-row:hover{border-color:var(--brand)}
+.rr-right{display:flex;align-items:center;gap:10px}
+.export-btn{font-family:'IBM Plex Mono',monospace;font-size:.58rem;padding:3px 9px;border:1px solid var(--line2);border-radius:5px;color:var(--ink2)}
+
+@media(max-width:768px){
+  .app-shell{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .gauge-row{grid-template-columns:repeat(2,1fr)}
+  .feat-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- DOC HEADER -->
+<div class="doc-header">
+  <div class="doc-eyebrow">Kasper Technologies · Tech Team · June 2026</div>
+  <h1>GPS Platform — <span>Feature Specification</span></h1>
+  <p style="margin-top:8px;color:var(--ink2);font-size:.92rem;max-width:640px">What to build, screen by screen. Each section shows the screen mockup, every feature on it, the dev note for implementation, and the build priority. This is the input document for the SRS.</p>
+  <div class="doc-meta">
+    <span class="tag">8 screens</span>
+    <span class="tag">3 tiers</span>
+    <span class="tag must">Must = MVP</span>
+    <span class="tag should">Should = Phase 2</span>
+    <span class="tag could">Could = Phase 3</span>
+  </div>
+</div>
+
+<!-- ═══ SCREEN 01: LIVE FLEET MAP ═══ -->
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-header-left">
+      <div class="screen-num">SCREEN 01 / 08</div>
+      <h2>🗺️ Live Fleet Map</h2>
+      <p>The vendor's home screen. Every vehicle on one map, real-time position, updated every 30 seconds without page refresh.</p>
+    </div>
+    <div class="tier-badges"><span class="tb all">All Tiers</span></div>
+  </div>
+  <div class="mockup-wrap">
+    <div class="mockup-chrome"><div class="chrome-dots"><span></span><span></span><span></span></div><div class="chrome-url">app.kasper.ae/map</div></div>
+    <div class="app-shell">
+      <div class="sidebar">
+        <div class="sidebar-logo">Kasper<span>GPS</span></div>
+        <div class="nav-item active">🗺️ Live Map</div>
+        <div class="nav-item">🚛 Vehicles</div>
+        <div class="nav-item">⏪ History</div>
+        <div class="nav-item">⛽ Fuel</div>
+        <div class="nav-item">🔧 Maintenance</div>
+        <div class="nav-item">🔔 Alerts</div>
+        <div class="nav-item">📊 Reports</div>
+        <div class="nav-item">🕐 Timesheet</div>
+      </div>
+      <div class="main">
+        <div class="main-top"><h3>Fleet Overview</h3><span class="badge live">● 11 / 12 online</span></div>
+        <div class="kpi-row">
+          <div class="kpi"><div class="kpi-v g">7</div><div class="kpi-l">Moving</div></div>
+          <div class="kpi"><div class="kpi-v a">3</div><div class="kpi-l">Idling</div></div>
+          <div class="kpi"><div class="kpi-v">1</div><div class="kpi-l">Stopped</div></div>
+          <div class="kpi"><div class="kpi-v r">1</div><div class="kpi-l">Offline</div></div>
+        </div>
+        <div class="map-box">
+          <svg class="map-tiles" viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <!-- Base -->
+            <rect width="800" height="250" fill="#e8eff5"/>
+            <!-- Blocks / buildings -->
+            <rect x="0" y="0" width="180" height="55" fill="#d5e2ec" rx="1"/>
+            <rect x="200" y="10" width="90" height="40" fill="#d5e2ec" rx="1"/>
+            <rect x="310" y="0" width="140" height="60" fill="#dce9f0" rx="1"/>
+            <rect x="0" y="75" width="130" height="70" fill="#d5e2ec" rx="1"/>
+            <rect x="150" y="80" width="80" height="55" fill="#dce9f0" rx="1"/>
+            <rect x="500" y="0" width="120" height="80" fill="#d5e2ec" rx="1"/>
+            <rect x="640" y="15" width="100" height="50" fill="#d5e2ec" rx="1"/>
+            <rect x="750" y="0" width="50" height="90" fill="#d5e2ec" rx="1"/>
+            <rect x="480" y="100" width="150" height="60" fill="#d5e2ec" rx="1"/>
+            <rect x="650" y="90" width="90" height="70" fill="#dce9f0" rx="1"/>
+            <rect x="0" y="165" width="200" height="85" fill="#d5e2ec" rx="1"/>
+            <rect x="220" y="180" width="100" height="70" fill="#d5e2ec" rx="1"/>
+            <rect x="350" y="170" width="120" height="80" fill="#dce9f0" rx="1"/>
+            <rect x="490" y="180" width="90" height="70" fill="#d5e2ec" rx="1"/>
+            <rect x="600" y="170" width="140" height="80" fill="#d5e2ec" rx="1"/>
+            <!-- Green areas -->
+            <rect x="25" y="140" width="110" height="18" fill="#c8dfc6" rx="3"/>
+            <rect x="340" y="95" width="120" height="55" fill="#cfe0cf" rx="3"/>
+            <!-- Major roads -->
+            <rect x="0" y="65" width="800" height="12" fill="#fff" opacity=".9"/>
+            <rect x="0" y="155" width="800" height="10" fill="#fff" opacity=".9"/>
+            <rect x="190" y="0" width="10" height="250" fill="#fff" opacity=".9"/>
+            <rect x="470" y="0" width="10" height="250" fill="#fff" opacity=".9"/>
+            <rect x="635" y="0" width="8" height="250" fill="#fff" opacity=".85"/>
+            <!-- Road centre lines -->
+            <line x1="0" y1="71" x2="800" y2="71" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="18 10"/>
+            <line x1="0" y1="160" x2="800" y2="160" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="18 10"/>
+            <line x1="195" y1="0" x2="195" y2="250" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="14 8"/>
+            <line x1="475" y1="0" x2="475" y2="250" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="14 8"/>
+            <!-- Labels -->
+            <text x="240" y="62" font-size="7" fill="#999" font-family="Arial">Sheikh Zayed Rd</text>
+            <text x="240" y="152" font-size="7" fill="#999" font-family="Arial">Al Khail Rd</text>
+          </svg>
+          <div class="gfence" style="top:10%;left:7%;width:32%;height:40%"><span class="gfl">SITE A — DIP</span></div>
+          <div class="vmarker mov" style="top:24%;left:16%">🚛<span class="vtag">TRK-04 · 62 km/h</span></div>
+          <div class="vmarker mov" style="top:58%;left:50%">🚛<span class="vtag">TRK-07 · 45 km/h</span></div>
+          <div class="vmarker idl" style="top:18%;left:66%">🚜<span class="vtag">EXC-02 · idle 38m</span></div>
+          <div class="vmarker stp" style="top:68%;left:80%">🚛<span class="vtag">FLT-01 · parked</span></div>
+          <div class="vmarker alt" style="top:43%;left:32%">🚛<span class="vtag">TRK-09 · ALERT</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="feat-grid">
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Real-time vehicle markers</h4><p>Green = moving · Amber = idling · Grey = stopped · Red pulsing = alert. Position updates every 30 seconds.</p><div class="dev-note">WebSocket / Supabase Realtime subscription. Throttle to 30s. Parse lat/lng from platform API GET /positions.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Fleet status KPI strip</h4><p>Moving / Idling / Stopped / Offline counts at top. Click any count to filter map to that status only.</p><div class="dev-note">Aggregate from /positions endpoint. Offline = no ping &gt;5 min. Filter = map marker visibility toggle.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Geofence polygon overlay</h4><p>Site boundaries drawn on map. Shaded area with label. Vendor draws zones via polygon tool, saved to DB.</p><div class="dev-note">Store polygon coordinates in geofences table. Leaflet/Mapbox polygon layer. Entry/exit triggers alert via server-side check on each ping.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Click marker → mini popup</h4><p>Tap any vehicle marker → popup shows: vehicle name, speed, ignition status, last update time, "View Detail" button.</p><div class="dev-note">Leaflet popup component. Bind to marker click event. No navigation away from map on popup open.</div></div>
+    <div class="feat"><span class="feat-tag tag should">Should</span><h4>Search & filter bar</h4><p>Search vehicle by name/plate. Filter by type (truck/excavator) or status. Map pans to result.</p><div class="dev-note">Client-side filter on positions array. Pan: map.flyTo(lat, lng, zoom). Debounce search input 300ms.</div></div>
+    <div class="feat"><span class="feat-tag tag should">Should</span><h4>Cluster at zoom-out</h4><p>When zoomed out, nearby markers cluster into a count bubble. Expand on zoom in.</p><div class="dev-note">Leaflet.markercluster plugin. Auto-cluster when map zoom &lt; 11.</div></div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ═══ SCREEN 02: VEHICLE DETAIL ═══ -->
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-header-left">
+      <div class="screen-num">SCREEN 02 / 08</div>
+      <h2>🚛 Vehicle Detail</h2>
+      <p>Single vehicle view. Live CAN data panels change based on which tier the device is on. Tier 1 shows GPS only. Tier 2 adds fuel. Tier 3 adds gauges and fault codes.</p>
+    </div>
+    <div class="tier-badges"><span class="tb all">All Tiers</span></div>
+  </div>
+  <div class="mockup-wrap">
+    <div class="mockup-chrome"><div class="chrome-dots"><span></span><span></span><span></span></div><div class="chrome-url">app.kasper.ae/vehicle/EXC-02</div></div>
+    <div class="app-shell">
+      <div class="sidebar">
+        <div class="sidebar-logo">Kasper<span>GPS</span></div>
+        <div class="nav-item">🗺️ Live Map</div>
+        <div class="nav-item active">🚛 Vehicles</div>
+        <div class="nav-item">⏪ History</div>
+        <div class="nav-item">⛽ Fuel</div>
+        <div class="nav-item">🔧 Maintenance</div>
+        <div class="nav-item">🔔 Alerts</div>
+        <div class="nav-item">📊 Reports</div>
+        <div class="nav-item">🕐 Timesheet</div>
+      </div>
+      <div class="main">
+        <div class="main-top"><h3>EXC-02 · CAT 320 Excavator</h3><span class="badge t3b">Tier 3 · ALLCAN300</span></div>
+        <div class="kpi-row">
+          <div class="kpi"><div class="kpi-v a">Idling</div><div class="kpi-l">Status · 38 min</div></div>
+          <div class="kpi"><div class="kpi-v">4,182 h</div><div class="kpi-l">Engine Hours</div></div>
+          <div class="kpi"><div class="kpi-v g">68%</div><div class="kpi-l">Fuel Level</div></div>
+          <div class="kpi"><div class="kpi-v b">Site A</div><div class="kpi-l">Geofence</div></div>
+        </div>
+        <div class="gauge-row">
+          <div class="gauge"><div class="gauge-val">740 RPM</div><div class="gauge-lbl">Engine RPM</div></div>
+          <div class="gauge"><div class="gauge-val">82 °C</div><div class="gauge-lbl">Coolant Temp</div></div>
+          <div class="gauge"><div class="gauge-val">3.1 bar</div><div class="gauge-lbl">Oil Pressure</div></div>
+        </div>
+        <div class="row-list" style="margin-top:10px">
+          <div class="row-item"><span class="nm">⚠️ Fault code active</span><span class="mt" style="color:var(--amber)">SPN 3216 — AdBlue level low (12%)</span></div>
+          <div class="row-item"><span class="nm">Driver</span><span class="mt">Ramesh K · shift since 06:30</span></div>
+          <div class="row-item"><span class="nm">Last data received</span><span class="mt">14 seconds ago · e& signal strong</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="feat-grid">
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Tier-aware data display</h4><p>Tier 1: GPS KPIs only. Tier 2: adds fuel + RPM + coolant. Tier 3: adds gauges, fault codes, AdBlue. Lower tier features greyed with "Upgrade" CTA.</p><div class="dev-note">Check device.tier on load. Conditionally render CAN panels. Locked features: opacity:0.4 + overlay with upgrade button. Upgrade CTA → billing flow.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Live CAN gauges</h4><p>RPM, coolant temp, oil pressure as live values updating every 30 seconds. Visual indicator for normal/warning/critical ranges.</p><div class="dev-note">Read from platform custom attributes parsed from ALLCAN300 Codec. Colour thresholds: green/amber/red configurable per parameter type in DB.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Fault code translation</h4><p>Raw DTC codes (SPN 3216) translated to plain English. "AdBlue level low" not "SPN 3216 FMI 18". Vendors cannot read raw codes.</p><div class="dev-note">DTC lookup table in DB. Key: SPN+FMI → plain text description. Source: SAE J1939 standard table. Seed with most common construction equipment codes first.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Data freshness indicator</h4><p>"Last data 14 seconds ago" shown always. If &gt;5 min stale → yellow warning. If &gt;30 min → red offline badge. Never show old data as live.</p><div class="dev-note">Compute (now - lastUpdate). Display relative time. Auto-refresh every 30s. If stale threshold hit → trigger offline alert.</div></div>
+    <div class="feat"><span class="feat-tag tag should">Should</span><h4>Engine immobilisation toggle</h4><p>Remote engine cut-off via FMC130 digital output. Only available to account owner. Requires confirmation modal.</p><div class="dev-note">POST to platform /commands with type=outputControl. FMC130 DOUT1 controls relay. Two-step confirm: "Are you sure?" before sending.</div></div>
+    <div class="feat"><span class="feat-tag tag should">Should</span><h4>Share live location button</h4><p>One click generates a client tracking link for this vehicle's current trip. Shareable via WhatsApp.</p><div class="dev-note">Generate token-based URL: /track/{token}. Store token + deviceId + expiry in tracking_links table. WhatsApp deep link: wa.me/?text=URL.</div></div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ═══ SCREEN 03: TRIP HISTORY ═══ -->
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-header-left">
+      <div class="screen-num">SCREEN 03 / 08</div>
+      <h2>⏪ Trip History & Playback</h2>
+      <p>Any vehicle, any date. Replay the full route with speed, stops, and events on a timeline scrubber.</p>
+    </div>
+    <div class="tier-badges"><span class="tb all">All Tiers</span></div>
+  </div>
+  <div class="mockup-wrap">
+    <div class="mockup-chrome"><div class="chrome-dots"><span></span><span></span><span></span></div><div class="chrome-url">app.kasper.ae/history/TRK-04</div></div>
+    <div class="app-shell">
+      <div class="sidebar">
+        <div class="sidebar-logo">Kasper<span>GPS</span></div>
+        <div class="nav-item">🗺️ Live Map</div>
+        <div class="nav-item">🚛 Vehicles</div>
+        <div class="nav-item active">⏪ History</div>
+        <div class="nav-item">⛽ Fuel</div>
+        <div class="nav-item">🔧 Maintenance</div>
+        <div class="nav-item">🔔 Alerts</div>
+        <div class="nav-item">📊 Reports</div>
+        <div class="nav-item">🕐 Timesheet</div>
+      </div>
+      <div class="main">
+        <div class="main-top"><h3>TRK-04 · Yesterday</h3><span class="badge live">3 trips · 142 km</span></div>
+        <div class="map-box" style="height:210px">
+          <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 800 210" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="800" height="210" fill="#e8eff5"/>
+            <rect x="0" y="0" width="160" height="50" fill="#d5e2ec" rx="1"/>
+            <rect x="180" y="5" width="100" height="40" fill="#dce9f0" rx="1"/>
+            <rect x="420" y="0" width="140" height="55" fill="#d5e2ec" rx="1"/>
+            <rect x="580" y="10" width="120" height="45" fill="#d5e2ec" rx="1"/>
+            <rect x="0" y="130" width="200" height="80" fill="#d5e2ec" rx="1"/>
+            <rect x="220" y="140" width="120" height="70" fill="#dce9f0" rx="1"/>
+            <rect x="500" y="130" width="150" height="80" fill="#d5e2ec" rx="1"/>
+            <rect x="670" y="120" width="130" height="90" fill="#d5e2ec" rx="1"/>
+            <rect x="50" y="70" width="80" height="45" fill="#cfe0cf" rx="3"/>
+            <rect x="0" y="60" width="800" height="10" fill="#fff" opacity=".9"/>
+            <rect x="0" y="120" width="800" height="8" fill="#fff" opacity=".85"/>
+            <rect x="380" y="0" width="8" height="210" fill="#fff" opacity=".85"/>
+            <rect x="650" y="0" width="7" height="210" fill="#fff" opacity=".8"/>
+            <line x1="0" y1="65" x2="800" y2="65" stroke="#ddd" stroke-width="1" stroke-dasharray="15 8"/>
+            <line x1="0" y1="124" x2="800" y2="124" stroke="#ddd" stroke-width="1" stroke-dasharray="15 8"/>
+          </svg>
+          <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M 8 82 Q 22 68 28 52 T 48 38 T 65 28 Q 78 22 90 16" fill="none" stroke="#155eef" stroke-width="1.5" opacity=".9"/>
+            <circle cx="8" cy="82" r="2.5" fill="#079455"/>
+            <circle cx="48" cy="38" r="2" fill="#dc6803"/>
+            <circle cx="90" cy="16" r="2.5" fill="#d92d20"/>
+          </svg>
+        </div>
+        <div style="background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:12px;margin-top:10px">
+          <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--ink3);margin-bottom:6px"><span>06:42</span><span style="color:var(--brand)">▶ PLAYING</span><span>09:15</span></div>
+          <div class="playback-bar"><div class="playback-fill"></div><div class="playback-thumb"></div></div>
+          <div style="display:flex;gap:12px;margin-top:8px;font-size:.66rem;color:var(--ink2)">
+            <span>🟢 06:42 Depart</span><span>🟠 07:38 Stop 22min</span><span>🔴 08:02 Overspeed 94km/h</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="feat-grid">
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Route polyline on map</h4><p>Full route drawn from position history. Green start, red end, amber dot at each stop &gt;3 min. Speed colour on line segments where overspeed occurred.</p><div class="dev-note">GET /reports/trips from platform for trip segments. Leaflet polyline with color array mapped from speed vs limit. Stop detection: speed=0 AND ignition=on for &gt;3min.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Date picker + trip list</h4><p>Pick any date → list of trips that day (trip 1, trip 2, trip 3 with distance and duration). Select a trip to load it on the map.</p><div class="dev-note">Date input → GET /reports/trips?from=&to=&deviceId=. Group by trip (gap &gt;5min = new trip). Display as selectable list. 12 months history retained.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Playback scrubber</h4><p>Drag scrubber → vehicle marker moves along the route. Play/pause button. Speed: 1x, 5x, 10x.</p><div class="dev-note">Pre-load all position points for the trip. setInterval at chosen speed to advance marker along polyline. Use Leaflet marker.setLatLng() for smooth movement.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Event markers on timeline</h4><p>Overspeed events, geofence crossings, ignition events plotted as icons below the playback bar.</p><div class="dev-note">GET /reports/events filtered by trip time window. Map event types to emoji icons. Click event icon → jump playback to that timestamp.</div></div>
+    <div class="feat"><span class="feat-tag tag should">Should</span><h4>Speed colour coding on route</h4><p>Route line changes colour: green = normal, amber = approaching limit, red = over limit. At a glance shows where speeding happened.</p><div class="dev-note">Split polyline into segments per position. Assign color based on speed vs speedLimit from device profile. Render as multiple Leaflet polylines.</div></div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ═══ SCREEN 04: FUEL DASHBOARD ═══ -->
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-header-left">
+      <div class="screen-num">SCREEN 04 / 08</div>
+      <h2>⛽ Fuel & Idling Dashboard</h2>
+      <p>Tier 2+ only. Fuel consumption, idle waste in AED, and theft detection. The screen that pays for the subscription.</p>
+    </div>
+    <div class="tier-badges"><span class="tb t2">Tier 2+</span></div>
+  </div>
+  <div class="mockup-wrap">
+    <div class="mockup-chrome"><div class="chrome-dots"><span></span><span></span><span></span></div><div class="chrome-url">app.kasper.ae/fuel</div></div>
+    <div class="app-shell">
+      <div class="sidebar">
+        <div class="sidebar-logo">Kasper<span>GPS</span></div>
+        <div class="nav-item">🗺️ Live Map</div>
+        <div class="nav-item">🚛 Vehicles</div>
+        <div class="nav-item">⏪ History</div>
+        <div class="nav-item active">⛽ Fuel</div>
+        <div class="nav-item">🔧 Maintenance</div>
+        <div class="nav-item">🔔 Alerts</div>
+        <div class="nav-item">📊 Reports</div>
+        <div class="nav-item">🕐 Timesheet</div>
+      </div>
+      <div class="main">
+        <div class="main-top"><h3>Fuel — This Week</h3><span class="badge t2b">Tier 2+ Feature</span></div>
+        <div class="kpi-row">
+          <div class="kpi"><div class="kpi-v">1,842 L</div><div class="kpi-l">Consumed</div></div>
+          <div class="kpi"><div class="kpi-v a">196 L</div><div class="kpi-l">Idle Waste</div></div>
+          <div class="kpi"><div class="kpi-v r">AED 716</div><div class="kpi-l">Idle Cost</div></div>
+          <div class="kpi"><div class="kpi-v r">1</div><div class="kpi-l">Theft Alert</div></div>
+        </div>
+        <div class="bar-chart">
+          <div class="bar ok" style="height:45%"><span class="bar-l">TRK-01</span></div>
+          <div class="bar ok" style="height:60%"><span class="bar-l">TRK-04</span></div>
+          <div class="bar warn" style="height:85%"><span class="bar-l">EXC-02</span></div>
+          <div class="bar ok" style="height:38%"><span class="bar-l">TRK-07</span></div>
+          <div class="bar bad" style="height:95%"><span class="bar-l">FLT-03</span></div>
+          <div class="bar ok" style="height:52%"><span class="bar-l">TRK-09</span></div>
+        </div>
+        <div class="row-list" style="margin-top:10px">
+          <div class="row-item"><span class="nm">🔴 FLT-03 — Fuel drop</span><span class="mt" style="color:var(--red)">−38L while parked · Tue 02:14 · Al Quoz</span></div>
+          <div class="row-item"><span class="nm">🟠 EXC-02 — Excessive idle</span><span class="mt">3.2h idle yesterday · ~AED 118 wasted</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="feat-grid">
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Idle cost in AED not litres</h4><p>Convert idle fuel consumption to dirhams. Formula: idle_litres × diesel_price_per_litre. Price configurable per account.</p><div class="dev-note">Store diesel_price in account_settings (default AED 3.19/L). Idle detection: speed=0, ignition=on, duration&gt;configurable threshold (default 10min). Multiply idle_duration × avg_idle_consumption_rate.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Fuel theft detection</h4><p>Sudden fuel drop &gt;X litres while ignition OFF = theft signature. Immediate WhatsApp alert. Configurable threshold per vehicle.</p><div class="dev-note">Compare consecutive fuel_level readings. If delta &gt; theft_threshold AND ignition=off → create alert type=FUEL_THEFT. Default threshold 15L drop in &lt;15min. Send via WhatsApp Business API.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Per-vehicle consumption chart</h4><p>Bar chart ranking all vehicles by fuel consumed this week/month. Outliers colour-coded amber/red automatically.</p><div class="dev-note">Aggregate fuel data per deviceId per date range. Sort descending. Apply colour thresholds: top 20% = red, next 20% = amber, rest = brand. Use recharts BarChart or Chart.js.</div></div>
+    <div class="feat"><span class="feat-tag tag should">Should</span><h4>Weekly WhatsApp summary</h4><p>Auto-sent every Sunday: "Your fleet used Xk L this week. Idle waste: AED Y. Worst: [vehicle]." Keeps value visible without opening the dashboard.</p><div class="dev-note">Cron job every Sunday 08:00 UAE time. Compute weekly aggregates. Format WhatsApp message template. Send via WhatsApp Business API to account owner's number.</div></div>
+    <div class="feat"><span class="feat-tag tag should">Should</span><h4>Refuel event detection</h4><p>Significant fuel increase = refuel event. Log time, location, amount added. Shows vendor actual refuel history.</p><div class="dev-note">If fuel_level increases &gt;10L → log as REFUEL event with timestamp and location. Store in fuel_events table. Display in vehicle timeline.</div></div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ═══ SCREEN 05: MAINTENANCE ═══ -->
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-header-left">
+      <div class="screen-num">SCREEN 05 / 08</div>
+      <h2>🔧 Maintenance Scheduler</h2>
+      <p>Tier 3 only. Service schedules by engine hours and mileage. Fault code monitoring. WhatsApp reminders to vendor and workshop.</p>
+    </div>
+    <div class="tier-badges"><span class="tb t3">Tier 3</span></div>
+  </div>
+  <div class="mockup-wrap">
+    <div class="mockup-chrome"><div class="chrome-dots"><span></span><span></span><span></span></div><div class="chrome-url">app.kasper.ae/maintenance</div></div>
+    <div class="app-shell">
+      <div class="sidebar">
+        <div class="sidebar-logo">Kasper<span>GPS</span></div>
+        <div class="nav-item">🗺️ Live Map</div>
+        <div class="nav-item">🚛 Vehicles</div>
+        <div class="nav-item">⏪ History</div>
+        <div class="nav-item">⛽ Fuel</div>
+        <div class="nav-item active">🔧 Maintenance</div>
+        <div class="nav-item">🔔 Alerts</div>
+        <div class="nav-item">📊 Reports</div>
+        <div class="nav-item">🕐 Timesheet</div>
+      </div>
+      <div class="main">
+        <div class="main-top"><h3>Service Schedule</h3><span class="badge t3b">Tier 3 Feature</span></div>
+        <div class="kpi-row">
+          <div class="kpi"><div class="kpi-v r">2</div><div class="kpi-l">Overdue</div></div>
+          <div class="kpi"><div class="kpi-v a">3</div><div class="kpi-l">Due &lt;14 days</div></div>
+          <div class="kpi"><div class="kpi-v g">7</div><div class="kpi-l">Healthy</div></div>
+          <div class="kpi"><div class="kpi-v a">2</div><div class="kpi-l">Fault Codes</div></div>
+        </div>
+        <div class="maint-row ov"><span class="nm">EXC-02 · CAT 320</span><span style="font-size:.7rem;color:var(--red)">500h service OVERDUE by 62h</span></div>
+        <div class="maint-row ov"><span class="nm">CRN-01 · Liebherr</span><span style="font-size:.7rem;color:var(--red)">Hydraulic check OVERDUE · fault active</span></div>
+        <div class="maint-row due"><span class="nm">TRK-04 · Actros</span><span style="font-size:.7rem;color:var(--amber)">Oil change due in ~9 days</span></div>
+        <div class="maint-row due"><span class="nm">FLT-03 · Flatbed</span><span style="font-size:.7rem;color:var(--amber)">Brake check due in 11 days</span></div>
+        <div class="maint-row ok"><span class="nm">TRK-07 · Hino 500</span><span style="font-size:.7rem;color:var(--green)">Next service in 4,800 km</span></div>
+        <div class="alert-item ok" style="margin-top:8px"><span>📲</span><div><strong style="display:block;font-size:.76rem">WhatsApp sent</strong><span style="font-size:.68rem;color:var(--ink2)">"EXC-02 overdue — book within 48h" → vendor + workshop</span></div><span class="at">Today 08:00</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="feat-grid">
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Service rules by engine hours AND km</h4><p>Two rule types per vehicle. Construction equipment: every 500h. Trucks: every 10,000km. Both tracked simultaneously from CAN data.</p><div class="dev-note">maintenance_rules table: deviceId, rule_type (HOURS/KM), interval, last_service_hours, last_service_km. Compare current_hours/current_km from live telemetry against (last_service + interval). Status = OVERDUE/DUE_SOON/OK.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Red/amber/green triage list</h4><p>Sorted: overdue first (red), then due-soon (amber), then healthy (green). One glance = what to book this week.</p><div class="dev-note">Sort maintenance_status records by priority: OVERDUE → DUE_SOON → OK. Apply left-border colour in CSS. Recalculate status on each telemetry update.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>WhatsApp maintenance reminders</h4><p>Auto-alert at DUE_SOON and OVERDUE thresholds. Sent to vendor's WhatsApp. Optional: copy to their workshop number.</p><div class="dev-note">Scheduled check every 6h. On status change to DUE_SOON → send WhatsApp. On OVERDUE → send again. Store last_alert_sent to avoid repeat spamming within 24h window.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Fault code → maintenance action</h4><p>Active fault codes linked to maintenance action. SPN 3216 (AdBlue low) → "Refill AdBlue before next trip." Auto-generated action from fault code.</p><div class="dev-note">fault_to_action table: SPN → action_text + urgency. When fault detected in telemetry → lookup action → create maintenance_item. Display in maintenance screen under the vehicle.</div></div>
+    <div class="feat"><span class="feat-tag tag should">Should</span><h4>Service history log</h4><p>Vendor marks service as completed → log entry with date, hours, what was done. History of all services per vehicle.</p><div class="dev-note">service_history table: deviceId, completed_at, hours_at_service, km_at_service, notes. "Mark complete" button resets last_service_hours/km. Show history timeline per vehicle.</div></div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ═══ SCREEN 06: ALERTS ═══ -->
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-header-left">
+      <div class="screen-num">SCREEN 06 / 08</div>
+      <h2>🔔 Alerts Center</h2>
+      <p>Every event in one feed. Severity-tiered. WhatsApp routing rules determine what gets a message vs stays in-app only.</p>
+    </div>
+    <div class="tier-badges"><span class="tb all">All Tiers</span></div>
+  </div>
+  <div class="mockup-wrap">
+    <div class="mockup-chrome"><div class="chrome-dots"><span></span><span></span><span></span></div><div class="chrome-url">app.kasper.ae/alerts</div></div>
+    <div class="app-shell">
+      <div class="sidebar">
+        <div class="sidebar-logo">Kasper<span>GPS</span></div>
+        <div class="nav-item">🗺️ Live Map</div>
+        <div class="nav-item">🚛 Vehicles</div>
+        <div class="nav-item">⏪ History</div>
+        <div class="nav-item">⛽ Fuel</div>
+        <div class="nav-item">🔧 Maintenance</div>
+        <div class="nav-item active">🔔 Alerts <span style="background:var(--red);color:#fff;border-radius:99px;padding:1px 7px;font-size:.55rem;margin-left:4px">4</span></div>
+        <div class="nav-item">📊 Reports</div>
+        <div class="nav-item">🕐 Timesheet</div>
+      </div>
+      <div class="main">
+        <div class="main-top"><h3>Alerts — Today</h3><span class="badge live">4 new</span></div>
+        <div class="alert-item crit"><span>🚨</span><div><strong style="display:block;font-size:.78rem">Fuel theft — FLT-03</strong><span style="font-size:.68rem;color:var(--ink2)">−38L while parked · 02:14 · Al Quoz · WhatsApp sent</span></div><span class="at">02:14</span></div>
+        <div class="alert-item warn"><span>🏎️</span><div><strong style="display:block;font-size:.78rem">Overspeed — TRK-09</strong><span style="font-size:.68rem;color:var(--ink2)">94 km/h in 80 zone · Sheikh Zayed Rd</span></div><span class="at">08:02</span></div>
+        <div class="alert-item warn"><span>📍</span><div><strong style="display:block;font-size:.78rem">Geofence exit — EXC-02</strong><span style="font-size:.68rem;color:var(--ink2)">Left Site A outside working hours · 19:48</span></div><span class="at">19:48</span></div>
+        <div class="alert-item info"><span>🔌</span><div><strong style="display:block;font-size:.78rem">Device offline — TRK-11</strong><span style="font-size:.68rem;color:var(--ink2)">No data 4+ hours · last seen Jebel Ali</span></div><span class="at">06:30</span></div>
+        <div class="alert-item ok"><span>✅</span><div><strong style="display:block;font-size:.78rem">Back online — TRK-11</strong><span style="font-size:.68rem;color:var(--ink2)">Reconnected · battery disconnected during service</span></div><span class="at">10:12</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="feat-grid">
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Alert types — all tiers</h4><p>Overspeed · Geofence entry/exit (outside hours) · Device offline · Ignition on/off (out of hours) · Towing detection.</p><div class="dev-note">alerts table: id, deviceId, type, severity, message, lat, lng, created_at, whatsapp_sent. Computed server-side on each telemetry update. Index on deviceId + created_at for fast feed queries.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>WhatsApp routing rules</h4><p>Not every alert needs a WhatsApp. Fuel theft + device offline = instant. Overspeed = daily digest. Configurable per account per alert type.</p><div class="dev-note">alert_rules table: accountId, alert_type, whatsapp_mode (INSTANT/DIGEST/NONE). Cron for digest: 18:00 UAE daily. Group alerts by type, compile message, send once.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Geofence time-window logic</h4><p>Geofence exit at 09:00 ≠ same severity as 23:00. Each geofence has working-hours window. Exit outside hours = alert. Inside hours = log only.</p><div class="dev-note">geofences table includes work_start, work_end, work_days fields. On geofence_exit event: check if current time outside window. If outside → create alert. If inside → create event log only.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Auto-resolve pairing</h4><p>Offline → Back online shown as a closed loop. Geofence exit → Geofence entry pairs up. Resolved alerts visually distinct from open ones.</p><div class="dev-note">On resolution event, update alerts.resolved_at and alerts.resolved_by_alert_id. UI: closed alerts greyed with checkmark, sorted below open ones.</div></div>
+    <div class="feat"><span class="feat-tag tag should">Should</span><h4>Alert settings panel</h4><p>Vendor configures per vehicle: speed limit, geofence sensitivity, idle threshold, working hours. Kasper sets defaults at install.</p><div class="dev-note">alert_settings per deviceId. Fields: speed_limit_kmh, idle_threshold_min, fuel_theft_threshold_L. Default values seeded at device onboarding. UI: settings gear icon per vehicle.</div></div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ═══ SCREEN 07: REPORTS ═══ -->
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-header-left">
+      <div class="screen-num">SCREEN 07 / 08</div>
+      <h2>📊 Reports</h2>
+      <p>Six report types, tier-gated. PDF and Excel export. Scheduled weekly delivery via WhatsApp.</p>
+    </div>
+    <div class="tier-badges"><span class="tb all">All Tiers</span></div>
+  </div>
+  <div class="mockup-wrap">
+    <div class="mockup-chrome"><div class="chrome-dots"><span></span><span></span><span></span></div><div class="chrome-url">app.kasper.ae/reports</div></div>
+    <div class="app-shell">
+      <div class="sidebar">
+        <div class="sidebar-logo">Kasper<span>GPS</span></div>
+        <div class="nav-item">🗺️ Live Map</div>
+        <div class="nav-item">🚛 Vehicles</div>
+        <div class="nav-item">⏪ History</div>
+        <div class="nav-item">⛽ Fuel</div>
+        <div class="nav-item">🔧 Maintenance</div>
+        <div class="nav-item">🔔 Alerts</div>
+        <div class="nav-item active">📊 Reports</div>
+      </div>
+      <div class="main">
+        <div class="main-top"><h3>Reports</h3><span class="badge live">PDF · Excel</span></div>
+        <div class="report-row"><span class="nm">📄 Trip Report</span><div class="rr-right"><span class="tb all" style="font-size:.55rem">All Tiers</span><span class="export-btn">Export</span></div></div>
+        <div class="report-row"><span class="nm">⛽ Fuel Report</span><div class="rr-right"><span class="tb t2" style="font-size:.55rem">Tier 2+</span><span class="export-btn">Export</span></div></div>
+        <div class="report-row"><span class="nm">⏱️ Idling Report</span><div class="rr-right"><span class="tb t2" style="font-size:.55rem">Tier 2+</span><span class="export-btn">Export</span></div></div>
+        <div class="report-row"><span class="nm">🚜 Utilisation Report</span><div class="rr-right"><span class="tb t3" style="font-size:.55rem">Tier 3</span><span class="export-btn">Export</span></div></div>
+        <div class="report-row"><span class="nm">🧑‍✈️ Driver Behaviour</span><div class="rr-right"><span class="tb t2" style="font-size:.55rem">Tier 2+</span><span class="export-btn">Export</span></div></div>
+        <div class="report-row"><span class="nm">📍 Geofence Report</span><div class="rr-right"><span class="tb all" style="font-size:.55rem">All Tiers</span><span class="export-btn">Export</span></div></div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <div style="background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:.72rem">📅 Weekly WhatsApp delivery</div>
+          <div style="background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:.72rem">🏷️ Branded with vendor logo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="feat-grid">
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>6 reports, tier-gated</h4><p>Trip + Geofence = all tiers. Fuel + Idling + Driver = Tier 2+. Utilisation = Tier 3. Locked reports visible but greyed with upgrade prompt.</p><div class="dev-note">Report generation server-side. Input: deviceId[], dateFrom, dateTo. Output: JSON → render to PDF via pdfmake or puppeteer. XLSX via SheetJS. Tier check at API level — 403 if tier insufficient.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Utilisation = billing proof</h4><p>Engine hours per asset for the billing period. For equipment rental vendors, this is the invoice evidence. Dispute-proof because data is from the device, not a driver's logbook.</p><div class="dev-note">Aggregate engine_hours from telemetry where ignition=on. Group by deviceId, date. Output: asset name, total hours, daily breakdown. This is the most critical Tier 3 report.</div></div>
+    <div class="feat"><span class="feat-tag tag should">Should</span><h4>Scheduled WhatsApp delivery</h4><p>Weekly report sent to vendor's WhatsApp every Sunday. Summary numbers + PDF link. Platform stays visible without being opened.</p><div class="dev-note">Cron Sunday 08:00 UAE. Generate report PDF, upload to storage, create signed URL (7-day expiry). WhatsApp message: summary text + PDF link. Use WhatsApp Business API template message.</div></div>
+    <div class="feat"><span class="feat-tag tag could">Could</span><h4>Vendor-branded PDF exports</h4><p>Vendor's logo on the PDF header. They forward this to their client as proof. Small feature, strong loyalty effect.</p><div class="dev-note">Store vendor logo URL in account_settings. Inject into pdfmake header template on report generation. Optional toggle in settings: "Include my logo on reports."</div></div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ═══ SCREEN 08: CLIENT TRACKING LINK ═══ -->
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-header-left">
+      <div class="screen-num">SCREEN 08 / 08</div>
+      <h2>📱 Client Tracking Link</h2>
+      <p>What the end customer sees. One vehicle, live location, ETA. No login required. Works on any phone. Dead simple by design.</p>
+    </div>
+    <div class="tier-badges"><span class="tb all">All Tiers</span></div>
+  </div>
+  <div style="display:grid;grid-template-columns:300px 1fr;gap:24px;align-items:start">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-body">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="font-weight:700;font-size:.9rem">Your delivery <span style="color:var(--brand)">· live</span></div>
+          <span class="badge live">● LIVE</span>
+        </div>
+        <div class="map-box" style="height:200px;border-radius:12px">
+          <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="320" height="200" fill="#e8eff5"/>
+            <rect x="0" y="0" width="120" height="55" fill="#d5e2ec" rx="1"/>
+            <rect x="130" y="5" width="80" height="45" fill="#dce9f0" rx="1"/>
+            <rect x="220" y="0" width="100" height="60" fill="#d5e2ec" rx="1"/>
+            <rect x="0" y="130" width="140" height="70" fill="#d5e2ec" rx="1"/>
+            <rect x="160" y="140" width="80" height="60" fill="#dce9f0" rx="1"/>
+            <rect x="250" y="125" width="70" height="75" fill="#d5e2ec" rx="1"/>
+            <rect x="30" y="75" width="60" height="40" fill="#cfe0cf" rx="3"/>
+            <rect x="0" y="62" width="320" height="9" fill="#fff" opacity=".92"/>
+            <rect x="0" y="118" width="320" height="8" fill="#fff" opacity=".88"/>
+            <rect x="148" y="0" width="7" height="200" fill="#fff" opacity=".88"/>
+            <line x1="0" y1="66" x2="320" y2="66" stroke="#ddd" stroke-width="1" stroke-dasharray="12 6"/>
+            <line x1="0" y1="122" x2="320" y2="122" stroke="#ddd" stroke-width="1" stroke-dasharray="12 6"/>
+            <text x="30" y="59" font-size="6" fill="#aaa" font-family="Arial">Al Khail Rd</text>
+          </svg>
+          <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M 10 85 Q 28 70 42 55 T 75 28" fill="none" stroke="#155eef" stroke-width="1.8" stroke-dasharray="4 2" opacity=".8"/>
+          </svg>
+          <div class="vmarker mov" style="top:46%;left:40%">🚛</div>
+          <div style="position:absolute;top:12%;left:68%;font-size:1.2rem">📍</div>
+        </div>
+        <div style="background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:10px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.76rem"><span style="color:var(--ink2)">ETA</span><strong style="color:var(--green)">11:24 AM · 18 min</strong></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.76rem"><span style="color:var(--ink2)">Status</span><strong>En route</strong></div>
+          <div style="display:flex;justify-content:space-between;font-size:.76rem"><span style="color:var(--ink2)">Vehicle</span><strong>Flatbed · T-44782</strong></div>
+        </div>
+        <div style="text-align:center;margin-top:10px;font-size:.64rem;color:var(--ink3)">Tracked by <strong style="color:var(--brand)">KasperGPS</strong> · Share</div>
+      </div>
+    </div>
+    <div class="feat-grid" style="grid-template-columns:1fr">
+      <div class="feat"><span class="feat-tag tag must">Must</span><h4>No login — token URL only</h4><p>Client receives a URL. Opens instantly on any phone, any browser, no app required. Link expires when trip completes or after 48h for long-hire equipment.</p><div class="dev-note">tracking_links table: token (UUID), deviceId, expires_at, created_by. GET /track/{token} → validate token, fetch live position, render page. No auth middleware on this route. Expiry: auto-expire on trip_end event OR time-based TTL.</div></div>
+      <div class="feat"><span class="feat-tag tag must">Must</span><h4>ETA front and centre</h4><p>Calculated from current position + speed + distance to destination. Updates every 30 seconds. The client's only real question.</p><div class="dev-note">ETA = distance_to_destination / avg_speed_last_5min. Use Maps API (Google/Mapbox) for road distance. If vehicle stopped &gt;10min → show "Vehicle stopped" not a fake ETA.</div></div>
+      <div class="feat"><span class="feat-tag tag must">Must</span><h4>Scoped data — no vendor info leaked</h4><p>Client sees: one vehicle, current trip only, ETA, vehicle plate. They do NOT see: fuel, driver score, other fleet vehicles, history.</p><div class="dev-note">Tracking link API returns only: current_lat, current_lng, speed, estimated_arrival, vehicle_display_name. No other fields. Separate read-only API endpoint, never shares fleet data.</div></div>
+      <div class="feat"><span class="feat-tag tag should">Should</span><h4>Extended data for rental clients</h4><p>For long-term equipment hire, vendor can optionally share: daily engine hours, idle time, utilisation summary. Vendor toggles this per client link.</p><div class="dev-note">tracking_links.share_extended boolean. If true: also return engine_hours_today, idle_minutes_today from telemetry. Vendor sets this when generating the link: "Share utilisation data? [Yes/No]"</div></div>
+      <div class="feat"><span class="feat-tag tag should">Should</span><h4>"Tracked by KasperGPS" footer</h4><p>Every shared link is a marketing channel. The client who tracks a delivery today is a potential GPS lead next quarter.</p><div class="dev-note">Static footer on tracking page: "Powered by KasperGPS · kasperpro.com". Clickable → marketing landing page. Track click events for lead attribution.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+
+<div class="section-divider"></div>
+
+<!-- ═══ SCREEN 09: TIMESHEET ═══ -->
+<div class="screen-section">
+  <div class="screen-header">
+    <div class="screen-header-left">
+      <div class="screen-num">SCREEN 09 / 09</div>
+      <h2>🕐 Timesheet</h2>
+      <p>Driver working hours linked to vehicle activity. When did the driver start, which vehicle, how long moving vs idling vs stopped. Exportable for payroll and client billing.</p>
+    </div>
+    <div class="tier-badges"><span class="tb all">All Tiers</span></div>
+  </div>
+  <div class="mockup-wrap">
+    <div class="mockup-chrome"><div class="chrome-dots"><span></span><span></span><span></span></div><div class="chrome-url">app.kasper.ae/timesheet</div></div>
+    <div class="app-shell">
+      <div class="sidebar">
+        <div class="sidebar-logo">Kasper<span>GPS</span></div>
+        <div class="nav-item">🗺️ Live Map</div>
+        <div class="nav-item">🚛 Vehicles</div>
+        <div class="nav-item">⏪ History</div>
+        <div class="nav-item">⛽ Fuel</div>
+        <div class="nav-item">🔧 Maintenance</div>
+        <div class="nav-item">🔔 Alerts</div>
+        <div class="nav-item">📊 Reports</div>
+        <div class="nav-item active">🕐 Timesheet</div>
+      </div>
+      <div class="main">
+        <div class="main-top">
+          <h3>Timesheet — Today, Jun 17</h3>
+          <div style="display:flex;gap:8px">
+            <span class="badge live">6 drivers active</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;padding:4px 10px;border:1px solid var(--line2);border-radius:6px;color:var(--ink2);cursor:pointer">📅 Date range</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;padding:4px 10px;border:1px solid var(--line2);border-radius:6px;color:var(--ink2);cursor:pointer">⬇️ Export</span>
+          </div>
+        </div>
+
+        <!-- TIMESHEET TABLE -->
+        <div style="overflow-x:auto">
+          <table style="font-size:.72rem;min-width:600px">
+            <thead>
+              <tr style="background:var(--panel2)">
+                <th style="text-align:left;padding:8px 10px;font-size:.58rem">Driver</th>
+                <th style="text-align:left;padding:8px 10px;font-size:.58rem">Vehicle</th>
+                <th style="text-align:left;padding:8px 10px;font-size:.58rem">Shift Start</th>
+                <th style="text-align:left;padding:8px 10px;font-size:.58rem">Shift End</th>
+                <th style="text-align:right;padding:8px 10px;font-size:.58rem">Total Hrs</th>
+                <th style="text-align:right;padding:8px 10px;font-size:.58rem">Moving</th>
+                <th style="text-align:right;padding:8px 10px;font-size:.58rem">Idle</th>
+                <th style="text-align:right;padding:8px 10px;font-size:.58rem">Stopped</th>
+                <th style="padding:8px 10px;font-size:.58rem">Activity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:9px 10px;font-weight:600">Ramesh K.</td>
+                <td style="padding:9px 10px;color:var(--ink2)">EXC-02</td>
+                <td style="padding:9px 10px;font-family:'IBM Plex Mono',monospace">06:30</td>
+                <td style="padding:9px 10px;font-family:'IBM Plex Mono',monospace;color:var(--green)">Active ●</td>
+                <td style="padding:9px 10px;text-align:right;font-weight:600">9.5 h</td>
+                <td style="padding:9px 10px;text-align:right;color:var(--green)">4.2 h</td>
+                <td style="padding:9px 10px;text-align:right;color:var(--amber)">3.8 h</td>
+                <td style="padding:9px 10px;text-align:right;color:var(--ink3)">1.5 h</td>
+                <td style="padding:9px 10px">
+                  <div style="display:flex;height:10px;border-radius:4px;overflow:hidden;min-width:80px">
+                    <div style="width:44%;background:var(--green);opacity:.8"></div>
+                    <div style="width:40%;background:var(--amber);opacity:.8"></div>
+                    <div style="width:16%;background:var(--ink3);opacity:.4"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr style="background:var(--panel2)">
+                <td style="padding:9px 10px;font-weight:600">Imran S.</td>
+                <td style="padding:9px 10px;color:var(--ink2)">TRK-09</td>
+                <td style="padding:9px 10px;font-family:'IBM Plex Mono',monospace">07:00</td>
+                <td style="padding:9px 10px;font-family:'IBM Plex Mono',monospace;color:var(--green)">Active ●</td>
+                <td style="padding:9px 10px;text-align:right;font-weight:600">8.9 h</td>
+                <td style="padding:9px 10px;text-align:right;color:var(--green)">6.1 h</td>
+                <td style="padding:9px 10px;text-align:right;color:var(--amber)">1.2 h</td>
+                <td style="padding:9px 10px;text-align:right;color:var(--ink3)">1.6 h</td>
+                <td style="padding:9px 10px">
+                  <div style="display:flex;height:10px;border-radius:4px;overflow:hidden;min-width:80px">
+                    <div style="width:69%;background:var(--green);opacity:.8"></div>
+                    <div style="width:13%;background:var(--amber);opacity:.8"></div>
+                    <div style="width:18%;background:var(--ink3);opacity:.4"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:9px 10px;font-weight:600">Ahmed F.</td>
+                <td style="padding:9px 10px;color:var(--ink2)">TRK-04</td>
+                <td style="padding:9px 10px;font-family:'IBM Plex Mono',monospace">06:42</td>
+                <td style="padding:9px 10px;font-family:'IBM Plex Mono',monospace">15:30</td>
+                <td style="padding:9px 10px;text-align:right;font-weight:600">8.8 h</td>
+                <td style="padding:9px 10px;text-align:right;color:var(--green)">5.5 h</td>
+                <td style="padding:9px 10px;text-align:right;color:var(--amber)">0.8 h</td>
+                <td style="padding:9px 10px;text-align:right;color:var(--ink3)">2.5 h</td>
+                <td style="padding:9px 10px">
+                  <div style="display:flex;height:10px;border-radius:4px;overflow:hidden;min-width:80px">
+                    <div style="width:63%;background:var(--green);opacity:.8"></div>
+                    <div style="width:9%;background:var(--amber);opacity:.8"></div>
+                    <div style="width:28%;background:var(--ink3);opacity:.4"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr style="background:var(--panel2)">
+                <td style="padding:9px 10px;font-weight:600">Ravi M.</td>
+                <td style="padding:9px 10px;color:var(--ink2)">FLT-03</td>
+                <td style="padding:9px 10px;font-family:'IBM Plex Mono',monospace">08:00</td>
+                <td style="padding:9px 10px;font-family:'IBM Plex Mono',monospace">16:00</td>
+                <td style="padding:9px 10px;text-align:right;font-weight:600">8.0 h</td>
+                <td style="padding:9px 10px;text-align:right;color:var(--green)">5.9 h</td>
+                <td style="padding:9px 10px;text-align:right;color:var(--amber)">0.6 h</td>
+                <td style="padding:9px 10px;text-align:right;color:var(--ink3)">1.5 h</td>
+                <td style="padding:9px 10px">
+                  <div style="display:flex;height:10px;border-radius:4px;overflow:hidden;min-width:80px">
+                    <div style="width:74%;background:var(--green);opacity:.8"></div>
+                    <div style="width:7%;background:var(--amber);opacity:.8"></div>
+                    <div style="width:19%;background:var(--ink3);opacity:.4"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:9px 10px;font-weight:600">Suresh P.</td>
+                <td style="padding:9px 10px;color:var(--ink2)">TRK-07</td>
+                <td style="padding:9px 10px;font-family:'IBM Plex Mono',monospace">06:15</td>
+                <td style="padding:9px 10px;font-family:'IBM Plex Mono',monospace;color:var(--green)">Active ●</td>
+                <td style="padding:9px 10px;text-align:right;font-weight:600">9.7 h</td>
+                <td style="padding:9px 10px;text-align:right;color:var(--green)">7.2 h</td>
+                <td style="padding:9px 10px;text-align:right;color:var(--amber)">0.9 h</td>
+                <td style="padding:9px 10px;text-align:right;color:var(--ink3)">1.6 h</td>
+                <td style="padding:9px 10px">
+                  <div style="display:flex;height:10px;border-radius:4px;overflow:hidden;min-width:80px">
+                    <div style="width:74%;background:var(--green);opacity:.8"></div>
+                    <div style="width:9%;background:var(--amber);opacity:.8"></div>
+                    <div style="width:17%;background:var(--ink3);opacity:.4"></div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr style="background:var(--brand-soft);border-top:2px solid var(--brand)">
+                <td colspan="4" style="padding:9px 10px;font-weight:700;font-size:.72rem;color:var(--brand)">Daily totals (5 drivers)</td>
+                <td style="padding:9px 10px;text-align:right;font-weight:700;color:var(--brand)">44.9 h</td>
+                <td style="padding:9px 10px;text-align:right;font-weight:700;color:var(--green)">28.9 h</td>
+                <td style="padding:9px 10px;text-align:right;font-weight:700;color:var(--amber)">7.3 h</td>
+                <td style="padding:9px 10px;text-align:right;font-weight:700;color:var(--ink3)">8.7 h</td>
+                <td style="padding:9px 10px">
+                  <div style="display:flex;gap:8px;font-size:.58rem;font-family:'IBM Plex Mono',monospace">
+                    <span style="color:var(--green)">■ Moving</span>
+                    <span style="color:var(--amber)">■ Idle</span>
+                    <span style="color:var(--ink3)">■ Stopped</span>
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feat-grid">
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Driver shift start/end from ignition</h4><p>Shift start = first ignition ON of the day. Shift end = last ignition OFF. If driver switches vehicles mid-day, system creates separate rows per vehicle segment.</p><div class="dev-note">Query positions table: group by driver_id + device_id per calendar day. First ignition_on = shift_start. Last ignition_off = shift_end. If same driver appears on multiple devices → multiple rows, sum in totals. Driver assignment: drivers table linked to device via shift_assignments (driver_id, device_id, date).</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Moving / Idle / Stopped breakdown</h4><p>Per driver per day: total hours split into moving (speed&gt;5), idling (speed=0, ignition ON), stopped (ignition OFF). Shown as mini bar chart in the row.</p><div class="dev-note">Iterate positions for driver's shift window. Classify each position record: MOVING (speed&gt;5), IDLE (speed≤5 AND ignition=on), STOPPED (ignition=off). Sum duration between consecutive pings. Store daily_summary: moving_mins, idle_mins, stopped_mins per driver_id per date.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Date range selector</h4><p>View one day, one week, or custom date range. Weekly view shows a row per driver per day with totals. Monthly aggregates for payroll.</p><div class="dev-note">Date picker: single day, week preset, custom range. Query daily_summary table with date BETWEEN. Group by driver_id for multi-day. Sum moving/idle/stopped across date range. Limit: 31 days max per query to avoid timeout.</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Export to Excel / PDF</h4><p>Download timesheet for the selected date range. Used for payroll processing and client billing proof for equipment hire.</p><div class="dev-note">Server-side: generate XLSX via SheetJS. Columns: driver, vehicle, date, shift_start, shift_end, total_hours, moving_hours, idle_hours, stopped_hours. PDF via pdfmake with Kasper header. Endpoint: GET /timesheet/export?from=&to=&format=xlsx|pdf</div></div>
+    <div class="feat"><span class="feat-tag tag must">Must</span><h4>Driver assignment to vehicle</h4><p>Vendor assigns a driver name to each device. Driver can be reassigned when they switch vehicles. Timesheet tracks by driver name, not just vehicle.</p><div class="dev-note">drivers table: id, account_id, name, phone. shift_assignments: driver_id, device_id, assigned_from, assigned_to (nullable = current). UI: per device → "Assigned driver" dropdown. Change triggers new shift_assignment row with timestamp.</div></div>
+    <div class="feat"><span class="feat-tag tag should">Should</span><h4>Overtime detection</h4><p>Flag shifts exceeding a configured threshold (e.g. &gt;10 hours). Highlighted in amber. Vendor can set per-driver or fleet-wide threshold.</p><div class="dev-note">account_settings.overtime_threshold_hours (default 10). On daily_summary compute: if total_hours &gt; threshold → flag overtime=true. Show amber highlight on row. Include in weekly WhatsApp summary: "2 drivers exceeded 10h today."</div></div>
+    <div class="feat"><span class="feat-tag tag should">Should</span><h4>WhatsApp daily summary to vendor</h4><p>End-of-day WhatsApp: "Today: 5 drivers, 44.9 total hours, 7.3h idle. Longest shift: Suresh P — 9.7h." Sent at 20:00 UAE.</p><div class="dev-note">Cron 20:00 UAE daily. Aggregate all driver shifts for the day. Format WhatsApp template message. Send to account_owner.phone. If any driver overtime flagged → include in message: "⚠ Overtime: [driver name]".</div></div>
+    <div class="feat"><span class="feat-tag tag could">Could</span><h4>Idle time cost per driver</h4><p>If Tier 2/3: translate each driver's idle hours to AED wasted. "Ramesh: 3.8h idle = AED 142 in fuel." Connects idling to individual accountability.</p><div class="dev-note">Join driver_daily_summary with fuel dashboard idle cost calculation. idle_cost = idle_hours × avg_idle_fuel_rate × diesel_price. Only available for devices with LVCAN200/ALLCAN300. Display as additional column (tier-gated).</div></div>
+  </div>
+</div>
+
+<!-- DB SCHEMA SUMMARY -->
+<div style="margin-bottom:48px">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px">Key database tables — for SRS reference</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px">
+    <div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--brand);margin-bottom:6px">devices</div>
+      <div style="font-size:.72rem;color:var(--ink2);line-height:1.7">id · account_id · name · plate · tier (1/2/3) · imei · sim_number · status · created_at</div>
+    </div>
+    <div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--brand);margin-bottom:6px">positions</div>
+      <div style="font-size:.72rem;color:var(--ink2);line-height:1.7">id · device_id · lat · lng · speed · heading · ignition · fuel_level · engine_hours · raw_can · created_at</div>
+    </div>
+    <div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--brand);margin-bottom:6px">alerts</div>
+      <div style="font-size:.72rem;color:var(--ink2);line-height:1.7">id · device_id · type · severity · message · lat · lng · whatsapp_sent · resolved_at · created_at</div>
+    </div>
+    <div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--brand);margin-bottom:6px">geofences</div>
+      <div style="font-size:.72rem;color:var(--ink2);line-height:1.7">id · account_id · name · polygon_coords · work_start · work_end · work_days · created_at</div>
+    </div>
+    <div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--brand);margin-bottom:6px">maintenance_rules</div>
+      <div style="font-size:.72rem;color:var(--ink2);line-height:1.7">id · device_id · rule_type · interval · last_service_hours · last_service_km · status · updated_at</div>
+    </div>
+    <div style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--brand);margin-bottom:6px">tracking_links</div>
+      <div style="font-size:.72rem;color:var(--ink2);line-height:1.7">id · token · device_id · share_extended · expires_at · click_count · created_by</div>
+    </div>
+  </div>
+</div>
+
+<div style="padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:12px;text-align:center">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--ink3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">This document is the input for the SRS</div>
+  <div style="font-size:.84rem;color:var(--ink2)">8 screens · 40+ features · dev notes per feature · DB schema · priority tags</div>
+</div>
+
+<div style="margin-top:20px;font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--ink3);text-align:right">Kasper Technologies · afzl · June 2026 · Feature Specification v1</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasper GPS — Tier Feature List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2f4f7;--panel:#fff;--panel2:#fafbfc;
+  --ink:#101828;--ink2:#475467;--ink3:#98a2b3;
+  --line:#e4e7ec;--line2:#d0d5dd;
+  --t1:#155eef;--t1s:#eff4ff;--t1b:#c7d7fe;
+  --t2:#dc6803;--t2s:#fffaeb;--t2b:#fde68a;
+  --t3:#6938ef;--t3s:#f5f3ff;--t3b:#ddd6fe;
+  --green:#079455;--green-soft:#ecfdf3;
+  --red:#d92d20;--red-soft:#fef3f2;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);font-family:'Space Grotesk',sans-serif;color:var(--ink);min-height:100vh}
+.page{max-width:1100px;margin:0 auto;padding:48px 24px 80px}
+
+/* HEADER */
+.doc-header{padding-bottom:28px;border-bottom:2px solid var(--ink);margin-bottom:48px}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:10px}
+.doc-sub{color:var(--ink2);font-size:.92rem;max-width:600px;line-height:1.55;margin-top:6px}
+.doc-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;padding:4px 12px;border-radius:99px;border:1px solid var(--line2);color:var(--ink2);background:var(--panel)}
+
+/* SECTION LABEL */
+.sec-label{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.sec-gap{margin-bottom:56px}
+
+/* ── SECTION 1: VISUAL CARDS ── */
+.tier-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:4px}
+.tier-card{border-radius:0;padding:28px 24px;display:flex;flex-direction:column;gap:0}
+.tier-card.t1{background:var(--t1);color:#fff}
+.tier-card.t2{background:var(--t2);color:#fff}
+.tier-card.t3{background:var(--t3);color:#fff}
+.tc-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;opacity:.75;margin-bottom:10px}
+.tc-name{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
+.tc-device{font-family:'IBM Plex Mono',monospace;font-size:.68rem;opacity:.8;margin-bottom:20px}
+.tc-price{font-size:2.8rem;font-weight:700;letter-spacing:-.04em;line-height:1;margin-bottom:4px}
+.tc-price-sub{font-size:.78rem;opacity:.75;margin-bottom:24px}
+.tc-vehicle{font-size:.82rem;opacity:.9;font-weight:500;padding:10px 14px;background:rgba(255,255,255,.15);border-radius:8px;margin-bottom:20px}
+.tc-feats{list-style:none;display:flex;flex-direction:column;gap:8px}
+.tc-feats li{font-size:.8rem;display:flex;align-items:flex-start;gap:8px;line-height:1.4;opacity:.95}
+.tc-feats li .ck{font-size:.75rem;margin-top:1px;flex-shrink:0}
+.tc-feats li.add{font-weight:600;opacity:1}
+.tc-feats li.add .ck{opacity:1}
+.tc-bottom{margin-top:auto;padding-top:20px;border-top:1px solid rgba(255,255,255,.2);font-family:'IBM Plex Mono',monospace;font-size:.6rem;opacity:.7;letter-spacing:.1em;text-transform:uppercase}
+
+/* ── SECTION 2: COMPARISON TABLE ── */
+.compare-wrap{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:4px}
+.compare-wrap table{width:100%;border-collapse:collapse}
+.compare-wrap th{padding:14px 18px;text-align:left;font-size:.72rem;font-weight:600;border-bottom:2px solid var(--line)}
+.compare-wrap th.h-t1{background:var(--t1s);color:var(--t1);border-bottom-color:var(--t1b)}
+.compare-wrap th.h-t2{background:var(--t2s);color:var(--t2);border-bottom-color:var(--t2b)}
+.compare-wrap th.h-t3{background:var(--t3s);color:var(--t3);border-bottom-color:var(--t3b)}
+.compare-wrap th.h-feat{background:var(--panel2);color:var(--ink3);font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase}
+.compare-wrap td{padding:11px 18px;border-bottom:1px solid var(--line);font-size:.8rem;vertical-align:middle}
+.compare-wrap tr:last-child td{border-bottom:none}
+.compare-wrap tr:hover td{background:#fafbfc}
+.compare-wrap td.feat-name{font-weight:500;color:var(--ink);background:var(--panel2)}
+.compare-wrap td.cat-row{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink3);background:var(--bg);padding:8px 18px;border-bottom:1px solid var(--line)}
+.yes{color:var(--green);font-size:1rem}
+.no{color:var(--ink3);font-size:.8rem;opacity:.5}
+.part{color:var(--t2);font-size:.75rem;font-weight:600}
+.add-badge{font-family:'IBM Plex Mono',monospace;font-size:.55rem;padding:2px 7px;border-radius:4px;font-weight:600;margin-left:4px}
+.add-t2{background:var(--t2s);color:var(--t2)}
+.add-t3{background:var(--t3s);color:var(--t3)}
+
+/* ── SECTION 3: PER-TIER LISTS ── */
+.tier-list-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tier-list-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.tlc-header{padding:20px 22px 16px;border-bottom:1px solid var(--line)}
+.tlc-header.t1{border-top:4px solid var(--t1)}
+.tlc-header.t2{border-top:4px solid var(--t2)}
+.tlc-header.t3{border-top:4px solid var(--t3)}
+.tlc-tier{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px}
+.tlc-tier.t1{color:var(--t1)}.tlc-tier.t2{color:var(--t2)}.tlc-tier.t3{color:var(--t3)}
+.tlc-name{font-size:1.1rem;font-weight:700;margin-bottom:2px}
+.tlc-price{font-size:1.5rem;font-weight:700}
+.tlc-price.t1{color:var(--t1)}.tlc-price.t2{color:var(--t2)}.tlc-price.t3{color:var(--t3)}
+.tlc-body{padding:18px 22px}
+.feat-group{margin-bottom:16px}
+.feat-group-label{font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--ink3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.feat-item{display:flex;align-items:flex-start;gap:8px;padding:5px 0;font-size:.8rem;color:var(--ink2);line-height:1.4;border-bottom:1px solid var(--line)}
+.feat-item:last-child{border-bottom:none}
+.feat-item .fi-icon{font-size:.72rem;flex-shrink:0;margin-top:2px}
+.feat-item.included .fi-icon{color:var(--green)}
+.feat-item.excluded .fi-icon{color:var(--ink3);opacity:.4}
+.feat-item.excluded{opacity:.55}
+.feat-item.new{font-weight:600;color:var(--ink)}
+.feat-item.new .fi-icon{color:var(--green)}
+.not-tag{font-family:'IBM Plex Mono',monospace;font-size:.52rem;color:var(--ink3);margin-left:auto;white-space:nowrap}
+.upsell{background:var(--t1s);border:1px solid var(--t1b);border-radius:10px;padding:12px 14px;margin-top:12px;font-size:.76rem;color:var(--t1);line-height:1.5}
+.upsell.t2{background:var(--t2s);border-color:var(--t2b);color:var(--t2)}
+.upsell.t3{background:var(--t3s);border-color:var(--t3b);color:var(--t3)}
+
+/* HARDWARE ROW */
+.hw-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:56px}
+.hw-cell{background:var(--panel);padding:16px 20px;border:1px solid var(--line)}
+.hw-cell-label{font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--ink3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.hw-cell-name{font-size:.9rem;font-weight:600;margin-bottom:3px}
+.hw-cell-desc{font-size:.74rem;color:var(--ink2);line-height:1.4}
+.hw-cell-price{font-family:'IBM Plex Mono',monospace;font-size:.8rem;margin-top:8px;font-weight:600}
+.hw-cell-price.t1{color:var(--t1)}.hw-cell-price.t2{color:var(--t2)}.hw-cell-price.t3{color:var(--t3)}
+
+@media(max-width:860px){
+  .tier-cards,.tier-list-grid,.hw-strip{grid-template-columns:1fr}
+  .compare-wrap{overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<div class="doc-header">
+  <div class="eyebrow">Kasper Technologies · GPS Platform · June 2026</div>
+  <h1>Feature List by Tier</h1>
+  <p class="doc-sub">Three tiers, three price points, three vehicle types. Same platform — features unlock by subscription level. Hardware upgrades in the field without replacing the main device.</p>
+  <div class="doc-meta">
+    <span class="tag">Tier 1 — AED 60/mo</span>
+    <span class="tag">Tier 2 — AED 80/mo</span>
+    <span class="tag">Tier 3 — AED 110/mo</span>
+    <span class="tag">Annual upfront billing</span>
+  </div>
+</div>
+
+<!-- ═══ SECTION 1: VISUAL CARDS ═══ -->
+<div class="sec-label">01 — Tier overview</div>
+<div class="tier-cards">
+
+  <!-- TIER 1 -->
+  <div class="tier-card t1">
+    <div class="tc-eyebrow">Tier 1</div>
+    <div class="tc-name">Basic Tracking</div>
+    <div class="tc-device">FMC130 only</div>
+    <div class="tc-price">AED 60</div>
+    <div class="tc-price-sub">per device / month · billed annually</div>
+    <div class="tc-vehicle">🚛 Trucks · Flatbeds · Vans · Older equipment</div>
+    <ul class="tc-feats">
+      <li><span class="ck">✓</span> Live GPS location — every 30 seconds</li>
+      <li><span class="ck">✓</span> Route history and trip playback</li>
+      <li><span class="ck">✓</span> Geofence entry / exit alerts</li>
+      <li><span class="ck">✓</span> Speed and overspeed alerts</li>
+      <li><span class="ck">✓</span> Ignition on / off detection</li>
+      <li><span class="ck">✓</span> Movement and towing alerts</li>
+      <li><span class="ck">✓</span> Client live tracking link</li>
+      <li><span class="ck">✓</span> Trip reports — distance and duration</li>
+      <li><span class="ck">✓</span> Timesheet — driver hours per shift</li>
+      <li><span class="ck">✓</span> WhatsApp alerts</li>
+      <li style="opacity:.5"><span class="ck">—</span> No fuel data</li>
+      <li style="opacity:.5"><span class="ck">—</span> No engine diagnostics</li>
+      <li style="opacity:.5"><span class="ck">—</span> No CAN bus data</li>
+    </ul>
+    <div class="tc-bottom">Hardware capex: AED 283 · Payback: 7.2 months</div>
+  </div>
+
+  <!-- TIER 2 -->
+  <div class="tier-card t2">
+    <div class="tc-eyebrow">Tier 2</div>
+    <div class="tc-name">Fleet Analytics</div>
+    <div class="tc-device">FMC130 + LVCAN200</div>
+    <div class="tc-price">AED 80</div>
+    <div class="tc-price-sub">per device / month · billed annually</div>
+    <div class="tc-vehicle">🚚 Trucks · Vans · Flatbeds with OBD port</div>
+    <ul class="tc-feats">
+      <li><span class="ck">✓</span> Everything in Tier 1, plus:</li>
+      <li class="add"><span class="ck">+</span> Fuel level monitoring</li>
+      <li class="add"><span class="ck">+</span> Fuel consumption per trip</li>
+      <li class="add"><span class="ck">+</span> Idle time and idle cost in AED</li>
+      <li class="add"><span class="ck">+</span> Fuel theft detection alerts</li>
+      <li class="add"><span class="ck">+</span> Odometer / mileage from CAN</li>
+      <li class="add"><span class="ck">+</span> Engine RPM</li>
+      <li class="add"><span class="ck">+</span> Coolant temperature</li>
+      <li class="add"><span class="ck">+</span> Driver behaviour scoring</li>
+      <li class="add"><span class="ck">+</span> Weekly fuel digest (WhatsApp)</li>
+      <li style="opacity:.5"><span class="ck">—</span> No fault codes</li>
+      <li style="opacity:.5"><span class="ck">—</span> No engine hours</li>
+      <li style="opacity:.5"><span class="ck">—</span> No predictive maintenance</li>
+    </ul>
+    <div class="tc-bottom">Hardware capex: AED 508 · Payback: 8.8 months</div>
+  </div>
+
+  <!-- TIER 3 -->
+  <div class="tier-card t3">
+    <div class="tc-eyebrow">Tier 3</div>
+    <div class="tc-name">Heavy Equipment</div>
+    <div class="tc-device">FMC130 + ALLCAN300</div>
+    <div class="tc-price">AED 110</div>
+    <div class="tc-price-sub">per device / month · billed annually</div>
+    <div class="tc-vehicle">🚜 Excavators · Cranes · Dump trucks · Generators</div>
+    <ul class="tc-feats">
+      <li><span class="ck">✓</span> Everything in Tier 2, plus:</li>
+      <li class="add"><span class="ck">+</span> Engine hours tracking</li>
+      <li class="add"><span class="ck">+</span> Service scheduling by hours / km</li>
+      <li class="add"><span class="ck">+</span> Oil pressure monitoring</li>
+      <li class="add"><span class="ck">+</span> AdBlue / DEF level</li>
+      <li class="add"><span class="ck">+</span> Engine fault codes (DTC) — plain language</li>
+      <li class="add"><span class="ck">+</span> Equipment utilisation report</li>
+      <li class="add"><span class="ck">+</span> Predictive maintenance alerts</li>
+      <li class="add"><span class="ck">+</span> 100+ CAN parameters</li>
+      <li class="add"><span class="ck">+</span> Door / axle status</li>
+      <li class="add"><span class="ck">+</span> WhatsApp service reminders</li>
+    </ul>
+    <div class="tc-bottom">Hardware capex: AED 711 · Payback: 8.2 months</div>
+  </div>
+</div>
+
+<!-- HARDWARE STRIP -->
+<div class="hw-strip">
+  <div class="hw-cell">
+    <div class="hw-cell-label">Tier 1 Hardware</div>
+    <div class="hw-cell-name">Teltonika FMC130</div>
+    <div class="hw-cell-desc">GPS tracker only. 4G, internal battery backup, store-and-forward. Goes on every vehicle across all tiers.</div>
+    <div class="hw-cell-price t1">AED 173.34 landed · + AED 30 accessories</div>
+  </div>
+  <div class="hw-cell">
+    <div class="hw-cell-label">Tier 2 Add-on</div>
+    <div class="hw-cell-name">LVCAN200 CAN Adapter</div>
+    <div class="hw-cell-desc">Plugs into OBD port. Reads fuel, mileage, RPM, coolant from the vehicle's onboard computer. Light vehicles only.</div>
+    <div class="hw-cell-price t2">AED 204.48 landed · OBD plug-in install</div>
+  </div>
+  <div class="hw-cell">
+    <div class="hw-cell-label">Tier 3 Add-on</div>
+    <div class="hw-cell-name">ALLCAN300 CAN Adapter</div>
+    <div class="hw-cell-desc">Hardwired to CAN bus. 100+ parameters. For heavy construction equipment without an OBD port — excavators, cranes, dump trucks.</div>
+    <div class="hw-cell-price t3">AED 387.41 landed · Hardwired installation</div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 2: COMPARISON TABLE ═══ -->
+<div class="sec-label sec-gap">02 — Feature comparison table</div>
+<div class="compare-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th class="h-feat" style="width:38%">Feature</th>
+        <th class="h-t1">Tier 1 · AED 60/mo</th>
+        <th class="h-t2">Tier 2 · AED 80/mo</th>
+        <th class="h-t3">Tier 3 · AED 110/mo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- TRACKING -->
+      <tr><td class="cat-row" colspan="4">📍 Location & Tracking</td></tr>
+      <tr><td class="feat-name">Live GPS position</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Update frequency</td><td style="font-size:.75rem">Every 30 seconds</td><td style="font-size:.75rem">Every 30 seconds</td><td style="font-size:.75rem">Every 30 seconds</td></tr>
+      <tr><td class="feat-name">Route history & trip playback</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">12 months history retained</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Speed monitoring</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Ignition on / off detection</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Movement & towing alerts</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Offline / signal lost alert</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Store & forward (dead zones)</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+
+      <!-- GEOFENCING -->
+      <tr><td class="cat-row" colspan="4">📐 Geofencing & Sites</td></tr>
+      <tr><td class="feat-name">Geofence zones (draw on map)</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Entry / exit alerts</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Working hours time window</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Out-of-hours breach alert</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Multiple site zones per account</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+
+      <!-- FUEL -->
+      <tr><td class="cat-row" colspan="4">⛽ Fuel & Engine (CAN data)</td></tr>
+      <tr><td class="feat-name">Fuel level monitoring</td><td><span class="no">—</span></td><td><span class="yes">✓</span> <span class="add-badge add-t2">Tier 2</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Fuel consumption per trip</td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Idle time tracking</td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Idle cost in AED</td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Fuel theft detection</td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Refuel event logging</td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Odometer / mileage (CAN)</td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Engine RPM</td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Coolant temperature</td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Engine hours</td><td><span class="no">—</span></td><td><span class="part">Partial</span></td><td><span class="yes">✓</span> <span class="add-badge add-t3">Tier 3</span></td></tr>
+      <tr><td class="feat-name">Oil pressure</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span> <span class="add-badge add-t3">Tier 3</span></td></tr>
+      <tr><td class="feat-name">AdBlue / DEF level</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Engine fault codes (DTC)</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Fault code plain language</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Door / axle status</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">100+ CAN parameters</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+
+      <!-- MAINTENANCE -->
+      <tr><td class="cat-row" colspan="4">🔧 Maintenance</td></tr>
+      <tr><td class="feat-name">Service schedule by engine hours</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span> <span class="add-badge add-t3">Tier 3</span></td></tr>
+      <tr><td class="feat-name">Service schedule by mileage</td><td><span class="no">—</span></td><td><span class="part">Partial</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Overdue / due-soon / healthy status</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Fault code → action suggestion</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Service history log</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">WhatsApp maintenance reminders</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+
+      <!-- DRIVER -->
+      <tr><td class="cat-row" colspan="4">🧑‍✈️ Driver & Timesheet</td></tr>
+      <tr><td class="feat-name">Driver assignment to vehicle</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Timesheet — shift start / end</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Moving / idle / stopped split</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Timesheet export (Excel / PDF)</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Overtime detection</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Driver behaviour scoring</td><td><span class="no">—</span></td><td><span class="yes">✓</span> <span class="add-badge add-t2">Tier 2</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Harsh braking / acceleration</td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Idle cost per driver</td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+
+      <!-- ALERTS -->
+      <tr><td class="cat-row" colspan="4">🔔 Alerts & Notifications</td></tr>
+      <tr><td class="feat-name">In-app alerts feed</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">WhatsApp alerts</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Overspeed alert</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Geofence breach alert</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Device offline alert</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Towing / unauthorised movement</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Fuel drop / theft alert</td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Maintenance due alert</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Fault code alert</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Configurable alert rules</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+
+      <!-- REPORTS -->
+      <tr><td class="cat-row" colspan="4">📊 Reports</td></tr>
+      <tr><td class="feat-name">Trip report</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Geofence report</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Timesheet report</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Fuel report</td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Idling report</td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Driver behaviour report</td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Utilisation report (engine hours)</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">PDF export</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Excel export</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Scheduled weekly WhatsApp report</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+
+      <!-- CLIENT -->
+      <tr><td class="cat-row" colspan="4">📱 Client Portal</td></tr>
+      <tr><td class="feat-name">Client live tracking link (no login)</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">ETA to destination</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Shareable link via WhatsApp</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+      <tr><td class="feat-name">Extended data share (idle / hours)</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══ SECTION 3: PER-TIER FEATURE LISTS ═══ -->
+<div class="sec-label sec-gap">03 — Feature list per tier</div>
+<div class="tier-list-grid">
+
+  <!-- TIER 1 LIST -->
+  <div class="tier-list-card">
+    <div class="tlc-header t1">
+      <div class="tlc-tier t1">Tier 1 · FMC130 only</div>
+      <div class="tlc-name">Basic Tracking</div>
+      <div class="tlc-price t1">AED 60 <span style="font-size:.9rem;font-weight:400;color:var(--ink3)">/mo</span></div>
+    </div>
+    <div class="tlc-body">
+
+      <div class="feat-group">
+        <div class="feat-group-label">Location & Tracking</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Live GPS — every 30 seconds</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Route history and trip playback</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Speed and overspeed monitoring</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Ignition on / off detection</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Towing and movement alerts</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Offline / signal lost alert</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Store & forward (dead zones)</div>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-label">Geofencing</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Draw zones on map</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Entry / exit alerts</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Working hours window</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Out-of-hours breach alert</div>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-label">Driver & Timesheet</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Driver name assigned to vehicle</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Shift start and end (ignition)</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Moving / idle / stopped split</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Overtime detection</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Export Excel / PDF</div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>No driver behaviour scoring <span class="not-tag">Tier 2</span></div>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-label">Alerts</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>WhatsApp alerts</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Configurable alert rules</div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>No fuel theft alert <span class="not-tag">Tier 2</span></div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>No maintenance alert <span class="not-tag">Tier 3</span></div>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-label">Reports</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Trip report</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Geofence report</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Timesheet report</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>PDF and Excel export</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Weekly WhatsApp summary</div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>No fuel or idling report <span class="not-tag">Tier 2</span></div>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-label">Client Portal</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Live tracking link (no login)</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>ETA to destination</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Share via WhatsApp</div>
+      </div>
+
+      <div class="feat-group" style="border-top:1px solid var(--line);padding-top:14px;margin-top:4px">
+        <div class="feat-group-label">Not included in Tier 1</div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>Fuel data<span class="not-tag">Tier 2</span></div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>Engine diagnostics<span class="not-tag">Tier 2</span></div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>Engine hours<span class="not-tag">Tier 3</span></div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>Fault codes<span class="not-tag">Tier 3</span></div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>Maintenance scheduler<span class="not-tag">Tier 3</span></div>
+      </div>
+
+      <div class="upsell">💡 Upgrade to Tier 2 — add a LVCAN200 adapter to see fuel consumption, idle cost in AED, and driver behaviour scoring.</div>
+    </div>
+  </div>
+
+  <!-- TIER 2 LIST -->
+  <div class="tier-list-card">
+    <div class="tlc-header t2">
+      <div class="tlc-tier t2">Tier 2 · FMC130 + LVCAN200</div>
+      <div class="tlc-name">Fleet Analytics</div>
+      <div class="tlc-price t2">AED 80 <span style="font-size:.9rem;font-weight:400;color:var(--ink3)">/mo</span></div>
+    </div>
+    <div class="tlc-body">
+
+      <div class="feat-group">
+        <div class="feat-group-label">Everything in Tier 1, plus:</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Fuel level monitoring</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Fuel consumption per trip</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Idle time tracking</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Idle cost calculated in AED</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Fuel theft detection alert</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Refuel event logging</div>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-label">CAN Engine Data</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Odometer / mileage from CAN</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Engine RPM</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Coolant temperature</div>
+        <div class="feat-item included"><span class="fi-icon">≈</span>Engine hours (partial)</div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>No oil pressure <span class="not-tag">Tier 3</span></div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>No AdBlue / DEF <span class="not-tag">Tier 3</span></div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>No fault codes <span class="not-tag">Tier 3</span></div>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-label">Driver Behaviour</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Harsh braking detection</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Harsh acceleration detection</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Driver behaviour score</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Idle cost per driver</div>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-label">Additional Reports</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Fuel report</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Idling report</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Driver behaviour report</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Weekly fuel digest (WhatsApp)</div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>No utilisation report <span class="not-tag">Tier 3</span></div>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-label">Not included in Tier 2</div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>Engine hours (full)<span class="not-tag">Tier 3</span></div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>Oil pressure<span class="not-tag">Tier 3</span></div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>AdBlue level<span class="not-tag">Tier 3</span></div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>Fault codes<span class="not-tag">Tier 3</span></div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>Maintenance scheduler<span class="not-tag">Tier 3</span></div>
+        <div class="feat-item excluded"><span class="fi-icon">—</span>Utilisation report<span class="not-tag">Tier 3</span></div>
+      </div>
+
+      <div class="upsell t2">💡 Upgrade to Tier 3 — add ALLCAN300 to get engine hours, fault codes, maintenance scheduling, and full utilisation reporting for equipment billing.</div>
+    </div>
+  </div>
+
+  <!-- TIER 3 LIST -->
+  <div class="tier-list-card">
+    <div class="tlc-header t3">
+      <div class="tlc-tier t3">Tier 3 · FMC130 + ALLCAN300</div>
+      <div class="tlc-name">Heavy Equipment</div>
+      <div class="tlc-price t3">AED 110 <span style="font-size:.9rem;font-weight:400;color:var(--ink3)">/mo</span></div>
+    </div>
+    <div class="tlc-body">
+
+      <div class="feat-group">
+        <div class="feat-group-label">Everything in Tier 2, plus:</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Engine hours — full tracking</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Service schedule by engine hours</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Service schedule by mileage / km</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Overdue / due-soon / healthy status</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Service history log</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>WhatsApp maintenance reminders</div>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-label">Deep Engine Data (100+ CAN params)</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Oil pressure monitoring</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>AdBlue / DEF level</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Engine fault codes (DTC)</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Fault code → plain language action</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Door and axle status</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Warning lights monitoring</div>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-label">Utilisation & Billing</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Equipment utilisation report</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Engine hours per billing period</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Billing proof for equipment hire</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Extended data share to client link</div>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-label">Alerts — Tier 3 exclusive</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Maintenance overdue alert</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Fault code active alert</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>AdBlue low alert</div>
+        <div class="feat-item new"><span class="fi-icon">✓</span>Oil pressure warning</div>
+      </div>
+
+      <div class="feat-group">
+        <div class="feat-group-label">Full feature access</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>All Tier 1 features</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>All Tier 2 features</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>All reports unlocked</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>All alert types active</div>
+        <div class="feat-item included"><span class="fi-icon">✓</span>Client extended data sharing</div>
+      </div>
+
+      <div class="upsell t3">🏗️ Built for UAE construction — excavators, cranes, dump trucks, generators. Engine hours report is the billing proof for equipment rental clients. No more manual logbooks.</div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:32px;padding:16px 20px;background:var(--panel);border:1px solid var(--line);border-radius:10px;font-size:.78rem;color:var(--ink2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+  <span><strong style="color:var(--ink)">Upgrade path:</strong> Tier 1 → Tier 2 requires adding LVCAN200 adapter to existing vehicle. Tier 2 → Tier 3 requires replacing LVCAN200 with ALLCAN300. FMC130 main device stays the same across all tiers.</span>
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--ink3)">Kasper Technologies · June 2026</span>
+</div>
+
+</div>
+</body>
+</html>

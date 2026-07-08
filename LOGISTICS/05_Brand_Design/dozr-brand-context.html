@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dozr — Brand Context</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── DOZR DESIGN TOKENS ── */
+:root{
+  --yellow:#FFC400;
+  --ink:#141518;
+  --slate:#5B5F66;
+  --canvas:#F6F6F3;
+  --surface:#FFFFFF;
+  --yellow-tint:#FFF6D6;
+  --yellow-dark:#E6AF00;
+  --line:#E8E8E3;
+  --green:#1F9A6D;
+  --error:#D64545;
+  --radius-btn:10px;
+  --radius-card:16px;
+  --radius-chip:999px;
+  --grid:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--canvas);scroll-behavior:smooth}
+body{font-family:'Hanken Grotesk',system-ui,sans-serif;color:var(--ink);font-size:16px;line-height:1.6}
+
+/* ── LAYOUT ── */
+.page{max-width:960px;margin:0 auto;padding:64px 32px 120px}
+.section{margin-bottom:96px}
+.section-num{font-family:'Space Mono',ui-monospace,monospace;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--yellow);display:block;margin-bottom:8px}
+.section-title{font-family:'Space Grotesk',system-ui,sans-serif;font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:32px;padding-bottom:16px;border-bottom:2px solid var(--ink)}
+hr.divider{border:none;border-top:1px solid var(--line);margin:40px 0}
+
+/* ── COVER ── */
+.cover{background:var(--ink);color:var(--surface);border-radius:var(--radius-card);padding:56px 48px;margin-bottom:80px;position:relative;overflow:hidden}
+.cover::before{content:'';position:absolute;top:-40px;right:-40px;width:280px;height:280px;border-radius:50%;background:var(--yellow);opacity:.07}
+.cover-eyebrow{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);margin-bottom:16px}
+.cover h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.4rem,6vw,4.8rem);font-weight:700;letter-spacing:-.04em;line-height:1;margin-bottom:16px;color:#fff}
+.cover h1 span{color:var(--yellow)}
+.cover-sub{font-size:1.1rem;color:rgba(255,255,255,.7);max-width:520px;line-height:1.6;margin-bottom:32px;font-weight:300}
+.cover-meta{display:flex;gap:12px;flex-wrap:wrap}
+.cover-tag{font-family:'Space Mono',monospace;font-size:.65rem;padding:5px 14px;border-radius:var(--radius-chip);background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);letter-spacing:.08em}
+.cover-tag.y{background:var(--yellow);color:var(--ink);font-weight:700}
+
+/* ── NAV ── */
+.toc{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:28px 32px;margin-bottom:80px}
+.toc-title{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--slate);margin-bottom:16px}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:4px}
+.toc-item{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:500;padding:8px 12px;border-radius:8px;color:var(--ink);display:flex;align-items:center;gap:8px;text-decoration:none;transition:background .15s}
+.toc-item:hover{background:var(--canvas)}
+.toc-item .ti-num{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--yellow);min-width:20px}
+
+/* ── PROSE ── */
+p{font-size:1rem;line-height:1.75;color:var(--slate);margin-bottom:16px;font-weight:300}
+p strong{color:var(--ink);font-weight:600}
+.lead{font-size:1.15rem;color:var(--ink);font-weight:400;line-height:1.65;margin-bottom:24px}
+
+/* ── CALLOUTS ── */
+.callout{border-left:3px solid var(--yellow);padding:16px 20px;background:var(--yellow-tint);border-radius:0 10px 10px 0;margin:24px 0;font-size:.92rem;color:var(--ink);line-height:1.65}
+.callout strong{color:var(--ink);font-weight:700}
+.callout.ink{border-left-color:var(--ink);background:var(--canvas)}.callout.ink strong{color:var(--ink)}
+.callout.green{border-left-color:var(--green);background:#f0faf6}.callout.green strong{color:var(--green)}
+.callout.red{border-left-color:var(--error);background:#fef2f2}.callout.red strong{color:var(--error)}
+
+/* ── TWO COL ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
+.col-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:24px}
+.col-card .cc-label{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--slate);margin-bottom:10px}
+.col-card h3{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:8px}
+.col-card p{font-size:.85rem;color:var(--slate);margin-bottom:0}
+
+/* ── THREE COL ── */
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.stat-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:22px}
+.stat-val{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:700;letter-spacing:-.02em;line-height:1;margin-bottom:6px}
+.stat-val.y{color:var(--yellow-dark)}
+.stat-lbl{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--slate)}
+
+/* ── LAYER CARDS ── */
+.layers{display:flex;flex-direction:column;gap:3px;margin:24px 0}
+.layer{display:flex;align-items:center;gap:20px;padding:20px 24px;background:var(--surface);border:1px solid var(--line);border-radius:4px}
+.layer.active{background:var(--ink);border-color:var(--ink)}
+.layer-num{font-family:'Space Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--yellow);min-width:32px}
+.layer-body{flex:1}
+.layer-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:600;color:var(--ink);margin-bottom:2px}
+.layer.active .layer-title{color:#fff}
+.layer-desc{font-size:.8rem;color:var(--slate);line-height:1.4}
+.layer.active .layer-desc{color:rgba(255,255,255,.65)}
+.layer-tag{font-family:'Space Mono',monospace;font-size:.58rem;padding:3px 10px;border-radius:var(--radius-chip);white-space:nowrap}
+.layer-tag.live{background:var(--yellow);color:var(--ink)}
+.layer-tag.build{background:rgba(255,196,0,.15);color:var(--yellow);border:1px solid rgba(255,196,0,.3)}
+.layer-tag.future{background:var(--canvas);color:var(--slate);border:1px solid var(--line)}
+
+/* ── USER TABLE ── */
+table{width:100%;border-collapse:collapse;font-size:.85rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);overflow:hidden;margin:24px 0}
+th{font-family:'Space Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--slate);padding:12px 16px;text-align:left;border-bottom:2px solid var(--line);background:var(--canvas)}
+td{padding:12px 16px;border-bottom:1px solid var(--line);color:var(--ink);vertical-align:top;line-height:1.5}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafaf8}
+td strong{font-weight:600;color:var(--ink)}
+td.mono{font-family:'Space Mono',monospace;font-size:.78rem}
+
+/* ── VOICE ROWS ── */
+.voice-grid{display:flex;flex-direction:column;gap:3px;margin:24px 0}
+.voice-row{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.voice-yes{background:var(--surface);border:1px solid var(--line);padding:14px 18px;border-radius:4px 0 0 4px;font-size:.88rem;color:var(--ink);border-left:3px solid var(--green)}
+.voice-no{background:var(--canvas);border:1px solid var(--line);padding:14px 18px;border-radius:0 4px 4px 0;font-size:.88rem;color:var(--slate);text-decoration:line-through;text-decoration-color:var(--error)}
+.voice-label{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px}
+.voice-label.y{color:var(--green)}.voice-label.n{color:var(--error)}
+
+/* ── PRINCIPLE CARDS ── */
+.principles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:24px 0}
+.principle{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:24px;position:relative}
+.principle::before{content:attr(data-n);font-family:'Space Mono',monospace;font-size:3rem;font-weight:700;color:var(--yellow);opacity:.15;position:absolute;top:12px;right:16px;line-height:1}
+.principle h3{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;margin-bottom:6px}
+.principle p{font-size:.82rem;color:var(--slate);margin-bottom:0;line-height:1.55}
+
+/* ── AUDIENCE CARDS ── */
+.audience{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.aud-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:20px}
+.aud-icon{font-size:1.6rem;margin-bottom:10px}
+.aud-title{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:700;margin-bottom:4px}
+.aud-role{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--slate);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.aud-card ul{list-style:none;display:flex;flex-direction:column;gap:4px}
+.aud-card ul li{font-size:.76rem;color:var(--slate);padding-left:12px;position:relative;line-height:1.4}
+.aud-card ul li::before{content:'→';position:absolute;left:0;color:var(--yellow-dark);font-size:.65rem}
+
+/* ── EMOTION STRIP ── */
+.emotion-strip{display:flex;gap:3px;margin:24px 0}
+.emotion{flex:1;padding:20px 16px;text-align:center;border-radius:4px}
+.emotion:nth-child(1){background:var(--ink);color:#fff}
+.emotion:nth-child(2){background:var(--yellow);color:var(--ink)}
+.emotion:nth-child(3){background:var(--canvas);border:1px solid var(--line);color:var(--ink)}
+.emotion:nth-child(4){background:var(--green);color:#fff}
+.emotion-word{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;display:block;margin-bottom:4px}
+.emotion-desc{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+
+/* ── COMPETITOR TABLE ── */
+.comp-row{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 1fr;gap:2px;margin:24px 0}
+.comp-cell{padding:12px 14px;font-size:.78rem;background:var(--surface);border:1px solid var(--line)}
+.comp-cell.header{background:var(--canvas);font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--slate)}
+.comp-cell.dozr{background:var(--ink);color:#fff;font-weight:600}
+.comp-cell.dozr-header{background:var(--yellow);color:var(--ink);font-family:'Space Mono',monospace;font-size:.7rem;font-weight:700;letter-spacing:.1em}
+.yes-mark{color:var(--green);font-weight:700}
+.no-mark{color:var(--slate);opacity:.5}
+.part-mark{color:var(--yellow-dark)}
+
+/* ── TONE SCALE ── */
+.tone-scale{display:flex;gap:2px;margin:16px 0;border-radius:8px;overflow:hidden}
+.tone-seg{flex:1;padding:12px 8px;text-align:center}
+.tone-seg:nth-child(1){background:#e8f4f0;color:var(--green)}
+.tone-seg:nth-child(2){background:#f0faf6;color:var(--green)}
+.tone-seg:nth-child(3){background:var(--yellow-tint);color:var(--yellow-dark)}
+.tone-seg:nth-child(4){background:#fff0d6;color:var(--yellow-dark)}
+.tone-seg:nth-child(5){background:var(--canvas);color:var(--slate)}
+.tone-word{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;display:block}
+.tone-lbl{font-family:'Space Mono',monospace;font-size:.52rem;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-top:2px}
+.tone-marker{text-align:center;font-family:'Space Mono',monospace;font-size:.6rem;color:var(--yellow-dark);margin-top:4px}
+
+/* ── TAG ── */
+.tag{display:inline-block;font-family:'Space Mono',monospace;font-size:.6rem;padding:3px 10px;border-radius:var(--radius-chip);letter-spacing:.08em;text-transform:uppercase}
+.tag.y{background:var(--yellow);color:var(--ink)}.tag.g{background:#e8f4f0;color:var(--green)}.tag.s{background:var(--canvas);color:var(--slate);border:1px solid var(--line)}
+
+/* ── TYPOGRAPHY SPECIMEN ── */
+.type-specimen{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:32px;margin:24px 0}
+.ts-row{display:flex;align-items:baseline;gap:24px;padding:14px 0;border-bottom:1px solid var(--line)}
+.ts-row:last-child{border-bottom:none}
+.ts-meta{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--slate);min-width:160px;flex-shrink:0;letter-spacing:.05em}
+.ts-sample{flex:1}
+
+/* ── UI ATOMS ── */
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0;align-items:center}
+.btn{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;padding:11px 22px;border-radius:var(--radius-btn);border:none;cursor:pointer;line-height:1}
+.btn.primary{background:var(--yellow);color:var(--ink)}
+.btn.secondary{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn.sm{padding:8px 16px;font-size:.78rem}
+.chip{font-family:'Space Mono',monospace;font-size:.62rem;padding:5px 12px;border-radius:var(--radius-chip);background:var(--canvas);color:var(--ink);border:1px solid var(--line);letter-spacing:.06em}
+.chip.y{background:var(--yellow-tint);border-color:rgba(255,196,0,.4);color:var(--yellow-dark)}
+.chip.g{background:#e8f4f0;border-color:rgba(31,154,109,.3);color:var(--green)}
+
+@media(max-width:700px){
+  .two-col,.three-col,.audience,.comp-row,.voice-row,.principles{grid-template-columns:1fr}
+  .layer{flex-direction:column;align-items:flex-start;gap:8px}
+  .cover{padding:36px 24px}
+  .page{padding:40px 20px 80px}
+  .emotion-strip{flex-direction:column}
+  .tone-scale{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-eyebrow">dozr · Brand Context · June 2026</div>
+  <h1>Move the<br><span>iron.</span></h1>
+  <p class="cover-sub">The product, the market, the audience, and the product layers. Everything a designer needs to make brand decisions that are honest to what dozr actually does.</p>
+  <div class="cover-meta">
+    <span class="cover-tag y">rebrand</span>
+    <span class="cover-tag">UAE market</span>
+    <span class="cover-tag">B2B · construction</span>
+    <span class="cover-tag">2 products · 1 brand</span>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <div class="toc-title">Contents</div>
+  <div class="toc-grid">
+    <a class="toc-item" href="#s01"><span class="ti-num">01</span>What dozr is</a>
+    <a class="toc-item" href="#s02"><span class="ti-num">02</span>The market</a>
+    <a class="toc-item" href="#s03"><span class="ti-num">03</span>The platform layers</a>
+    <a class="toc-item" href="#s04"><span class="ti-num">04</span>The audience</a>
+    <a class="toc-item" href="#s05"><span class="ti-num">05</span>The products</a>
+    <a class="toc-item" href="#s06"><span class="ti-num">06</span>Positioning</a>
+    <a class="toc-item" href="#s07"><span class="ti-num">07</span>Brand personality</a>
+    <a class="toc-item" href="#s08"><span class="ti-num">08</span>Voice & tone</a>
+    <a class="toc-item" href="#s09"><span class="ti-num">09</span>Competitor context</a>
+    <a class="toc-item" href="#s10"><span class="ti-num">10</span>Design implications</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 01 WHAT DOZR IS -->
+<!-- ═══════════════════════════════════════ -->
+<div class="section" id="s01">
+  <span class="section-num">01</span>
+  <div class="section-title">What dozr is</div>
+
+  <p class="lead">dozr is a B2B marketplace for construction logistics in the UAE. You need a flatbed trailer on a jobsite in Al Quoz by 7am — dozr finds it, books it, tracks it, and proves it arrived. You need a 320 excavator for three weeks in Abu Dhabi — dozr puts it there with a GPS signal and a utilisation report that becomes your invoice.</p>
+
+  <p>dozr operates at the intersection of two industries that have not been digitised: <strong>heavy equipment rental</strong> and <strong>construction freight</strong>. Both run on phone calls, WhatsApp messages, paper logbooks, and relationships. dozr replaces the friction without replacing the relationships.</p>
+
+  <div class="callout">
+    <strong>The one-sentence brand truth:</strong> dozr puts the right machine on the right site and proves it worked.
+  </div>
+
+  <div class="two-col">
+    <div class="col-card">
+      <div class="cc-label">What it is</div>
+      <h3>A marketplace with a data layer</h3>
+      <p>Book equipment and freight from a vetted UAE network. Every job generates GPS data, fuel records, engine hours, and driver timesheets. The data is the product.</p>
+    </div>
+    <div class="col-card">
+      <div class="cc-label">What it is not</div>
+      <h3>Not a SaaS dashboard for enterprises</h3>
+      <p>Not Samsara. Not a fleet management tool for a logistics company's own fleet. dozr serves the operator renting out their excavator and the contractor hiring it — both sides.</p>
+    </div>
+  </div>
+
+  <div class="three-col">
+    <div class="stat-card"><div class="stat-val y">150+</div><div class="stat-lbl">Vetted trucks & equipment in the UAE network</div></div>
+    <div class="stat-card"><div class="stat-val">2 hrs</div><div class="stat-lbl">Confirmed truck & driver for freight bookings</div></div>
+    <div class="stat-card"><div class="stat-val y">19×</div><div class="stat-lbl">Average ROI return for GPS-enabled vendors</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 02 THE MARKET -->
+<!-- ═══════════════════════════════════════ -->
+<div class="section" id="s02">
+  <span class="section-num">02</span>
+  <div class="section-title">The market</div>
+
+  <p class="lead">The UAE construction sector is spending AED 350B+ on active projects across Dubai, Abu Dhabi, and the northern emirates. Every one of those projects needs equipment and materials moved. None of that movement is currently managed through a single digital platform.</p>
+
+  <div class="two-col">
+    <div class="col-card">
+      <div class="cc-label">Primary segment</div>
+      <h3>Construction logistics</h3>
+      <p>Flatbed trailers moving building materials, steel, and prefab between ports, factories, and sites. Khor Fakkan, Fujairah, Jebel Ali, Al Quoz, KIZAD — these are the routes that build the UAE.</p>
+    </div>
+    <div class="col-card">
+      <div class="cc-label">Secondary segment</div>
+      <h3>Equipment rental</h3>
+      <p>Excavators, cranes, loaders, dump trucks, generators rented by the day, week, or month to construction projects. Dubai, Abu Dhabi, and the northern emirates are the core market.</p>
+    </div>
+  </div>
+
+  <p>The market currently operates through <strong>informal networks</strong> — a site manager calls three people, gets three different prices, and goes with whoever can confirm fastest. There is no transparency on rates, no visibility on equipment condition, and no proof of delivery or utilisation for billing disputes.</p>
+
+  <div class="callout ink">
+    <strong>The problem dozr solves in one sentence:</strong> Nobody knows where the excavator is, how long it ran, or whether the delivery actually happened — until dozr.
+  </div>
+
+  <table>
+    <thead><tr><th>Market reality</th><th>How it operates today</th><th>What dozr provides</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Freight booking</strong></td><td>Phone calls, WhatsApp, no rate transparency</td><td>Published rate cards, 2-hour confirmation, digital ePOD</td></tr>
+      <tr><td><strong>Equipment sourcing</strong></td><td>Personal network, unknown condition, no proof of spec</td><td>Verified listings, real specs, instant booking</td></tr>
+      <tr><td><strong>Fleet visibility</strong></td><td>Driver calls, manual logbooks, spreadsheets</td><td>Live GPS, fuel alerts, WhatsApp notifications</td></tr>
+      <tr><td><strong>Billing proof</strong></td><td>Paper delivery notes, driver testimony</td><td>Engine hours report, GPS timestamps, ePOD</td></tr>
+      <tr><td><strong>Maintenance</strong></td><td>Breakdown-triggered, no scheduling</td><td>Engine-hour service scheduling, fault code alerts</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 03 THE PLATFORM LAYERS -->
+<!-- ═══════════════════════════════════════ -->
+<div class="section" id="s03">
+  <span class="section-num">03</span>
+  <div class="section-title">The platform layers</div>
+
+  <p class="lead">dozr is not one product. It is a four-layer platform where each layer makes the one above it more valuable. The brand needs to communicate this architecture without making it feel complicated.</p>
+
+  <div class="layers">
+    <div class="layer">
+      <div class="layer-num">01</div>
+      <div class="layer-body">
+        <div class="layer-title">Marketplace</div>
+        <div class="layer-desc">Search, compare, and book flatbed trailers and construction equipment from a vetted UAE network. Fixed published rates. No negotiation. Confirm in two hours.</div>
+      </div>
+      <span class="layer-tag live">Live</span>
+    </div>
+    <div class="layer">
+      <div class="layer-num">02</div>
+      <div class="layer-body">
+        <div class="layer-title">Vendor OS</div>
+        <div class="layer-desc">The operating system for independent fleet and equipment operators. Trip logging, billing reconciliation, delivery notes, vendor performance dashboard.</div>
+      </div>
+      <span class="layer-tag live">Live</span>
+    </div>
+    <div class="layer active">
+      <div class="layer-num">03</div>
+      <div class="layer-body">
+        <div class="layer-title">GPS & Telematics</div>
+        <div class="layer-desc">Hardware devices on every vehicle. Live tracking, fuel monitoring, engine diagnostics, maintenance scheduling, driver timesheets. Three tiers — AED 60, 80, 110 per device per month. The transparency layer that makes every booking verifiable.</div>
+      </div>
+      <span class="layer-tag build">Building now</span>
+    </div>
+    <div class="layer">
+      <div class="layer-num">04</div>
+      <div class="layer-body">
+        <div class="layer-title">Telematics Intelligence</div>
+        <div class="layer-desc">ML models trained on accumulated GPS and CAN data. Predictive maintenance, route optimisation, lane rate index, AI dispatch. Built on the data Layer 3 collects.</div>
+      </div>
+      <span class="layer-tag future">Phase 4</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>For the brand:</strong> Layer 1 and 2 are the entry point. Layer 3 is the differentiator. Layer 4 is the moat. The visual system should feel like it can carry all four — not just the marketplace.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 04 THE AUDIENCE -->
+<!-- ═══════════════════════════════════════ -->
+<div class="section" id="s04">
+  <span class="section-num">04</span>
+  <div class="section-title">The audience</div>
+
+  <p class="lead">Three distinct users. Each sees a different interface. Each has a different relationship with the dozr brand. The design system must work across all three without losing coherence.</p>
+
+  <div class="audience">
+    <div class="aud-card">
+      <div class="aud-icon">🏗️</div>
+      <div class="aud-title">The Client</div>
+      <div class="aud-role">Site manager · Procurement · Project director</div>
+      <ul>
+        <li>Needs equipment or freight, fast</li>
+        <li>Wants price certainty</li>
+        <li>Needs proof it happened (billing, disputes)</li>
+        <li>Expects WhatsApp-speed communication</li>
+        <li>Does not want to manage a fleet</li>
+      </ul>
+    </div>
+    <div class="aud-card">
+      <div class="aud-icon">🚛</div>
+      <div class="aud-title">The Vendor</div>
+      <div class="aud-role">Fleet owner · Equipment operator · Independent contractor</div>
+      <ul>
+        <li>Owns 3–30 trucks or machines</li>
+        <li>Manages drivers via WhatsApp</li>
+        <li>Cannot afford enterprise fleet software</li>
+        <li>Wants to reduce idle time and fuel theft</li>
+        <li>Needs billing proof to get paid faster</li>
+      </ul>
+    </div>
+    <div class="aud-card">
+      <div class="aud-icon">📱</div>
+      <div class="aud-title">The Driver</div>
+      <div class="aud-role">Equipment operator · Truck driver · On-site staff</div>
+      <ul>
+        <li>Uses the platform on a phone, not a desktop</li>
+        <li>Non-technical — interface must be obvious</li>
+        <li>Receives WhatsApp alerts, not email</li>
+        <li>May not be fluent in English</li>
+        <li>Works in dusty, high-heat conditions</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout ink">
+    <strong>Design implication:</strong> Every screen must work at arm's length, in sunlight, with a gloved hand on a ruggedized phone. This is not a product for a boardroom. Minimum tap targets 48px. High contrast. Plain labels. One action per screen.
+  </div>
+
+  <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;margin:24px 0 12px">User modes — same brand, different experience depth</h3>
+  <table>
+    <thead><tr><th>User</th><th>Primary interface</th><th>Key action</th><th>Biggest fear</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Client</strong></td><td>Marketplace · Live tracking link</td><td>Book equipment or freight</td><td>Equipment not on site when promised</td></tr>
+      <tr><td><strong>Vendor</strong></td><td>Fleet dashboard · Vendor OS</td><td>Monitor fleet, manage jobs</td><td>Fuel theft · breakdown · unpaid invoice</td></tr>
+      <tr><td><strong>Driver</strong></td><td>Mobile WhatsApp alerts</td><td>Receive jobs, log delivery</td><td>Being blamed for something that wasn't their fault</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 05 THE PRODUCTS -->
+<!-- ═══════════════════════════════════════ -->
+<div class="section" id="s05">
+  <span class="section-num">05</span>
+  <div class="section-title">The two products</div>
+
+  <p class="lead">dozr has two products. One faces clients. One faces vendors. They share the same brand, the same GPS data layer, and the same obsession with getting the right machine on the right site with proof it worked.</p>
+
+  <div class="two-col">
+    <div class="col-card" style="border-top:3px solid var(--yellow)">
+      <div class="cc-label">Product 01</div>
+      <h3>dozr Marketplace</h3>
+      <p>Search and book flatbed trailers, low-beds, boom trucks, and heavy equipment across the UAE. Fixed published rates — no negotiation. Freight confirmed in 2 hours. Equipment available same or next day.</p>
+      <div style="margin-top:14px;display:flex;gap:6px;flex-wrap:wrap">
+        <span class="chip">Freight booking</span>
+        <span class="chip">Equipment rental</span>
+        <span class="chip">Rate cards</span>
+        <span class="chip">Capacity contracts</span>
+      </div>
+    </div>
+    <div class="col-card" style="border-top:3px solid var(--ink)">
+      <div class="cc-label">Product 02</div>
+      <h3>dozr Fleet</h3>
+      <p>GPS-as-a-Service for the vendor's own fleet. Live tracking, fuel monitoring, maintenance scheduling, driver timesheets, and client-facing utilisation reports. Three tiers based on hardware capability.</p>
+      <div style="margin-top:14px;display:flex;gap:6px;flex-wrap:wrap">
+        <span class="chip">GPS tracking</span>
+        <span class="chip">Fuel analytics</span>
+        <span class="chip y">CAN diagnostics</span>
+        <span class="chip">Maintenance</span>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;margin:28px 0 12px">dozr Fleet — three hardware tiers</h3>
+  <table>
+    <thead><tr><th>Tier</th><th>Hardware</th><th>Vehicle type</th><th>Price</th><th>Key capability</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Basic Tracking</strong></td><td class="mono">FMC130</td><td>Trucks, flatbeds, vans</td><td class="mono">AED 60/mo</td><td>Live GPS, geofences, timesheet, client link</td></tr>
+      <tr><td><strong>Fleet Analytics</strong></td><td class="mono">FMC130 + LVCAN200</td><td>Fleet trucks with OBD port</td><td class="mono">AED 80/mo</td><td>+ Fuel level, idle cost in AED, driver scoring</td></tr>
+      <tr><td><strong>Heavy Equipment</strong></td><td class="mono">FMC130 + ALLCAN300</td><td>Excavators, cranes, dump trucks</td><td class="mono">AED 110/mo</td><td>+ Engine hours, fault codes, maintenance scheduler</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout green">
+    <strong>The transparency promise:</strong> When a client books equipment through dozr, they receive a live tracking link — no login, opens on any phone. ETA, location, vehicle details. For long-term equipment hire, they see engine hours and utilisation data. This is what separates dozr from a phone call.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 06 POSITIONING -->
+<!-- ═══════════════════════════════════════ -->
+<div class="section" id="s06">
+  <span class="section-num">06</span>
+  <div class="section-title">Positioning</div>
+
+  <p class="lead">dozr is not positioned as a technology company. It is positioned as an operations company that happens to use technology. The brand should feel like it comes from the site, not from a startup pitch deck.</p>
+
+  <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;margin:0 0 12px">Competitor context</h3>
+  <div class="comp-row">
+    <div class="comp-cell header">Company</div>
+    <div class="comp-cell comp-dozr-header">dozr</div>
+    <div class="comp-cell header">Samsara</div>
+    <div class="comp-cell header">Geotab</div>
+    <div class="comp-cell header">Dreamcom</div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-cell header">Price/device/mo</div>
+    <div class="comp-cell dozr">AED 60–110</div>
+    <div class="comp-cell">AED 100–220</div>
+    <div class="comp-cell">AED 80–150</div>
+    <div class="comp-cell">AED 57–74</div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-cell header">Marketplace</div>
+    <div class="comp-cell dozr"><span class="yes-mark">✓</span></div>
+    <div class="comp-cell"><span class="no-mark">—</span></div>
+    <div class="comp-cell"><span class="no-mark">—</span></div>
+    <div class="comp-cell"><span class="no-mark">—</span></div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-cell header">GPS tracking</div>
+    <div class="comp-cell dozr"><span class="yes-mark">✓</span></div>
+    <div class="comp-cell"><span class="yes-mark">✓</span></div>
+    <div class="comp-cell"><span class="yes-mark">✓</span></div>
+    <div class="comp-cell"><span class="yes-mark">✓</span></div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-cell header">Fuel & CAN analytics</div>
+    <div class="comp-cell dozr"><span class="yes-mark">✓</span></div>
+    <div class="comp-cell"><span class="yes-mark">✓</span></div>
+    <div class="comp-cell"><span class="yes-mark">✓</span></div>
+    <div class="comp-cell"><span class="part-mark">Partial</span></div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-cell header">Client tracking link</div>
+    <div class="comp-cell dozr"><span class="yes-mark">✓</span></div>
+    <div class="comp-cell"><span class="no-mark">—</span></div>
+    <div class="comp-cell"><span class="no-mark">—</span></div>
+    <div class="comp-cell"><span class="no-mark">—</span></div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-cell header">Hardware ownership</div>
+    <div class="comp-cell dozr">Leased (dozr owns)</div>
+    <div class="comp-cell">Client buys</div>
+    <div class="comp-cell">Client buys</div>
+    <div class="comp-cell">Bundled</div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-cell header">Contract term</div>
+    <div class="comp-cell dozr">12 months</div>
+    <div class="comp-cell">3 years</div>
+    <div class="comp-cell">2 years</div>
+    <div class="comp-cell">2 years</div>
+  </div>
+
+  <div class="callout">
+    <strong>The positioning gap dozr owns:</strong> Nobody else connects the marketplace (book the machine) with the telematics layer (prove it worked). Samsara is enterprise SaaS. Dreamcom is a telco product. Neither has a marketplace. Neither serves the SME operator renting out three excavators.
+  </div>
+
+  <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;margin:28px 0 12px">Positioning statement</h3>
+  <div style="background:var(--ink);color:#fff;border-radius:var(--radius-card);padding:32px 36px;margin:0">
+    <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:12px">For the brand team</div>
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:clamp(1.1rem,2.5vw,1.6rem);font-weight:700;line-height:1.35;color:#fff">dozr is the only UAE marketplace that combines equipment and freight booking with GPS telematics — so operators get more jobs and clients get proof every time.</div>
+    <div style="margin-top:20px;font-family:'Space Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.4);letter-spacing:.08em">NOT FOR PUBLIC USE — internal positioning brief</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 07 BRAND PERSONALITY -->
+<!-- ═══════════════════════════════════════ -->
+<div class="section" id="s07">
+  <span class="section-num">07</span>
+  <div class="section-title">Brand personality</div>
+
+  <p class="lead">If dozr were a person, they are a site foreman who has been on every job in Dubai. They know the cost of a breakdown. They know that a truck that didn't show up means a crane is idle. They do not use jargon. They do not over-promise. They get things done and they can prove it.</p>
+
+  <div class="emotion-strip">
+    <div class="emotion"><span class="emotion-word">Direct</span><span class="emotion-desc">No fluff. Says the number.</span></div>
+    <div class="emotion"><span class="emotion-word">Reliable</span><span class="emotion-desc">Does what it says.</span></div>
+    <div class="emotion"><span class="emotion-word">Transparent</span><span class="emotion-desc">Shows the data.</span></div>
+    <div class="emotion"><span class="emotion-word">Proven</span><span class="emotion-desc">Has the receipts.</span></div>
+  </div>
+
+  <div class="principles">
+    <div class="principle" data-n="01">
+      <h3>Honest machines</h3>
+      <p>Show the rate, the tonnage, the engine hours, the fuel consumption. Real numbers build trust faster than any claim. If a machine has 4,182 engine hours on it, say so.</p>
+    </div>
+    <div class="principle" data-n="02">
+      <h3>On site by 7am</h3>
+      <p>Construction starts at first light. dozr's value is speed and certainty. Everything — copy, UI, response times — should feel like it respects that urgency without manufacturing fake urgency.</p>
+    </div>
+    <div class="principle" data-n="03">
+      <h3>Yellow means action</h3>
+      <p>One action per screen. Yellow is reserved for the thing that needs to happen next. If everything is highlighted, nothing is. Restraint is a brand decision.</p>
+    </div>
+    <div class="principle" data-n="04">
+      <h3>No paperwork</h3>
+      <p>The GPS data is the logbook. The ePOD is the delivery note. The engine hours report is the invoice. dozr eliminates the paper, not just digitises it.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;margin:28px 0 12px">What dozr is and is not</h3>
+  <table>
+    <thead><tr><th>dozr is</th><th>dozr is not</th></tr></thead>
+    <tbody>
+      <tr><td><strong>A construction operations partner</strong></td><td>A generic logistics software</td></tr>
+      <tr><td><strong>Built for the site, not the boardroom</strong></td><td>Enterprise SaaS with a 3-year contract</td></tr>
+      <tr><td><strong>Data-honest — shows real numbers</strong></td><td>Sales-y — "industry-leading solutions"</td></tr>
+      <tr><td><strong>WhatsApp-native alerts</strong></td><td>Email-first notifications</td></tr>
+      <tr><td><strong>Two-sided — serves vendors and clients</strong></td><td>Only for fleet owners</td></tr>
+      <tr><td><strong>UAE-specific, GCC-minded</strong></td><td>Global generic</td></tr>
+      <tr><td><strong>Transparent rates, no negotiation</strong></td><td>"Call for pricing"</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 08 VOICE & TONE -->
+<!-- ═══════════════════════════════════════ -->
+<div class="section" id="s08">
+  <span class="section-num">08</span>
+  <div class="section-title">Voice & tone</div>
+
+  <p class="lead">dozr speaks like someone standing on the site, not sitting in a marketing department. Short sentences. Real numbers. Active verbs. The product's job is to get equipment on site — the copy's job is to not slow that down.</p>
+
+  <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;margin:0 0 12px">Tone scale — dozr sits here</h3>
+  <div class="tone-scale">
+    <div class="tone-seg"><span class="tone-word">Warm</span><span class="tone-lbl">Personal</span></div>
+    <div class="tone-seg"><span class="tone-word">Friendly</span><span class="tone-lbl">Casual</span></div>
+    <div class="tone-seg"><span class="tone-word">Confident</span><span class="tone-lbl">Direct</span></div>
+    <div class="tone-seg"><span class="tone-word">Blunt</span><span class="tone-lbl">Efficient</span></div>
+    <div class="tone-seg"><span class="tone-word">Terse</span><span class="tone-lbl">Technical</span></div>
+  </div>
+  <div class="tone-marker">▲ dozr lives here — confident and direct, not warm, not terse</div>
+
+  <div style="margin-top:24px" class="voice-grid">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:3px">
+      <div style="font-family:'Space Mono',monospace;font-size:.6rem;color:var(--green);letter-spacing:.12em;text-transform:uppercase;padding:8px 18px;background:var(--canvas)">We say</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.6rem;color:var(--error);letter-spacing:.12em;text-transform:uppercase;padding:8px 18px;background:var(--canvas)">We don't say</div>
+    </div>
+    <div class="voice-row">
+      <div class="voice-yes">"Book a flatbed in under 2 minutes."</div>
+      <div class="voice-no">"Leverage our seamless logistics ecosystem."</div>
+    </div>
+    <div class="voice-row">
+      <div class="voice-yes">"Your excavator burned AED 716 in idle fuel this week."</div>
+      <div class="voice-no">"Our advanced analytics provide actionable insights."</div>
+    </div>
+    <div class="voice-row">
+      <div class="voice-yes">"On site by 7am. Guaranteed."</div>
+      <div class="voice-no">"Best-in-class delivery experience!"</div>
+    </div>
+    <div class="voice-row">
+      <div class="voice-yes">"EXC-02 hasn't moved in 38 minutes. Idle cost: AED 47."</div>
+      <div class="voice-no">"Asset utilisation metrics indicate suboptimal performance."</div>
+    </div>
+    <div class="voice-row">
+      <div class="voice-yes">"Fuel drop detected — 47L at 2:14am. WhatsApp sent."</div>
+      <div class="voice-no">"Our system has flagged a potential anomaly for your review."</div>
+    </div>
+    <div class="voice-row">
+      <div class="voice-yes">"This machine's booked. Try the CAT 306 instead."</div>
+      <div class="voice-no">"Unfortunately, the requested unit is currently unavailable."</div>
+    </div>
+    <div class="voice-row">
+      <div class="voice-yes">"Khor Fakkan → Jebel Ali. AED 1,000. Book."</div>
+      <div class="voice-no">"Competitive rates for your logistics requirements."</div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;margin:28px 0 12px">Language rules</h3>
+  <table>
+    <thead><tr><th>Rule</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Use AED, not "cost-effective"</strong></td><td>Real numbers build trust. Vague value claims do not.</td></tr>
+      <tr><td><strong>Sentence case everywhere</strong></td><td>Title Case reads corporate. Sentence case reads human.</td></tr>
+      <tr><td><strong>Active verbs</strong></td><td>"Book" not "Get a quote for." "Track" not "Monitor your assets."</td></tr>
+      <tr><td><strong>No exclamation marks</strong></td><td>A site manager doesn't exclaim. Neither does dozr.</td></tr>
+      <tr><td><strong>Specificity over superlatives</strong></td><td>"2 hours to confirm" not "fast." "19× ROI" not "impressive returns."</td></tr>
+      <tr><td><strong>WhatsApp as a verb</strong></td><td>"WhatsApp sent." "We'll WhatsApp you." It's how UAE construction operates.</td></tr>
+      <tr><td><strong>Machine names and model numbers</strong></td><td>CAT 320, not "heavy excavator." FMC130, not "GPS device." Specificity = credibility.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 09 COMPETITOR CONTEXT -->
+<!-- ═══════════════════════════════════════ -->
+<div class="section" id="s09">
+  <span class="section-num">09</span>
+  <div class="section-title">Competitor context</div>
+
+  <p class="lead">Understanding how others look and sound helps define where dozr should not go. The category is split between enterprise-grade platforms (polished, cold, complex) and informal alternatives (WhatsApp, no platform at all). dozr lives between them — the intelligence of enterprise, the speed of WhatsApp.</p>
+
+  <div class="two-col">
+    <div class="col-card">
+      <div class="cc-label">Enterprise GPS platforms — avoid their look</div>
+      <h3>Samsara, Geotab, Fleetio</h3>
+      <p>Navy blue, corporate grey, dense dashboards, enterprise sales motion, 3-year contracts. They feel like accounting software for a logistics multinational. dozr's vendors cannot afford or navigate this. The brand should feel lighter and faster.</p>
+    </div>
+    <div class="col-card">
+      <div class="cc-label">Local alternatives — occupy the gap they leave</div>
+      <h3>WhatsApp, Excel, phone calls</h3>
+      <p>The current reality for most UAE construction logistics. No brand. No interface. No data. dozr replaces this without requiring the user to become technical. The brand should feel accessible to someone who currently manages everything on WhatsApp.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>The visual brief in one line:</strong> dozr should look like it was built for a site manager, not designed for a VC pitch deck — but finished with enough precision that it earns trust at first glance.
+  </div>
+
+  <div class="two-col">
+    <div class="col-card" style="border-left:3px solid var(--green)">
+      <div class="cc-label" style="color:var(--green)">Spatial references that work for dozr</div>
+      <h3>Jobsite aesthetics</h3>
+      <p>Safety yellow on near-black. High contrast for sunlight readability. Geometric and grid-based. Heavy type. Clean and undecorated. Information-dense but not cluttered. The visual language of a blueprint or a spec sheet — not a startup landing page.</p>
+    </div>
+    <div class="col-card" style="border-left:3px solid var(--error)">
+      <div class="cc-label" style="color:var(--error)">Aesthetics to avoid</div>
+      <h3>Generic SaaS / logistics clichés</h3>
+      <p>Gradient hero backgrounds. Abstract "speed lines." Stock photos of trucks on highways. Blue-and-green "trust" palettes. Rounded, friendly, consumer-app aesthetics. Animated dashboards with no real data. These signal "tech startup," not "construction operations."</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 10 DESIGN IMPLICATIONS -->
+<!-- ═══════════════════════════════════════ -->
+<div class="section" id="s10">
+  <span class="section-num">10</span>
+  <div class="section-title">Design implications</div>
+
+  <p class="lead">The brand context above is not abstract. Each point has a direct design consequence. These are the decisions the brand guidelines need to make — and the context behind each one.</p>
+
+  <table>
+    <thead><tr><th>Design decision</th><th>Context behind it</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Yellow as the single action colour</strong></td><td>Safety yellow is the only colour the site manager already trusts. It means something is happening or needs to happen. Overuse kills the signal.</td></tr>
+      <tr><td><strong>Ink (near-black) as the dominant field</strong></td><td>Construction equipment is heavy, dark, industrial. The brand should carry that weight without feeling dark or intimidating. Ink lets yellow and white read cleanly.</td></tr>
+      <tr><td><strong>Space Mono for data and specs</strong></td><td>Engine hours, fuel levels, prices, GPS coordinates — these are measurements. Monospace type communicates precision. It is the visual language of a spec sheet.</td></tr>
+      <tr><td><strong>No shadows, no gradients on cards</strong></td><td>Site managers see blurred lines in sunlight. Clean flat borders with strong contrast survive any screen condition. Shadows are decoration — remove them.</td></tr>
+      <tr><td><strong>48px minimum tap targets</strong></td><td>Gloved hands. Ruggedized tablets. Bright sunlight. The interface must work in conditions where most apps break.</td></tr>
+      <tr><td><strong>Photography: real machines, real sites</strong></td><td>Dust, wear, real conditions. Never staged, never studio-lit, never a stock photo of a truck on a highway. Real machines back up "honest numbers."</td></tr>
+      <tr><td><strong>One CTA per screen</strong></td><td>The user wants to book, track, or report. Not explore. Not discover. Every screen has one job and one yellow button.</td></tr>
+      <tr><td><strong>WhatsApp-native alert design</strong></td><td>Alerts must be readable as plain text in a WhatsApp message. No rich formatting. No embedded links that don't work on mobile. The message itself must carry the information.</td></tr>
+      <tr><td><strong>Arabic script consideration</strong></td><td>A significant portion of drivers and vendors are more comfortable in Arabic. The type system must accommodate RTL without breaking the layout or losing the brand's precision.</td></tr>
+      <tr><td><strong>Two-product coherence</strong></td><td>dozr Marketplace and dozr Fleet are different surfaces for different users — but one brand. The Marketplace should feel like the entry point. Fleet should feel like the deeper instrument panel of the same machine.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout green">
+    <strong>The design brief in two sentences:</strong> Build something a site manager trusts the first time they see it. Build something a fleet owner uses every morning without thinking about the brand — because it just works.
+  </div>
+
+  <div style="background:var(--ink);border-radius:var(--radius-card);padding:32px 36px;margin-top:32px">
+    <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:16px">Product URLs — for reference</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:16px;align-items:baseline;flex-wrap:wrap">
+        <span style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--yellow);min-width:120px">Marketplace</span>
+        <span style="font-family:'Space Mono',monospace;font-size:.75rem;color:rgba(255,255,255,.7)">kaslo-liard.vercel.app</span>
+      </div>
+      <div style="display:flex;gap:16px;align-items:baseline;flex-wrap:wrap">
+        <span style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--yellow);min-width:120px">Fleet dashboard</span>
+        <span style="font-family:'Space Mono',monospace;font-size:.75rem;color:rgba(255,255,255,.7)">telematics-flame.vercel.app</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+  <div style="font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700">dozr <span style="color:var(--slate);font-weight:400">— Brand Context Document</span></div>
+  <div style="font-family:'Space Mono',monospace;font-size:.6rem;color:var(--slate)">v1.0 · June 2026 · Internal use only</div>
+</div>
+
+</div>
+</body>
+</html>

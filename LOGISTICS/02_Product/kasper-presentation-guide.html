@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasper GPS — Presentation Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2f4f7;--panel:#fff;--panel2:#fafbfc;
+  --ink:#101828;--ink2:#475467;--ink3:#98a2b3;
+  --line:#e4e7ec;--line2:#d0d5dd;
+  --brand:#155eef;--brand-soft:#eff4ff;
+  --green:#079455;--green-soft:#ecfdf3;
+  --amber:#dc6803;--amber-soft:#fffaeb;
+  --red:#d92d20;--red-soft:#fef3f2;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);font-family:'Space Grotesk',sans-serif;color:var(--ink);min-height:100vh}
+.page{max-width:900px;margin:0 auto;padding:48px 24px 80px}
+.doc-header{margin-bottom:40px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:10px}
+h1 span{color:var(--brand)}
+.doc-meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+.tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;padding:4px 12px;border-radius:99px;border:1px solid var(--line2);color:var(--ink2);background:var(--panel)}
+
+/* HERO STAT */
+.hero{background:var(--brand);color:#fff;border-radius:16px;padding:32px 36px;margin-bottom:36px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.hero-left h2{font-size:clamp(1.4rem,3vw,2.2rem);font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.hero-left p{font-size:.92rem;opacity:.85;max-width:420px;line-height:1.55}
+.hero-right{text-align:right}
+.hero-num{font-size:clamp(2.5rem,6vw,4rem);font-weight:700;letter-spacing:-.03em;line-height:1}
+.hero-sub{font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;opacity:.75;margin-top:4px}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:3px;margin-bottom:36px}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;display:flex;gap:18px;align-items:flex-start;transition:box-shadow .2s}
+.step:hover{box-shadow:0 4px 16px rgba(16,24,40,.08)}
+.step-left{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:48px}
+.step-num{width:40px;height:40px;border-radius:50%;background:var(--brand-soft);color:var(--brand);font-weight:700;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-time{font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--ink3);letter-spacing:.08em}
+.step-body{flex:1}
+.step-doc{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);margin-bottom:6px}
+.step-title{font-size:1rem;font-weight:600;letter-spacing:-.01em;margin-bottom:5px}
+.step-what{font-size:.82rem;color:var(--ink2);line-height:1.6;margin-bottom:8px}
+.step-say{background:var(--brand-soft);border-left:3px solid var(--brand);padding:10px 14px;border-radius:0 8px 8px 0;font-size:.8rem;color:var(--ink);line-height:1.55;font-style:italic}
+.step.done .step-num{background:var(--green-soft);color:var(--green)}
+.step.done{border-left:3px solid var(--green)}
+.step.key{border-left:3px solid var(--brand)}
+
+/* DOCS TABLE */
+.docs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:36px}
+.doc-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+.doc-card-num{font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--ink3);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px}
+.doc-card-icon{font-size:1.6rem;margin-bottom:8px}
+.doc-card h3{font-size:.95rem;font-weight:600;margin-bottom:5px}
+.doc-card p{font-size:.76rem;color:var(--ink2);line-height:1.5;margin-bottom:10px}
+.doc-card .doc-file{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--brand);background:var(--brand-soft);padding:4px 10px;border-radius:6px;display:inline-block}
+.doc-card .when{font-size:.72rem;color:var(--green);font-weight:500;margin-top:8px}
+
+/* QUESTIONS */
+.qs{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px;margin-bottom:36px}
+.qs h3{font-size:1rem;font-weight:600;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.q-row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.q-row:last-child{border-bottom:none}
+.q-num{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--brand);font-weight:600;min-width:24px;padding-top:2px}
+.q-body strong{display:block;font-size:.85rem;margin-bottom:3px}
+.q-body p{font-size:.76rem;color:var(--ink2);line-height:1.5}
+
+/* CALLOUTS */
+.cl{border-left:3px solid var(--brand);padding:16px 20px;background:var(--brand-soft);font-size:.88rem;line-height:1.65;color:var(--ink2);border-radius:0 10px 10px 0;margin-bottom:16px}
+.cl strong{color:var(--brand)}
+.cl.g{border-left-color:var(--green);background:var(--green-soft)}.cl.g strong{color:var(--green)}
+.cl.a{border-left-color:var(--amber);background:var(--amber-soft)}.cl.a strong{color:var(--amber)}
+
+/* NUMBERS */
+.num-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:36px}
+.num-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.num-val{font-size:1.6rem;font-weight:700;letter-spacing:-.02em;line-height:1;margin-bottom:4px}
+.num-val.b{color:var(--brand)}.num-val.g{color:var(--green)}.num-val.a{color:var(--amber)}
+.num-lbl{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase;line-height:1.4}
+
+@media(max-width:600px){
+  .docs-grid,.num-grid{grid-template-columns:1fr}
+  .hero{flex-direction:column;text-align:left}
+  .hero-right{text-align:left}
+  .step{flex-direction:column;gap:10px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="eyebrow">Kasper Technologies · Presentation Guide · June 2026</div>
+    <h1>Call Guide — <span>GPS Platform</span></h1>
+    <p style="color:var(--ink2);font-size:.92rem;margin-top:8px;max-width:600px">How to walk the founder and tech team through the four documents. What to open, what to say, how long to spend on each.</p>
+    <div class="doc-meta">
+      <span class="tag">Founder + Tech Team</span>
+      <span class="tag">~20 minutes total</span>
+      <span class="tag">4 documents</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <h2>The answer is Go.</h2>
+      <p>Three costs confirmed. Cash-positive from Day 1. One number left to get from the Wialon reseller pricing. Everything else in this model is locked.</p>
+    </div>
+    <div class="hero-right">
+      <div class="hero-num">424</div>
+      <div class="hero-sub">Break-even devices · Month 13</div>
+    </div>
+  </div>
+
+  <!-- KEY NUMBERS -->
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);margin-bottom:12px">Numbers to know before the call</div>
+  <div class="num-grid">
+    <div class="num-card"><div class="num-val b">424</div><div class="num-lbl">Break-even devices · base case · Month 13</div></div>
+    <div class="num-card"><div class="num-val g">~384</div><div class="num-lbl">Break-even if Wialon &lt; AED 5/device or custom platform built</div></div>
+    <div class="num-card"><div class="num-val a">10</div><div class="num-lbl">Devices Day 1 — existing vendors, no cold outreach</div></div>
+    <div class="num-card"><div class="num-val b">AED 60/80/110</div><div class="num-lbl">Tier 1 / Tier 2 / Tier 3 monthly price per device</div></div>
+    <div class="num-card"><div class="num-val g">+AED 517–729</div><div class="num-lbl">Net cash positive Day 1 per device (annual upfront)</div></div>
+    <div class="num-card"><div class="num-val a">AED 10</div><div class="num-lbl">SIM cost per device per month — du confirmed AED 100/yr</div></div>
+  </div>
+
+  <!-- THE FOUR DOCUMENTS -->
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);margin-bottom:12px">The four documents</div>
+  <div class="docs-grid">
+    <div class="doc-card">
+      <div class="doc-card-num">Document 01</div>
+      <div class="doc-card-icon">📊</div>
+      <h3>Feasibility Study</h3>
+      <p>The business case. What it costs, what it earns, when it breaks even. Three confirmed costs + one open item (Wialon price).</p>
+      <span class="doc-file">kasper-feasibility-v5.html</span>
+      <div class="when">Open first · 10 min</div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-card-num">Document 02</div>
+      <div class="doc-card-icon">🎮</div>
+      <h3>Platform Tour</h3>
+      <p>Interactive game — 9 screens to explore. Each screen is a clickable mockup with feature notes. Let the team play with it.</p>
+      <span class="doc-file">kasper-gps-platform-tour.html</span>
+      <div class="when">Open second · 5 min</div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-card-num">Document 03</div>
+      <div class="doc-card-icon">💹</div>
+      <h3>Financial Model</h3>
+      <p>Live interactive sliders. Change price, tier mix, fleet growth, fixed costs. Break-even updates instantly. Show it live.</p>
+      <span class="doc-file">kasper-financial-model.html</span>
+      <div class="when">Open third if questions on numbers · 3 min</div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-card-num">Document 04</div>
+      <div class="doc-card-icon">📋</div>
+      <h3>Feature Specification</h3>
+      <p>9 screens with dev notes per feature, DB table structure, build priorities. For the tech team to read after the call.</p>
+      <span class="doc-file">kasper-feature-spec.html</span>
+      <div class="when">Share with tech team · read offline</div>
+    </div>
+  </div>
+
+  <!-- STEP BY STEP -->
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);margin-bottom:12px">How to walk through it — step by step</div>
+  <div class="steps">
+
+    <div class="step key">
+      <div class="step-left"><div class="step-num">1</div><div class="step-time">2 min</div></div>
+      <div class="step-body">
+        <div class="step-doc">Feasibility · Panel 02</div>
+        <div class="step-title">Open with the headline numbers</div>
+        <div class="step-what">Show Panel 02 — "The Business". The stat grid shows all six key numbers at once.</div>
+        <div class="step-say">"Three tiers — AED 60, 80, 110 per device per month. We own the hardware, client pays upfront. Break-even is 424 devices by Month 13. Year 2 margin is 66–79%. Let me show you how we get there."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-left"><div class="step-num">2</div><div class="step-time">2 min</div></div>
+      <div class="step-body">
+        <div class="step-doc">Feasibility · Panel 03</div>
+        <div class="step-title">Device cost — real vendor quotes</div>
+        <div class="step-what">Show the hardware table with confirmed prices. Three tiers explained by vehicle type.</div>
+        <div class="step-say">"Note: Year 1 margins will look low — 19–26%. This is because hardware cost is spread over 12 months in the P&amp;L. From Year 2 the margin jumps to 66–84% because hardware is already paid. Cash-wise it's already recovered on Day 1 through annual upfront billing." Then: "FMC130 at AED 161.48 — confirmed quote. For trucks and flatbeds we add the LVCAN200 at AED 204. For excavators and cranes we use the ALLCAN300 at AED 387. These are the real numbers, not estimates."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-left"><div class="step-num">3</div><div class="step-time">1 min</div></div>
+      <div class="step-body">
+        <div class="step-doc">Feasibility · Panel 04</div>
+        <div class="step-title">SIM cost — confirmed</div>
+        <div class="step-what">Quick panel — du confirmed AED 100/year. Show comparison table.</div>
+        <div class="step-say">"du M2M confirmed at AED 100 per SIM per year at minimum 50 SIMs. We model AED 10 per month to give a buffer. This one is locked."</div>
+      </div>
+    </div>
+
+    <div class="step key">
+      <div class="step-left"><div class="step-num">4</div><div class="step-time">2 min</div></div>
+      <div class="step-body">
+        <div class="step-doc">Feasibility · Panel 05</div>
+        <div class="step-title">Development cost — two options</div>
+        <div class="step-what">The only cost that isn't confirmed. Show the Wialon vs custom platform comparison table.</div>
+        <div class="step-say">"Two options. Wialon white-label — launch in 2-4 weeks, estimated AED 5.50 per device per month. We're getting the real number from Location Solution Telematics — Wialon's UAE partner for construction. Or custom platform — self-built and hosted, AED 55 server cost estimated, but the dev team needs to build the frontend. Dev team to quote that cost."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-left"><div class="step-num">5</div><div class="step-time">2 min</div></div>
+      <div class="step-body">
+        <div class="step-doc">Feasibility · Panel 07</div>
+        <div class="step-title">Cash flow — annual upfront makes every device positive Day 1</div>
+        <div class="step-what">Show the three upfront cards — T1 +AED 517, T2 +AED 552, T3 +AED 729.</div>
+        <div class="step-say">"Client pays 12 months subscription plus installation charge before the device is fitted. Tier 1: we collect AED 800, we spend AED 283 on hardware and installation — net positive AED 517 on Day 1. Tier 3: collect AED 1,440, spend AED 711 — net AED 729. We never need to fund the hardware from working capital."</div>
+      </div>
+    </div>
+
+    <div class="step key">
+      <div class="step-left"><div class="step-num">6</div><div class="step-time">2 min</div></div>
+      <div class="step-body">
+        <div class="step-doc">Feasibility · Panel 08</div>
+        <div class="step-title">Break-even — 424 devices, Month 13</div>
+        <div class="step-what">Show the fixed cost table + break-even scenarios.</div>
+        <div class="step-say">"Fixed costs are AED 20,333 per month — salaries, office, platform, overheads. Blended contribution margin is AED 47.95 per device per month. 20,333 divided by 47.95 gives 424 devices. We start with 10 existing vendors on Day 1. Adding 35 new devices per month — we hit 424 by Month 13. Bull case: Month 9. Bear case: Month 24."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-left"><div class="step-num">7</div><div class="step-time">2 min</div></div>
+      <div class="step-body">
+        <div class="step-doc">Feasibility · Panel 10</div>
+        <div class="step-title">Open items — what tech team needs to confirm</div>
+        <div class="step-what">Show the three open items table + AWS hosting estimates.</div>
+        <div class="step-say">"Three things still open. Dev cost — dev team to quote the custom platform build. AWS hosting — we have estimates here, Teltonika will confirm the right instance type. Wialon price — Location Solution call. Everything else in this model is confirmed."</div>
+      </div>
+    </div>
+
+    <div class="step done">
+      <div class="step-left"><div class="step-num">8</div><div class="step-time">1 min</div></div>
+      <div class="step-body">
+        <div class="step-doc">Feasibility · Panel 11</div>
+        <div class="step-title">Verdict — Go</div>
+        <div class="step-what">Show the verdict panel and the four conditions.</div>
+        <div class="step-say">"The answer is Go. Four conditions — annual upfront billing, get Wialon price from Charles, get AWS spec from Teltonika, install 10 devices within 30 days of platform decision. The business is self-funded from Day 1. 424 devices by Month 13."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-left"><div class="step-num">9</div><div class="step-time">5 min</div></div>
+      <div class="step-body">
+        <div class="step-doc">Platform Tour</div>
+        <div class="step-title">Show the product — let them click through it</div>
+        <div class="step-what">Open the game. Pick 3 screens to highlight: Live Map (Screen 01), Vehicle Detail with CAN gauges (Screen 02), Timesheet (Screen 09).</div>
+        <div class="step-say">"This is what the platform looks like. You can explore any of the 9 screens. The dev notes under each mockup are the tech team's implementation spec — that's the input for writing the SRS."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-left"><div class="step-num">10</div><div class="step-time">3 min</div></div>
+      <div class="step-body">
+        <div class="step-doc">Financial Model</div>
+        <div class="step-title">If anyone questions the numbers — show it live</div>
+        <div class="step-what">Open the interactive model. Move the Tier 1 price slider or the fleet mix. Show how break-even responds in real time.</div>
+        <div class="step-say">"This is the live financial model. Watch what happens when I change the tier mix — if vendors upgrade from Tier 1 to Tier 2 faster, break-even drops to Month 10. And when Wialon price comes in, we enter the real number here and the model updates."</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- QUESTIONS FROM CHARLES -->
+  <div class="qs">
+    <h3>🔑 On the Wialon reseller call — get these four answers</h3>
+    <div class="q-row">
+      <div class="q-num">01</div>
+      <div class="q-body"><strong>Wialon white-label price per device at 50 / 200 / 500 active units</strong><p>This is the last unconfirmed number in the financial model. Get an exact AED figure. Under AED 5 → take Wialon. Over AED 8 → build custom platform.</p></div>
+    </div>
+    <div class="q-row">
+      <div class="q-num">02</div>
+      <div class="q-body"><strong>Are you SIRA-certified? Can you be Kasper's installation partner?</strong><p>If yes, this solves the Dubai compliance requirement in one conversation. Kasper doesn't need to self-certify in Phase 1.</p></div>
+    </div>
+    <div class="q-row">
+      <div class="q-num">03</div>
+      <div class="q-body"><strong>Have you deployed ALLCAN300 on excavators or cranes in UAE?</strong><p>Location Solution specialises in UAE construction fleet deployments. His experience tells you what installation complications to expect.</p></div>
+    </div>
+    <div class="q-row">
+      <div class="q-num">04</div>
+      <div class="q-body"><strong>Can we run a 10-device pilot in the next 30 days?</strong><p>The faster we get devices in the field, the faster the model starts generating revenue. A pilot also confirms the platform works before full commitment.</p></div>
+    </div>
+  </div>
+
+  <!-- TECH TEAM QUESTIONS -->
+  <div class="qs">
+    <h3>🖥️ For the tech team — three things to confirm</h3>
+    <div class="q-row">
+      <div class="q-num">01</div>
+      <div class="q-body"><strong>What does it cost to build the custom frontend on custom platform?</strong><p>Read the Feature Specification (kasper-feature-spec.html) — 9 screens, 40+ features with dev notes per feature and DB schema. Quote based on that scope.</p></div>
+    </div>
+    <div class="q-row">
+      <div class="q-num">02</div>
+      <div class="q-body"><strong>What AWS instance type does Teltonika recommend for 100 and 500 devices?</strong><p>Email the Teltonika rep who shared the wiki links. Ask: "For custom platform receiving FMC130 data via Codec 8 Extended — what AWS instance and region do you recommend?"</p></div>
+    </div>
+    <div class="q-row">
+      <div class="q-num">03</div>
+      <div class="q-body"><strong>custom platform or Wialon — what is your recommendation once Wialon price is known?</strong><p>The decision rule: Wialon &lt; AED 5/device → white-label for speed. Wialon &gt; AED 8/device → build custom platform. Savings pay back build cost within 12 months at 500 devices.</p></div>
+    </div>
+  </div>
+
+  <div class="cl g">
+    <strong>After this call, the next step is clear:</strong> Get Wialon reseller pricing → decide platform → dev team writes SRS from the Feature Spec → install 10 pilot devices on existing vendors → start generating revenue. The business model is confirmed. Execution is what remains.
+  </div>
+
+  <div style="margin-top:24px;font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--ink3);text-align:right">Kasper Technologies · afzl · June 2026 · Presentation Guide</div>
+
+</div>
+</body>
+</html>
