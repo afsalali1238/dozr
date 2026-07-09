@@ -14,8 +14,8 @@
   --surface: #FFFFFF;
   --slate: #5B5F66;
   --line: #E8E8E3;
-  --green: #1F9A6D;
-  --error: #D64545;
+  --green: #146447;
+  --error: #A22424;
 
   /* A couple of secondary tones already used across the prototype —
      keep centralized here rather than repeated inline */
@@ -299,8 +299,10 @@ h1, h2, h3, h4 {
 .feature-tab:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
 .feature-tab strong { display:block; font-family:var(--font-heading); font-size:15px; margin-bottom:3px; }
 .feature-tab span { display:block; font-size:13px; opacity:.75; }
-.feature-visual { min-height:320px; border-radius:18px; }
-.steps-band { display:grid; grid-template-columns:1.1fr 1fr 1fr 1fr; gap:var(--space-4); align-items:start; background:var(--ink); color:var(--surface); border-radius:20px; padding:44px 48px; }
+.feature-visual { min-height:320px; border-radius:18px; background-color:var(--ink); background-size:contain; background-repeat:no-repeat; }
+.steps-band { position:relative; overflow:hidden; display:grid; grid-template-columns:1.1fr 1fr 1fr 1fr; gap:var(--space-4); align-items:start; background:var(--ink); color:var(--surface); border-radius:20px; padding:44px 48px; }
+.steps-band::before { content:''; position:absolute; inset:0; background:url('../assets/map-texture.jpg') center/cover; opacity:0.08; mix-blend-mode:luminosity; pointer-events:none; }
+.steps-band > div { position:relative; z-index:1; }
 .steps-band p, .step-copy { color:rgba(255,255,255,.68); }
 .step-number { font-family:var(--font-mono); font-size:12px; color:var(--yellow); margin-bottom:10px; }
 .faq-list { background:var(--line); border:1px solid var(--line); border-radius:14px; overflow:hidden; }

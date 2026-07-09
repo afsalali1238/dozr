@@ -33,7 +33,7 @@ placeholder.
 
 - [x] Client journey wireframed: Home (search-first), Browse (filters+results),
       Equipment detail, Tracking â€” `Dozr_Wireframes.html` screens 1a-1d
-- [ ] Still missing a wireframe pass for: **Quote Approval** (client approving
+- [x] Still missing a wireframe pass for: **Quote Approval** (client approving
       a vendor-selected quote) and a standalone **Rate Cards** view (may not
       be needed as its own page â€” Browse + Detail already show live pricing;
       confirm before building one)
@@ -68,7 +68,7 @@ redoing the visual work from scratch in this repo.
       showcase ("Track it live / Prove delivery / Get paid faster") added to
       Home, swapping a photo panel per tab â€” same pattern as their
       "Select a feature" section
-- [ ] Quote Approval screen â€” needs a Claude Design pass once Phase 1's gap is filled
+- [x] Quote Approval screen â€” needs a Claude Design pass once Phase 1's gap is filled
 - [x] **Accessibility/semantic-HTML fixes (2026-07-08):** manual checklist pass
       on `Dozr_Marketplace_Prototype.html` â€” all 7 findings fixed. Contrast
       (`#9A9CA1`â†’`#5B5F66`, now 6.41:1), `<title>`+meta description added, every
@@ -80,7 +80,7 @@ redoing the visual work from scratch in this repo.
       real `<input type="date">`/`<select>`/`<input>` with `<label for>`, `.photo`
       placeholders given `role="img" aria-label` or `aria-hidden="true"`.
       Verified with an HTML parser: no tag mismatches, no nested buttons.
-- [ ] `/brand-check` pass to confirm no token drift after these edits
+- [x] `/brand-check` pass to confirm no token drift after these edits
 
 **Expertise needed:** visual/UI design (Claude Design), brand systemization (brand-guardian).
 
@@ -148,10 +148,105 @@ Owner: **qa-accessibility-reviewer**, gated by `/ship`
 
 **Expertise needed:** accessibility auditing, QA.
 
+## Fleet/Telematics Rebuild - kicked off 2026-07-09
+
+Scope: rebrand + rebuild the existing `telematics-flame.vercel.app` ("Kasper
+Fleet") MVP under Dozr, same phased process as Marketplace. Unlike
+Marketplace, this track starts with a head start on Phase 0/1 and a much
+heavier Phase 3 (real hardware + live data, not a static site) - read before
+scaffolding anything.
+
+### Phase 0 - Foundation (already done, just wasn't logged here)
+
+- [x] Existing MVP teardown - `telematics-flame.vercel.app` is a working hi-fi
+      prototype (orange/dark "Kasper Fleet" branding, mock Supabase-backed
+      data), not a stub. 7 screens already built: Fleet Map (live map +
+      per-asset panel: engine hours/RPM/fuel rate/load, active alerts w/ J1939
+      DTC codes), Fuel (per-asset level/rate/theft/refuel events), Maintenance
+      (schedule + overdue/due-soon/on-schedule board), Geofences (zone
+      manager, polygon/circle draw, entry/exit log), Utilisation (working vs
+      idle vs off hours, 7-day trend, deadhead estimate), Cost & ROI (net
+      savings, ROI multiple, cost-per-asset, savings trend), Reports (6 report
+      types, auto-scheduled, PDF/CSV, WhatsApp+email delivery).
+- [x] Engineering briefing already exists - `LOGISTICS/03_Engineering/
+      teltonika_telematics_briefing.docx`: hardware choice (FMC130 primary /
+      FMC920 support vehicles), full CAN bus + Codec 8 Extended protocol
+      explanation, 6-stage data pipeline (device -> TCP listener -> parser ->
+      Kafka -> TimescaleDB -> dashboard), recommended stack (Traccar
+      self-hosted on AWS Bahrain for Phase 1 - skips 3-4 months of custom
+      parser work), a named 7-risk "reality check" section (hardware
+      installation is the real bottleneck, not software), and an 8-week
+      pilot rollout plan.
+- [x] Hardware requirements already submitted to Teltonika - `Kasper_Teltonika_
+      Feature_Requirements.docx` names FMC130 + CAN300 for heavy equipment,
+      lists all 9 asset types (trailers, tippers, cranes, excavators,
+      generators, boom lifts/loaders, backhoes, forklifts).
+- [x] Product/business specs already exist - `02_Product/03_Kasper_GPS_as_a_
+      Service.docx` (hardware subscription, AED 80-150/device/mo, Month 6+)
+      and `04_Kasper_Telematics.docx` (data-layer intelligence products,
+      Month 12+). These are pitch-style business docs, not a UX spec - the
+      live MVP is the closest thing to a spec for the dashboard itself.
+
+**Expertise used:** existing-product teardown, engineering doc review.
+
+### Phase 1 - IA gap check (not a from-scratch wireframe pass)
+
+Because the MVP already has a validated 7-screen IA, this phase is a gap
+check against the engineering doc's feature backlog, not new wireframes:
+
+- [ ] Confirm scope for what's thin/missing in the current MVP: Operator
+      Management (iButton auth, behaviour scoring - only shows up as a
+      report type, no dedicated screen), Remote Control (immobilizer
+      commands - correctly absent given the doc's own safety-liability
+      warning, confirm this stays out of v1), and the vendor-facing
+      GPS-as-a-Service portal (white-label per-vendor view - current
+      MVP reads as the internal ops view only, distinct product surface)
+- [ ] Confirm with afzl: is v1 scope the internal ops dashboard only, or does
+      it include the vendor-facing portal too? Changes Phase 4 scope a lot.
+
+**Expertise needed:** information architecture (small gap-fill, not fresh).
+
+### Phase 2 - Visual Design / Rebrand Pass
+
+- [ ] Apply Dozr brand tokens (ink #141518 / yellow #FFC400 / canvas
+      #F6F6F3 / slate #5B5F66, Space Grotesk + Hanken Grotesk + Space
+      Mono) across all 7 screens, replacing the current orange/navy "Kasper
+      Fleet" look - same brand-guardian pass Marketplace got
+- [ ] This is a heavier pass than Marketplace: dense data screens (tables,
+      charts, live map, status boards) vs. Marketplace's mostly brochure-style
+      pages - budget more time per screen
+
+**Expertise needed:** visual/UI design, brand systemization (brand-guardian).
+
+### Phase 3 - Stack Decision (bigger than Marketplace's - has physical-world dependencies)
+
+Owner: **frontend-builder**, decision needs afzl's sign-off - this one is not
+a simple "vanilla vs. framework" call like Marketplace's:
+
+- [ ] Confirm the mock data on telematics-flame becomes real: engineering doc
+      recommends Traccar (open-source, self-hosted on AWS Bahrain/me-south-1)
+      as the Phase 1 GPS server, sitting in front of TimescaleDB or Postgres+
+      PostGIS, with the dashboard built against Traccar's REST API directly
+      - avoid building a custom TCP/Codec-8E parser for v1
+- [ ] This phase has non-software critical path: procuring 2x FMC130 + 1x
+      FMC920 test units from a UAE distributor, UAE SIM activation, and
+      physical installation by a licensed auto-electrician (AED 500-1,500/
+      machine) - the engineering doc calls this "your operational
+      bottleneck, not your software." Software work can proceed against mock
+      data in parallel, but don't plan the timeline as if this is web-dev-only
+- [ ] Decide: rebrand-only pass first (ships fast, still on mock data) vs.
+      wait for real Traccar/hardware pilot before shipping the rebrand - these
+      can be sequenced independently
+
+**Expertise needed:** pragmatic backend architecture, hardware/ops coordination.
+
+### Phase 4 - Build & Phase 5 - QA & Ship
+
+Not scoped yet - depends on the Phase 3 sequencing decision above.
+
 ## Later (explicitly out of scope this round)
 
-- Vendor OS and Fleet/Telematics site rebuilds â€” same agents, same process, after Marketplace ships
+- Vendor OS site rebuild - same process, after Marketplace ships
 - WhatsApp API (360dialog) upgrade from deep links
-- Lead-magnet content asset (Ã  la TruKKer's "Gulf Freight Playbook") for SEO/trust
+- Lead-magnet content asset (a la TruKKer's "Gulf Freight Playbook") for SEO/trust
 - Ops dashboard and vendor portal UIs (internal tools, not part of the public Marketplace site)
-

@@ -120,3 +120,10 @@ function getEquipmentById(id) {
 function getEquipmentByCategory(categoryId) {
   return window.DOZR_EQUIPMENT.filter((e) => e.category === categoryId);
 }
+
+/** Look up a single unit by display name — used by quote-approval.html (?unit=),
+    since the quote-approval link carries a human-readable name, not the id slug. */
+function getEquipmentByName(name) {
+  if (!name) return undefined;
+  return window.DOZR_EQUIPMENT.find((e) => e.name.toLowerCase() === name.toLowerCase());
+}

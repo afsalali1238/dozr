@@ -8,12 +8,19 @@ const quoteDate = approvalParams.get("date") || "12 Aug 2026";
 const quoteDuration = approvalParams.get("duration") || "2 weeks";
 const quoteLocation = approvalParams.get("location") || "Al Quoz Industrial 3";
 
-document.getElementById("equipmentLabel").textContent = `${quotedUnit} - 20 tonne excavator`;
+const quotedEquipment = typeof getEquipmentByName === "function" ? getEquipmentByName(quotedUnit) : undefined;
+const equipmentLabel = quotedEquipment
+  ? `${quotedUnit} - ${quotedEquipment.weightTonnes ? `${quotedEquipment.weightTonnes} tonne ` : ""}${quotedEquipment.categoryLabel.toLowerCase()}`
+  : `${quotedUnit} - verified equipment`;
+const photoUrl = quotedEquipment ? `assets/equipment/${quotedEquipment.id}-hero.jpg` : "assets/equipment/cat-320-hero.jpg";
+
+document.getElementById("equipmentLabel").textContent = equipmentLabel;
 document.getElementById("quoteHeading").textContent = `Quote from ${vendorName}`;
 document.getElementById("quotePrice").textContent = quotePrice;
 document.getElementById("quoteDate").textContent = quoteDate;
 document.getElementById("quoteDuration").textContent = quoteDuration;
 document.getElementById("quoteLocation").textContent = quoteLocation;
+document.getElementById("approvalPhoto").style.backgroundImage = `url('${photoUrl}')`;
 document.getElementById("approvalPhoto").setAttribute("aria-label", `${quotedUnit} quoted for ${quoteLocation}`);
 document.getElementById("approvalPhoto").setAttribute("data-cap", `${quotedUnit} quote`);
 document.getElementById("askQuestion").href = DozrWhatsApp.askAQuestion(`Quote ${quoteRef} for ${quotedUnit}`);
