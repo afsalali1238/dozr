@@ -97,6 +97,42 @@ window.DOZR_EQUIPMENT = [
     gpsTracked: false,
     specs: { "Operating weight": "36 T" },
   },
+  {
+    id: "liebherr-ltm-1130",
+    category: "cranes",
+    categoryLabel: "Mobile Crane",
+    name: "Liebherr LTM 1130",
+    verified: true,
+    gpsTracked: true,
+    specs: { "Capacity": "130 T", "Max Lift Height": "60m" },
+  },
+  {
+    id: "mercedes-arocs",
+    category: "dump",
+    categoryLabel: "Dump Truck",
+    name: "Mercedes-Benz Arocs 3345",
+    verified: true,
+    gpsTracked: true,
+    specs: { "Payload": "20 T", "Configuration": "6x4" },
+  },
+  {
+    id: "flatbed-12m",
+    category: "flatbed",
+    categoryLabel: "Flatbed Trailer",
+    name: "12m Flatbed Trailer",
+    verified: true,
+    gpsTracked: true,
+    specs: { "Length": "12m", "Capacity": "30 T" },
+  },
+  {
+    id: "cummins-500kva",
+    category: "generators",
+    categoryLabel: "Generator",
+    name: "Cummins 500kVA",
+    verified: true,
+    gpsTracked: false,
+    specs: { "Power": "500 kVA", "Fuel": "Diesel" },
+  }
 ];
 
 /* Category tiles shown on Home / used to drive the Browse tab bar.
