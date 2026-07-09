@@ -518,8 +518,9 @@ h1, h2, h3, h4 {
 }
 .freight-form .form-stack { gap: 8px; }
 .freight-form .field-label { margin-bottom: 4px; }
-.vehicle-preview { height: 190px; border-radius: var(--radius-card); margin-bottom: 14px; }
-@media (max-width: 640px) { .vehicle-preview { height: 180px; } }
+.freight-hero-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 32px; align-items: center; margin-bottom: 28px; }
+.vehicle-preview { aspect-ratio: 4 / 3; height: auto; border-radius: var(--radius-card); }
+@media (max-width: 900px) { .freight-hero-grid { grid-template-columns: 1fr; } .vehicle-preview { max-height: 240px; } }
 .not-found-panel {
   background: var(--surface);
   border: 1.5px solid var(--error);
