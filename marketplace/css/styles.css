@@ -506,18 +506,20 @@ h1, h2, h3, h4 {
 .freight-layout {
   display: grid;
   grid-template-columns: 1.05fr 360px;
-  gap: 40px;
-  padding-top: 48px;
-  padding-bottom: 72px;
+  gap: 32px;
+  padding-top: 22px;
+  padding-bottom: 40px;
 }
 .freight-form {
   background: var(--surface);
   border: 1.5px solid var(--ink);
   border-radius: 18px;
-  padding: var(--space-3);
+  padding: var(--space-2);
 }
-.vehicle-preview { height: 230px; border-radius: var(--radius-card); margin-bottom: 28px; }
-@media (max-width: 640px) { .vehicle-preview { height: 200px; } }
+.freight-form .form-stack { gap: 8px; }
+.freight-form .field-label { margin-bottom: 4px; }
+.vehicle-preview { height: 190px; border-radius: var(--radius-card); margin-bottom: 14px; }
+@media (max-width: 640px) { .vehicle-preview { height: 180px; } }
 .not-found-panel {
   background: var(--surface);
   border: 1.5px solid var(--error);
