@@ -28,9 +28,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const selected = vehicleType.value;
     const image = VEHICLE_IMAGES[selected] || "";
     preview.style.backgroundImage = image ? `url('${image}')` : "none";
-    const label = selected === "Not sure" ? "Any suitable vehicle" : selected;
+    const isNotSure = selected === "Not sure";
+    const label = isNotSure ? "Any suitable vehicle" : selected;
     preview.setAttribute("aria-label", label);
-    preview.setAttribute("data-cap", label);
+    if (isNotSure) {
+      preview.setAttribute("data-cap", label);
+    } else {
+      preview.removeAttribute("data-cap");
+    }
   }
 
   if (vehicleType) {

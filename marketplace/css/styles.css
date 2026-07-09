@@ -516,8 +516,8 @@ h1, h2, h3, h4 {
   border-radius: 18px;
   padding: var(--space-3);
 }
-.vehicle-preview { height: 320px; border-radius: var(--radius-card); margin-bottom: 28px; }
-@media (max-width: 640px) { .vehicle-preview { height: 220px; } }
+.vehicle-preview { height: 230px; border-radius: var(--radius-card); margin-bottom: 28px; }
+@media (max-width: 640px) { .vehicle-preview { height: 200px; } }
 .not-found-panel {
   background: var(--surface);
   border: 1.5px solid var(--error);
