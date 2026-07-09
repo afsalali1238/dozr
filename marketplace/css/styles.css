@@ -69,6 +69,11 @@ h1, h2, h3, h4 {
   text-transform: uppercase;
   color: var(--slate);
 }
+/* Signature mark: yellow dot prefixing a page/section-intro eyebrow.
+   Use on light backgrounds; .hero-eyebrow is the dark-hero equivalent.
+   Do not add to inline microcopy labels (form fields, stat labels). */
+.eyebrow-dot { display:flex; align-items:center; gap:9px; }
+.eyebrow-dot::before { content:""; width:8px; height:8px; border-radius:var(--radius-pill); background:var(--yellow); flex-shrink:0; }
 
 /* ---------------- Layout shell ---------------- */
 .container {
@@ -319,14 +324,15 @@ h1, h2, h3, h4 {
 .spec-pills span { font-family:var(--font-mono); font-size:11px; padding:4px 9px; background:var(--canvas); color:var(--slate); border-radius:6px; }
 .card-actions { display:flex; align-items:center; justify-content:space-between; gap:var(--space-1); padding:0 16px 18px; }
 .status-text { font-family:var(--font-mono); font-size:11px; color:var(--green); }
-.feature-showcase { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:stretch; }
-.feature-tabs { display:flex; flex-direction:column; gap:4px; }
-.feature-tab { border:0; text-align:left; border-radius:12px; padding:16px 18px; background:transparent; color:var(--ink); cursor:pointer; }
+.feature-showcase { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:stretch; min-height: 420px; }
+.feature-tabs { display:flex; flex-direction:column; gap:8px; justify-content:center; height:100%; }
+.feature-tab { border:0; text-align:left; border-radius:12px; padding:16px 18px; background:transparent; color:var(--ink); cursor:pointer; transition: background-color 0.2s ease; }
+.feature-tab:hover:not([aria-selected="true"]) { background-color: rgba(20, 21, 24, 0.04); }
 .feature-tab[aria-selected="true"] { background:var(--ink); color:var(--surface); }
 .feature-tab:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
-.feature-tab strong { display:block; font-family:var(--font-heading); font-size:15px; margin-bottom:3px; }
-.feature-tab span { display:block; font-size:13px; opacity:.75; }
-.feature-visual { height:100%; min-height:280px; border-radius:18px; background-color:var(--ink); background-size:cover; background-position:center; background-repeat:no-repeat; }
+.feature-tab strong { display:block; font-family:var(--font-heading); font-size:16px; margin-bottom:4px; }
+.feature-tab span { display:block; font-size:14px; opacity:.75; line-height:1.4; }
+.feature-visual { height:100%; border-radius:18px; background-color:var(--ink); background-size:cover; background-position:center; background-repeat:no-repeat; }
 .steps-band { position:relative; overflow:hidden; display:grid; grid-template-columns:1.1fr 1fr 1fr 1fr; gap:var(--space-4); align-items:start; background:var(--ink); color:var(--surface); border-radius:20px; padding:44px 48px; }
 .steps-band::before { content:''; position:absolute; inset:0; background:url('../assets/map-texture.jpg') center/cover; opacity:0.08; mix-blend-mode:luminosity; pointer-events:none; }
 .steps-band > div { position:relative; z-index:1; }
