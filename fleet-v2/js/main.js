@@ -103,9 +103,13 @@
     var list = document.getElementById("site-list");
     if (!list) return;
     list.innerHTML = FLEET.sites.map(function (s) {
+      var gpsLine = s.coordinates
+        ? '<div style="font-family:var(--font-mono);font-size:9.5px;color:var(--slate);margin-top:2px">' + s.coordinates.lat.toFixed(4) + ', ' + s.coordinates.lng.toFixed(4) + '</div>'
+        : '';
       return (
         '<div class="site-item" role="listitem">' +
           '<div class="meta"><span>' + s.name + '</span><span style="font-family:var(--font-mono);font-size:10.5px;color:var(--slate)">' + s.assetCount + '</span></div>' +
+          gpsLine +
         '</div>'
       );
     }).join("");
@@ -183,7 +187,8 @@
         '<div>' +
           '<div style="font-family:var(--font-mono);font-size:10px;color:var(--yellow-dark)">' + asset.id + '</div>' +
           '<h3>' + asset.name + '</h3>' +
-          '<div style="color:var(--slate);font-size:11px;margin-bottom:8px">' + asset.type + ' - ' + asset.site + '</div>' +
+          '<div style="color:var(--slate);font-size:11px;margin-bottom:2px">' + asset.type + ' - ' + asset.site + '</div>' +
+          (asset.gps ? '<div style="font-family:var(--font-mono);font-size:10px;color:var(--slate);margin-bottom:8px">GPS ' + asset.gps.lat.toFixed(5) + ', ' + asset.gps.lng.toFixed(5) + '</div>' : '') +
           '<span class="status-chip" data-status="' + statusAttr + '">' + asset.status + '</span>' +
         '</div>' +
         '<div class="detail-grid">' +

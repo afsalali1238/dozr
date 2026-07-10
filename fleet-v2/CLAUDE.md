@@ -343,6 +343,58 @@ next steps are afzl's review/feedback, then either polish passes on
 existing pages or new functionality, not new stub pages (there aren't any
 left).
 
+## Ninth pass (2026-07-10) - richer dummy data across every page
+
+afzl asked for more data so each page has something real to look at when
+opened, not sparse 2-3 row tables. Expanded `data/fleet.js` only - no
+HTML/CSS/JS changes needed, every render function already loops over
+whatever array length exists. Maintenance now covers all 8 assets (was 6),
+geofence/alert event feeds extended, Cost & ROI's per-asset list now covers
+all 8 assets (was 4, matching the "one list, all assets" convention),
+Reports gained 2 more report types and 2 more recent rows, Timesheet grew
+from 3 drivers to 7 (one per active/idle asset). Summary card numbers
+(Due this week, Entries/Exits today, Critical/Warnings/System counts, shift
+hour totals) were recalculated to match the new item counts rather than
+left stale. `summary.activeAssets` corrected from 3 to 5 (actual count of
+Operating-status assets) while at it - a pre-existing inconsistency, not
+something this pass introduced.
+
+Verified: `node --check` both JS files, null-byte scan, and a Node-executed
+sanity check counting every array length against its summary card to catch
+exactly this kind of drift.
+
+## Tenth pass (2026-07-10) - real Dubai/Abu Dhabi GPS coordinates
+
+afzl asked for real GPS details from Dubai. Looked up actual coordinates
+(web search, not invented) for the 4 sites:
+- Al Quoz Industrial Area: 25.12897, 55.23273
+- Jebel Ali Port: 25.01130, 55.06120
+- Dubai Creek Harbour: 25.20640, 55.34560
+- Abu Dhabi KIZAD: 24.80200, 54.64890 - approximate. KIZAD/KEZAD sits near
+  Taweelah between Abu Dhabi and Dubai; search results gave the general
+  Taweelah/Khalifa City area but not one precise pin for the zone itself,
+  so this coordinate is a reasonable placement within the zone, not a
+  verified exact address. Flagging this here so nobody treats it as more
+  precise than it is.
+
+Added `coordinates: {lat, lng}` to each site in `sites[]`, and a `gps:
+{lat, lng}` field to each of the 8 assets (small realistic offsets from
+their site's base coordinate, standard 5-decimal GPS precision). This is
+separate from `mapPosition: {x, y}`, which stays as-is - that's the
+percentage-based position on the stylized abstract SVG map and isn't meant
+to be geographically accurate; `gps`/`coordinates` are the real-world
+values.
+
+Surfaced in the UI, not just the data file: `renderDetail()` in
+`js/main.js` now shows a "GPS lat, lng" line under the asset type/site in
+the Fleet Map detail panel (only if `asset.gps` exists), and
+`renderSiteList()` shows each site's coordinates under its name in the
+Sites list. Both are additive - no other markup changed.
+
+Verified: `node --check` both JS files, null-byte scan across every file,
+confirmed no HTML files were touched, and a Node-executed dump of every
+site/asset's coordinates to sanity-check nothing got mismatched.
+
 ## Working mode (confirmed 2026-07-10)
 
 afzl builds each page himself (in his own tool). Claude's job is reviewer/
