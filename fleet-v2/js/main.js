@@ -331,6 +331,25 @@
     });
   }
 
+  function bindMapType() {
+    var btnVec = document.getElementById("map-type-vector");
+    var btnSat = document.getElementById("map-type-satellite");
+    var imgMain = document.getElementById("map-bg-image");
+    var imgTrip = document.getElementById("trip-map-bg-image");
+    if (!btnVec || !btnSat) return;
+
+    function setType(type) {
+      btnVec.setAttribute("aria-pressed", type === "vector" ? "true" : "false");
+      btnSat.setAttribute("aria-pressed", type === "satellite" ? "true" : "false");
+      var src = type === "satellite" ? "assets/map_bg_satellite.png" : "assets/map_bg_light.png";
+      if (imgMain) imgMain.setAttribute("href", src);
+      if (imgTrip) imgTrip.setAttribute("href", src);
+    }
+
+    btnVec.addEventListener("click", function () { setType("vector"); });
+    btnSat.addEventListener("click", function () { setType("satellite"); });
+  }
+
   var tripAssets = FLEET.assets.filter(function (a) { return a.trips && a.trips.length; });
   var tripState = { assetId: null, trip: null, pct: 0, playing: false, timer: null };
 
@@ -705,6 +724,7 @@
     bindAlertBadge();
     bindNavToggle();
     bindTripModal();
+    bindMapType();
     tickClock();
     setInterval(tickClock, 1000);
   });

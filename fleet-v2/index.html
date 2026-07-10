@@ -62,10 +62,7 @@
           <div class="map-surface" id="map-surface">
             <div class="map-zoom-layer" id="map-zoom-layer">
             <svg id="map-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Map of UAE fleet sites and asset positions">
-              <rect width="100" height="100" fill="#DCE7F0"/>
-              <path d="M0,0 L100,0 L100,16 Q80,14 60,15 Q40,16 20,17 Q10,17.5 0,18 Z" fill="#B9D3E6"/>
-              <path d="M0,18 Q10,17.5 20,17 Q40,16 60,15 Q80,14 100,16 L100,100 L0,100 Z" fill="#E7EEE1"/>
-              <text x="50" y="9" fill="#7FA0BA" font-size="3" font-family="Space Mono, monospace" text-anchor="middle" font-style="italic">PERSIAN GULF</text>
+              <image id="map-bg-image" href="assets/map_bg_light.png" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid slice" />
 
               <rect x="12" y="12" width="20" height="18" rx="1.2" fill="rgba(255,196,0,.14)" stroke="var(--yellow-dark)" stroke-width=".4" stroke-dasharray="1.4,1"/>
               <text x="22" y="15.5" fill="var(--yellow-dark)" font-size="2.4" font-family="Space Mono, monospace" text-anchor="middle" font-weight="700">AL QUOZ</text>
@@ -97,6 +94,11 @@
               <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
               <button type="button" id="zoom-out" aria-label="Zoom out">&minus;</button>
               <button type="button" id="zoom-reset" aria-label="Reset zoom">&#8853;</button>
+            </div>
+
+            <div class="map-control map-type-control" style="top:12px;right:12px;left:auto;bottom:auto;flex-direction:row">
+              <button type="button" id="map-type-vector" aria-pressed="true" style="border-radius:4px 0 0 4px;font-size:11px;padding:4px 8px;width:auto;height:auto">Vector</button>
+              <button type="button" id="map-type-satellite" aria-pressed="false" style="border-radius:0 4px 4px 0;font-size:11px;padding:4px 8px;width:auto;height:auto;border-left:0">Satellite</button>
             </div>
 
             <div class="map-legend" role="group" aria-label="Filter markers by status">
@@ -156,7 +158,7 @@
               <div>
                 <div class="trip-map panel">
                   <svg id="trip-map-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Trip route map" style="width:100%;height:100%;display:block">
-                    <rect width="100" height="100" fill="var(--canvas)"/>
+                    <image id="trip-map-bg-image" href="assets/map_bg_light.png" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid slice" opacity="0.6"/>
                     <g id="trip-route-group"></g>
                   </svg>
                 </div>
